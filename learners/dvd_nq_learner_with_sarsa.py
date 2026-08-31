@@ -84,6 +84,10 @@ class DVDNQLearner:
             self.rnd_optimizer = Adam(self.rnd.predictor.parameters(), lr=getattr(args, "rnd_lr", 5e-4))
             self.rnd_ms = RunningMeanStd()
 
+        # 创新 2：因果感知探索
+        self.use_causal_explore = getattr(args, "use_causal_explore", False)
+        self.causal_explore_beta = getattr(args, "causal_explore_beta", 0.01)
+
     def train(self, batch: EpisodeBatch, t_env: int, episode_num: int):
         rewards = batch["reward"][:, :-1]
         actions = batch["actions"][:, :-1]
@@ -267,7 +271,7 @@ class DVDNQLearner:
             if self.args.mixer == "dvd":
             # target hidden states 也要取 t=1 到 T
                 target_hs_next = whole_target_hidden_states[:, 1:1+target_len]
-                target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len], target_hs_next)
+                target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len], target_hs_next, t_env=t_env)
             else:
                 target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len])
 
@@ -288,11 +292,20 @@ class DVDNQLearner:
                                              self.args.n_agents, self.args.gamma, self.args.td_lambda)
 
         # 5. Online Mixer 前向传播
+        attn_entropy_mean = 0
         if self.args.mixer == "dvd":
-            # DVD: 传入 Q, State, Hidden States
-            online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main)
+            if self.use_causal_explore:
+                online_q_tot, attn_entropy = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main, t_env=t_env)
+                # 因果探索奖励：attention 熵越高 → 因果结构越不确定 → 奖励越大
+                causal_reward = self.causal_explore_beta * attn_entropy[:, :T_min]
+                rewards = rewards + causal_reward.detach()
+                attn_entropy_mean = attn_entropy.mean().item()
+                # 重新计算 TD targets（rewards 已更新）
+                targets = build_td_lambda_targets(rewards, terminated, mask, target_q_tot,
+                                                     self.args.n_agents, self.args.gamma, self.args.td_lambda)
+            else:
+                online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main, t_env=t_env)
         else:
-            # Normal: 传入 Q, State
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min])
 
         # 6. 计算 Loss (TD Loss + Causal Loss)
@@ -328,6 +341,19 @@ class DVDNQLearner:
             if self.use_rnd:
                             self.logger.log_stat("rnd_loss", rnd_loss_item, t_env)
                             self.logger.log_stat("intrinsic_rewards_mean", intrinsic_rewards_mean, t_env)
+
+            # 创新机制日志
+            if self.use_causal_explore:
+                self.logger.log_stat("attention_entropy", attn_entropy_mean, t_env)
+
+            if getattr(self.args, 'use_abs_anneal', False):
+                abs_w = max(0.0, 1.0 - t_env / getattr(self.args, 'abs_anneal_steps', 2000000))
+                self.logger.log_stat("abs_weight", abs_w, t_env)
+
+            if getattr(self.args, 'use_head_competition', False) and hasattr(self.mixer, 'head_logits'):
+                hw = th.softmax(self.mixer.head_logits, dim=0)
+                for i in range(hw.shape[0]):
+                    self.logger.log_stat(f"head_weight_{i}", hw[i].item(), t_env)
                             
             self.log_stats_t = t_env
 

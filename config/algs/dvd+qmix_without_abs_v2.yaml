@@ -1,0 +1,68 @@
+# --- DVD + 非单调 QMIX v2（含三个创新机制） ---
+
+# 动作选择
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 500000
+
+# 采样与训练
+runner: "parallel"
+batch_size_run: 4
+buffer_size: 2500
+batch_size: 64
+optimizer: 'adam'
+
+t_max: 10050000
+
+target_update_interval: 200
+
+# 网络结构
+mac: "n_mac"
+agent: "n_rnn"
+agent_output_type: q
+
+learner: "dvd_nq_learner_with_sarsa"
+mixer: "dvd"
+abs: False
+mixing_embed_dim: 32
+hypernet_embed: 64
+lr: 0.001
+td_lambda: 0.3
+optimizer: 'adam'
+q_lambda: False
+
+use_layer_norm: False
+use_orthogonal: False
+gain: 0.01
+
+use_per: False
+per_alpha: 0.6
+per_beta: 0.4
+return_priority: False
+
+# RND 探索
+use_rnd: True
+rnd_beta: 0.01
+rnd_lr: 0.0005
+state_shape: 0
+
+# DVD 基础参数
+dvd_heads: 8
+gat_embed_dim: 32
+rnn_hidden_dim: 64
+
+# ========== 创新机制 ==========
+
+# 创新 1：渐进式 abs 退火（单调→非单调过渡）
+use_abs_anneal: True
+abs_anneal_steps: 2000000
+
+# 创新 2：因果感知探索（GAT attention 熵驱动）
+use_causal_explore: True
+causal_explore_beta: 0.01
+
+# 创新 3：多头竞争信用分配（自适应 head 加权）
+use_head_competition: True
+
+name: "dvd+qmix_without_abs_v2"

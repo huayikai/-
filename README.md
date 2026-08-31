@@ -1,138 +1,177 @@
-# DVD + 非单调 QMIX（去 IGM 约束的因果值分解）
+# CA-DVD：因果自适应值分解（Causal-Adaptive DVD）
 
-基于 PyMARL2 框架，实现 **DVD（ICML 2022）因果去混淆值分解** 与 **Beyond Monotonicity（AAAI 2026）非单调 QMIX** 的组合方法，研究去除 IGM 约束后因果后门调整对缓解多智能体相对过泛化问题的效果。
+基于 PyMARL2 框架，在 DVD（ICML 2022）和 Beyond Monotonicity（AAAI 2026）的基础上，提出三个创新机制，使因果去混淆与非单调值分解产生深度耦合，解决多智能体相对过泛化问题。
 
-## 核心思路
+## 创新点
 
-| 组件 | 来源 | 作用 |
-|---|---|---|
-| 多头 GAT 轨迹图 + 后门调整 | DVD | 去除值分解中的混淆偏差，实现因果信用分配 |
-| `abs=False` 去单调约束 | Beyond Monotonicity | 允许 mixer 表达非单调 Q 值景观 |
-| SARSA 目标（非 max） | Beyond Monotonicity | 避免非单调 mixer 下的 Q 值高估 |
-| TD(λ) | Beyond Monotonicity | 平滑多步回报，稳定非单调学习 |
-| RND 内在奖励（归一化 + 衰减） | Beyond Monotonicity | 驱动探索未知状态，打破次优均衡 |
+### 创新 1：渐进式单调约束退火（Progressive Monotonicity Annealing）
+
+**问题**：直接去掉单调约束（abs=False）导致优化自由度过大，收敛缓慢；但全程保持单调约束又会被锁死在次优解。
+
+**方案**：训练初期保持单调约束（利用 IGM 的归纳偏置快速建立粗略 Q 值景观），随训练逐步退火到完全非单调，让 mixer 突破局部最优。
+
+```
+abs_weight = max(0, 1 - t_env / anneal_steps)
+w1 = abs_weight * |w1| + (1 - abs_weight) * w1
+```
+
+**配置**：
+```yaml
+use_abs_anneal: True          # 开关
+abs_anneal_steps: 2000000     # 退火步数（在此步数时完全非单调）
+```
+
+### 创新 2：因果感知探索（Causal-Aware Exploration）
+
+**问题**：RND 探索的是"状态新颖性"，与因果结构无关——它不知道哪些区域的 agent 间因果关系尚未被 GAT 建模清楚。
+
+**方案**：利用 GAT 的 attention 分布熵作为额外探索信号。Attention 均匀（熵高）说明模型尚未搞清 agent 间的因果依赖，需要更多探索；attention 集中（熵低）说明因果结构已清晰。
+
+```
+H(attention) = -Σ α_ij * log(α_ij)
+r_explore = β_rnd * r_rnd + β_causal * H(attention)
+```
+
+形成**闭环**：GAT 学习因果结构 → attention 熵指导探索 → 探索反馈改善 GAT 学习。
+
+**配置**：
+```yaml
+use_causal_explore: True      # 开关
+causal_explore_beta: 0.01     # 因果探索奖励权重
+```
+
+### 创新 3：多头竞争信用分配（Competitive Multi-Head Credit Assignment）
+
+**问题**：DVD 原论文中 D 个 head 取简单均值，假设所有因果假说同等重要。但在过泛化场景中，某些 head 可能捕捉到了关键的协调结构，另一些则是噪声。
+
+**方案**：引入可学习的 head 权重（softmax 归一化），让模型自动发现哪个因果假说（哪张因果图）对值分解最有用。
+
+```python
+head_weights = softmax(head_logits)   # 可学习参数
+w1 = Σ_d head_weights[d] * w1_heads[d]   # 加权求和替代均值
+```
+
+**配置**：
+```yaml
+use_head_competition: True    # 开关
+```
 
 ## 项目结构
 
 ```
-├── main.py                          # 入口（Sacred 实验框架）
-├── config/
-│   ├── default.yaml                 # 全局默认配置
-│   ├── algs/
-│   │   ├── dvd+qmix_without_abs.yaml   # ★ 主实验：DVD × 非单调 QMIX
-│   │   ├── qmix_without_abs.yaml        # 对照：纯非单调 QMIX（BM 复现）
-│   │   ├── dvd.yaml                     # 对照：原始 DVD（单调）
-│   │   ├── qmix.yaml                    # 基线：标准 QMIX
-│   │   └── ...                          # 其它算法配置
-│   └── envs/
-│       ├── sc2.yaml                 # StarCraft II (SMAC)
-│       ├── stag_hunt.yaml           # Stag Hunt（过泛化测试环境）
-│       └── ...
+├── main.py                              # 入口（Sacred 实验框架）
+├── config/algs/
+│   ├── dvd+qmix_without_abs_v2.yaml     # ★ 新方法配置（三个创新全开）
+│   ├── dvd+qmix_without_abs.yaml        # 基础 DVD+BM（无创新机制）
+│   ├── qmix_without_abs.yaml            # 对照：纯 BM
+│   ├── dvd.yaml                         # 对照：原始 DVD
+│   └── qmix.yaml                        # 基线：标准 QMIX
+├── modules/mixers/
+│   └── dvd.py                           # ★ DVDMixer（含三个创新机制实现）
 ├── learners/
-│   ├── dvd_nq_learner_with_sarsa.py # ★ 主实验 Learner（DVD + SARSA + TD(λ) + RND）
-│   ├── nq_learner_with_sarsa.py     # 对照 Learner（纯 BM：SARSA + RND）
-│   ├── dvd_learner.py               # 原始 DVD Learner
-│   └── ...
-├── modules/
-│   ├── mixers/
-│   │   ├── dvd.py                   # ★ DVDMixer（多头 GAT + 超网络权重生成，支持 abs=True/False）
-│   │   ├── nmix.py                  # 非单调 Mixer（BM 对照用）
-│   │   └── ...
-│   ├── exploration/
-│   │   └── rnd.py                   # RND 内在奖励模块
-│   └── agents/                      # 各类 Agent 网络（RNN / MLP 等）
-├── controllers/                     # MAC（Multi-Agent Controller）
-├── runners/
-│   ├── parallel_runner.py           # 并行采样器
-│   └── episode_runner.py            # 单线程采样器
-├── components/                      # Episode Buffer、动作选择器等基础组件
-├── envs/                            # 环境封装（SMAC、Stag Hunt、Matrix Game）
-├── run/                             # 训练主循环
-└── utils/                           # 工具函数（TD(λ)、日志等）
+│   └── dvd_nq_learner_with_sarsa.py     # ★ 主 Learner（对接创新机制）
+├── modules/exploration/rnd.py           # RND 内在奖励
+├── config/envs/                         # 环境配置（SMAC、Stag Hunt 等）
+├── controllers/                         # Multi-Agent Controller
+├── runners/                             # 并行/单线程采样器
+├── components/                          # Buffer、动作选择器等
+├── envs/                                # 环境封装
+└── utils/                               # 工具函数
 ```
-
-## 算法配置说明
-
-### 主实验：`dvd+qmix_without_abs`
-
-```yaml
-learner: dvd_nq_learner_with_sarsa   # DVD 结构 + SARSA 目标
-mixer: dvd                            # DVDMixer（GAT 轨迹图）
-abs: False                            # 去除单调约束
-td_lambda: 0.3                        # TD(λ) 平滑
-use_rnd: True                         # RND 探索
-rnd_beta: 0.01                        # 内在奖励权重（线性衰减到 0）
-dvd_heads: 8                          # GAT 多头数（后门调整采样次数）
-```
-
-### 对照组
-
-| 配置文件 | Learner | Mixer | 单调 | RND | 定位 |
-|---|---|---|---|---|---|
-| `dvd+qmix_without_abs.yaml` | `dvd_nq_learner_with_sarsa` | DVDMixer | 否 | 是 | **主实验** |
-| `qmix_without_abs.yaml` | `nq_learner_with_sarsa` | Mixer | 否 | 是 | BM 复现 |
-| `dvd.yaml` | `dvd_learner` | DVDMixer | 是 | 否 | DVD 复现 |
-| `qmix.yaml` | `q_learner` | QMIX | 是 | 否 | 标准基线 |
 
 ## 快速启动
 
 ### 环境依赖
 
 ```bash
-# Python 3.8+, PyTorch, Sacred, SMAC
 pip install torch sacred numpy pyyaml tensorboard
 pip install git+https://github.com/oxwhirl/smac.git
 ```
 
-### 运行主实验（DVD + 非单调 QMIX）
+### 运行新方法（三个创新全开）
 
 ```bash
 # SMAC 地图
-python main.py --config=dvd+qmix_without_abs --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z
 
 # Stag Hunt（过泛化测试）
-python main.py --config=dvd+qmix_without_abs --env-config=stag_hunt
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=stag_hunt
 
 # Matrix Game
-python main.py --config=dvd+qmix_without_abs --env-config=one_step_matrix_game
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=one_step_matrix_game
 ```
 
-### 运行对照实验
+### 消融实验（单独开关每个创新）
 
 ```bash
-# 纯非单调 QMIX（BM 复现）
+# 只开渐进式退火
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=sc2 with \
+    env_args.map_name=3s5z_vs_3s6z use_causal_explore=False use_head_competition=False
+
+# 只开因果感知探索
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=sc2 with \
+    env_args.map_name=3s5z_vs_3s6z use_abs_anneal=False use_head_competition=False
+
+# 只开多头竞争
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=sc2 with \
+    env_args.map_name=3s5z_vs_3s6z use_abs_anneal=False use_causal_explore=False
+
+# dvd_heads 消融（验证方差缩减定理）
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=sc2 with \
+    env_args.map_name=3s5z_vs_3s6z dvd_heads=1
+python main.py --config=dvd+qmix_without_abs_v2 --env-config=sc2 with \
+    env_args.map_name=3s5z_vs_3s6z dvd_heads=4
+```
+
+### 对照实验
+
+```bash
+# 基础 DVD+BM（无创新机制）
+python main.py --config=dvd+qmix_without_abs --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z
+
+# 纯 BM
 python main.py --config=qmix_without_abs --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z
 
 # 原始 DVD
 python main.py --config=dvd --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z
 
-# 标准 QMIX 基线
+# 标准 QMIX
 python main.py --config=qmix --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z
 ```
 
-### 常用参数覆盖
+### 常用参数
 
 ```bash
-# 指定种子
-python main.py --config=dvd+qmix_without_abs --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z seed=42
-
-# 调整 DVD 多头数（消融实验）
-python main.py --config=dvd+qmix_without_abs --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z dvd_heads=1
-
-# 关闭 RND（消融实验）
-python main.py --config=dvd+qmix_without_abs --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z use_rnd=False
-
-# 使用 GPU
-python main.py --config=dvd+qmix_without_abs --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z use_cuda=True
+seed=42                    # 随机种子
+use_cuda=True              # GPU 训练
+abs_anneal_steps=3000000   # 调整退火速度
+causal_explore_beta=0.05   # 调整因果探索强度
+rnd_beta=0.05              # 调整 RND 强度
 ```
 
 ### 查看训练结果
 
-训练日志保存在 `results/` 目录，可用 TensorBoard 查看：
-
 ```bash
 tensorboard --logdir=results/tb_logs
 ```
+
+新增 TensorBoard 监控指标：
+- `attention_entropy`：GAT attention 熵（反映因果结构学习进度）
+- `abs_weight`：当前单调约束权重（从 1 退火到 0）
+- `head_weight_0` ~ `head_weight_7`：各 head 的竞争权重
+
+## 配置开关速查
+
+| 配置项 | 默认值 | 说明 |
+|---|---|---|
+| `use_abs_anneal` | `False` | 渐进式 abs 退火开关 |
+| `abs_anneal_steps` | `2000000` | 退火完成步数 |
+| `use_causal_explore` | `False` | 因果感知探索开关 |
+| `causal_explore_beta` | `0.01` | 因果探索奖励权重 |
+| `use_head_competition` | `False` | 多头竞争开关 |
+| `use_rnd` | `True` | RND 探索开关 |
+| `dvd_heads` | `8` | GAT 多头数 |
+| `abs` | `False` | 全局单调约束（退火模式下被覆盖） |
 
 ## 参考文献
 

@@ -25,52 +25,31 @@ class MultiHeadGAT(nn.Module):
         
         self.leaky_relu = nn.LeakyReLU(0.2)
 
-    def forward(self, h):
+    def forward(self, h, return_attention=False):
         # h shape: (batch_size, n_agents, input_dim)
         bs, n_agents, _ = h.size()
-        
-        # 1. 线性变换: h -> Wh
-        # shape: (bs, n_agents, n_heads * hidden_dim)
-        h_prime = self.W(h) 
-        # 重塑为多头: (bs, n_agents, n_heads, hidden_dim)
+
+        h_prime = self.W(h)
         h_prime = h_prime.view(bs, n_agents, self.n_heads, self.hidden_dim)
-        # 转置以便后续广播: (bs, n_heads, n_agents, hidden_dim)，变换维度
         h_prime = h_prime.permute(0, 2, 1, 3)
-        
-        # 2. 构建注意力机制 (Fully Connected Graph)
-        # 我们需要计算所有 i 和 j 的组合。
-        # 扩展维度进行广播:
-        # h_i: (bs, heads, n_agents, 1, hidden_dim)
-        # h_j: (bs, heads, 1, n_agents, hidden_dim)
+
         h_i = h_prime.unsqueeze(3)
         h_j = h_prime.unsqueeze(2)
-        
-        # 拼接: [Wh_i || Wh_j] -> (bs, heads, n_agents, n_agents, 2*hidden_dim)
-        # repeat 使得维度匹配
-        h_cat = th.cat([h_i.repeat(1, 1, 1, n_agents, 1), 
+
+        h_cat = th.cat([h_i.repeat(1, 1, 1, n_agents, 1),
                         h_j.repeat(1, 1, n_agents, 1, 1)], dim=-1)
-        
-        # 计算 e_ij (公式 10)
-        # (bs, heads, n_agents, n_agents, 2*hid) * (1, heads, 1, 1, 2*hid) -> sum -> scalar
-        # attention score: (bs, heads, n_agents, n_agents)
+
         e = (h_cat * self.att_a.unsqueeze(2).unsqueeze(3)).sum(dim=-1)
         e = self.leaky_relu(e)
-        
-        # 计算 alpha_ij (公式 9)
-        attention = F.softmax(e, dim=-1) # 对 j 维度做 softmax
-        
-        # 3. 聚合信息 (公式 8)
-        # 这里实现了加权求和的操作，其中attention就相当于权重，h_prime就是两个智能体之间的特征信息
-        # alpha: (bs, heads, n_agents, n_agents)
-        # h_prime (h_j): (bs, heads, n_agents, hidden_dim)
-        # matmul: (bs, heads, n_agents, n_agents) @ (bs, heads, n_agents, hidden_dim)
-        #      -> (bs, heads, n_agents, hidden_dim)
+
+        attention = F.softmax(e, dim=-1)
+
         h_new = th.matmul(attention, h_prime)
-        
-        # 应用激活函数 sigma (通常是 ELU 或 ReLU)
         h_new = F.elu(h_new)
-        
-        return h_new # 输出 G^d (batch_size, n_heads, n_agents, hidden_dim)
+
+        if return_attention:
+            return h_new, attention
+        return h_new
 
 
 # --- 2. 定义 DVD Mixer ---
@@ -91,10 +70,19 @@ class DVDMixer(nn.Module):
         # 组件 1: GAT
         self.gat = MultiHeadGAT(self.rnn_hidden_dim, self.gat_dim, self.n_heads)
 
-        # [修正 1] 移除残差连接的维度，回归纯粹的 DVD 逻辑
-        # 这样能保证 GAT 真正起到 "Proxy Confounder" 的过滤作用 
-        # self.combined_dim = self.gat_dim + self.rnn_hidden_dim 
-        self.combined_dim = self.gat_dim 
+        self.combined_dim = self.gat_dim
+
+        # 创新 1：渐进式 abs 退火
+        self.use_abs_anneal = getattr(args, 'use_abs_anneal', False)
+        self.abs_anneal_steps = getattr(args, 'abs_anneal_steps', 2000000)
+
+        # 创新 2：因果感知探索（输出 attention 熵）
+        self.use_causal_explore = getattr(args, 'use_causal_explore', False)
+
+        # 创新 3：多头竞争加权
+        self.use_head_competition = getattr(args, 'use_head_competition', False)
+        if self.use_head_competition:
+            self.head_logits = nn.Parameter(th.zeros(self.n_heads))
 
         # 组件 2: 状态超网络 (生成 W1)
         self.hyper_w_1_state = nn.Linear(self.state_dim, self.n_heads * self.embed_dim * self.combined_dim)
@@ -139,56 +127,71 @@ class DVDMixer(nn.Module):
                 # 如果是 Sequential，处理最后一层
                 self.hyper_w_final[-1].weight.data.mul_(0.01)
 
-    def forward(self, agent_qs, states, hidden_states):
-        bs = agent_qs.size(0) 
+    def forward(self, agent_qs, states, hidden_states, t_env=0):
+        bs = agent_qs.size(0)
         states = states.reshape(-1, self.state_dim)
         agent_qs = agent_qs.reshape(-1, 1, self.n_agents)
         hidden_states = hidden_states.reshape(-1, self.n_agents, self.rnn_hidden_dim)
 
-        # Step 1: GAT 采样
-        graphs_out = self.gat(hidden_states) # (bs*T, heads, agents, gat_dim)
-        
-        # [修正 1] 移除残差拼接
-        # graphs_combined = th.cat([graphs_out, h_expanded], dim=-1)
-        # 直接使用 GAT 输出作为去混淆后的特征
+        # Step 1: GAT 采样（可选返回 attention 用于计算熵）
+        need_attention = self.use_causal_explore
+        if need_attention:
+            graphs_out, attention = self.gat(hidden_states, return_attention=True)
+        else:
+            graphs_out = self.gat(hidden_states)
+
         graphs_final = graphs_out
 
         # Step 2: 计算 W1
         w1_state = self.hyper_w_1_state(states)
         w1_state = w1_state.view(-1, self.n_heads, self.embed_dim, self.combined_dim)
-        
+
         graphs_T = graphs_final.permute(0, 1, 3, 2)
-        
+
         w1_heads = th.matmul(w1_state, graphs_T)
-        
-        if self.abs:
+
+        # 创新 1：渐进式 abs 退火
+        if self.use_abs_anneal:
+            abs_weight = max(0.0, 1.0 - t_env / self.abs_anneal_steps)
+            w1_heads = abs_weight * th.abs(w1_heads) + (1.0 - abs_weight) * w1_heads
+        elif self.abs:
             w1_heads = th.abs(w1_heads)
-            
-        w1 = w1_heads.mean(dim=1)
+
+        # 创新 3：多头竞争加权 vs 简单均值
+        if self.use_head_competition:
+            head_weights = F.softmax(self.head_logits, dim=0)
+            w1 = (w1_heads * head_weights.view(1, self.n_heads, 1, 1)).sum(dim=1)
+        else:
+            w1 = w1_heads.mean(dim=1)
         w1 = w1.permute(0, 2, 1)
 
         # Step 3: 混合
         b1 = self.hyper_b_1(states).view(-1, 1, self.embed_dim)
-
-        # 源代码
         hidden = F.elu(th.bmm(agent_qs, w1) + b1)
 
-        # # 添加layernorm
-        # hidden = th.bmm(agent_qs, w1) + b1
-        # # 插入 LayerNorm，防止数值爆炸
-        # hidden = self.layernorm(hidden) 
-        # hidden = F.elu(hidden)
-        
         w_final = self.hyper_w_final(states)
-        if self.abs:
+        if self.use_abs_anneal:
+            abs_weight = max(0.0, 1.0 - t_env / self.abs_anneal_steps)
+            w_final_raw = w_final
+            w_final = abs_weight * th.abs(w_final_raw) + (1.0 - abs_weight) * w_final_raw
+        elif self.abs:
             w_final = th.abs(w_final)
         w_final = w_final.view(-1, self.embed_dim, 1)
-        
+
         v = self.V(states).view(-1, 1, 1)
-        
+
         y = th.bmm(hidden, w_final) + v
         q_tot = y.view(bs, -1, 1)
-        
+
+        # 创新 2：因果感知探索 — 返回 attention 熵
+        if need_attention:
+            # attention: (bs*T, heads, agents, agents)
+            log_attn = th.log(attention + 1e-8)
+            entropy = -(attention * log_attn).sum(dim=-1)  # (bs*T, heads, agents)
+            attn_entropy = entropy.mean(dim=-1).mean(dim=-1)  # (bs*T,)
+            attn_entropy = attn_entropy.view(bs, -1, 1)  # (bs, T, 1)
+            return q_tot, attn_entropy
+
         return q_tot
 
 ###########################################
