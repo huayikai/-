@@ -1,0 +1,1782 @@
+
+===== PAGE 1 =====
+Beyond Monotonicity: Revisiting Factorization
+Principles in Multi-Agent Q-Learning ∗
+Tianmeng Hu†1, Yongzheng Cui†2, Rui Tang†2, Biao Luo‡2 and Ke Li‡1
+1Department of Computer Science, University of Exeter, U.K.
+2School of Automation, Central South University, China.
+th743@exeter.ac.uk, {yongzhengcui, ruitang02}@csu.edu.cn, biao.luo@hotmail.com,
+k.li@exeter.ac.uk
+Abstract:
+Value decomposition is a central approach in multi-agent reinforcement learning
+(MARL), enabling centralized training with decentralized execution by factorizing the global value
+function into local values. To ensure individual-global-max (IGM) consistency, existing methods either
+enforce monotonicity constraints, which limit expressive power, or adopt softer surrogates at the cost of
+algorithmic complexity. In this work, we present a dynamical systems analysis of non-monotonic value
+decomposition, modeling learning dynamics as continuous-time gradient flow. We prove that, under
+approximately greedy exploration, all zero-loss equilibria violating IGM consistency are unstable saddle
+points, while only IGM-consistent solutions are stable attractors of the learning dynamics. Extensive
+experiments on both synthetic matrix games and challenging MARL benchmarks demonstrate that
+unconstrained, non-monotonic factorization reliably recovers IGM-optimal solutions and consistently
+outperforms monotonic baselines. Additionally, we investigate the influence of temporal-difference
+targets and exploration strategies, providing actionable insights for the design of future value-based
+MARL algorithms.
+Keywords:
+Reinforcement learning, multi-agent system.
+1
+Introduction
+Cooperative learning is fundamental to enabling complex collective intelligence in multi-agent systems
+(MAS), with broad applicability across domains such as multi-robot coordination [1, 2], autonomous
+driving [3, 4, 5, 6], and smart grid control [7, 8]. Multi-agent reinforcement learning (MARL) [9,
+10, 11, 12] offers a unified framework for learning both cooperative and competitive behaviors in
+complex environments. Within this framework, the paradigm of centralized training with decentralized
+execution (CTDE) has emerged as a standard approach for addressing cooperative tasks [11, 10]. A
+central component of CTDE is Value Function Factorization (VFF), which approximates the global
+joint action-value function Qtot by aggregating individual agent value functions Qi. This decomposition
+not only enables effective credit assignment but also enhances scalability in multi-agent learning [13].
+The effectiveness of VFF methods hinges on satisfying the Individual-Global-Max (IGM) princi-
+ple, which ensures that decentralized greedy action selections by individual agents are aligned with
+the globally optimal joint action.
+One of the earliest approaches, Value-Decomposition Networks
+(VDN) [10], achieves IGM by assuming a simple additive decomposition of the global value function.
+However, this assumption significantly limits its representational capacity. To overcome this limita-
+tion, QMIX [13] introduces a more flexible monotonicity constraint, requiring that ∂Qtot
+∂Qi
+≥0, which
+permits complex nonlinear relationships between Qtot and the individual Qi values. This constraint
+is enforced via a structured mixing network with non-negative weights. The success of QMIX marked
+∗Accepted as an oral paper at AAAI 2026.
+†These authors contributed equally.
+‡Corresponding authors.
+i COLALab Report
+ì
+1 / 23
+arXiv:2511.09792v1  [cs.LG]  12 Nov 2025
+
+===== PAGE 2 =====
+a milestone in MARL research and established a dominant design paradigm: ensuring IGM through
+structured architectural constraints.
+While effective in ensuring IGM, the monotonicity constraint limits the model’s expressive power [14,
+15]. To overcome this bottleneck, subsequent research has explored more expressive architectures ca-
+pable of representing the full class of IGM-consistent functions. For instance, QTRAN [14] introduces
+an auxiliary value function to reformulate the optimization objective, while QPLEX [15] proposes a
+sophisticated duplex dueling architecture to capture richer value structures. Although these methods
+expand representational power in theory, they often suffer from instability or excessive architectural
+complexity in practice. Meanwhile, an alternative line of work attributes the failure in non-monotonic
+tasks to the phenomenon of relative overgeneralization, arguing that simplistic exploration strategies
+such as ϵ-greedy are insufficient to escape suboptimal equilibria. This has motivated the development of
+more elaborate coordination-aware exploration mechanisms, exemplified by methods like MAVEN [16]
+and UneVEn [17].
+However, we observe that prior work typically analyzes IGM-relevant algorithmic behavior in ma-
+trix games under a uniformly random exploration policy [15]. Under such settings, both monotonic
+and non-monotonic variants of QMIX fail to learn IGM-optimal solutions. In contrast, practical Q-
+learning commonly employs approximately greedy exploration strategies conditioned on the evolving
+value function. Motivated by this, we conducted preliminary experiments using a non-monotonic vari-
+ant of QMIX combined with an ϵ-greedy exploration policy on a challenging matrix game. Surprisingly,
+the algorithm consistently converged to IGM-consistent optimal solutions.
+This empirical finding leads us to hypothesize that the underlying learning dynamics are fundamen-
+tally altered under approximately greedy policies. Specifically, we conjecture that the feedback loop
+between the learned value function and the policy induces an implicit self-correcting mechanism, which
+naturally drives the system away from suboptimal, IGM-inconsistent solutions and toward globally
+optimal ones—without requiring explicit structural constraints. To validate our theoretical findings,
+we perform a novel dynamical-systems analysis of non-monotonic value-decomposition Q-learning.
+Our main contributions are:
+• We formulate the non-monotonic value-decomposition Q-learning update as a continuous-time
+gradient flow and derive its learning dynamics.
+• We prove that under approximately greedy exploration policies, every zero-loss fixed point that
+violates the IGM principle becomes an unstable saddle point, from which the learning trajectory
+naturally escapes. We further show that only IGM-consistent solutions are stable attractors of
+the flow.
+• Extensive experiments on matrix games and challenging multi-agent benchmarks confirm our
+theory. Results show that unconstrained QMIX reliably recovers IGM-consistent optimal solu-
+tions in matrix games and outperforms monotonic baselines.
+• We explore the impact of SARSA-style TD targets [18] and intrinsic-reward–driven exploration
+mechanisms on the stability and performance of non-monotonic value decomposition.
+2
+Preliminaries
+2.1
+Dec-POMDPs
+Cooperative multi-agent tasks are commonly modeled as decentralized partially observable Markov
+decision processes (Dec-POMDPs) [19]. A Dec-POMDP is formally defined as a tuple
+G = ⟨N, S, {Ai}, P, r, {Ωi}, O, γ⟩,
+(1)
+where:
+• N is the number of agents.
+i COLALab Report
+ì
+2 / 23
+
+===== PAGE 3 =====
+• S is the global state space of the environment.
+• A = A1 × · · · × An denotes the joint action space, where Ai denotes the discrete action space of
+agent i.
+• P(s′ | s, a) : S × A × S →[0, 1] is the state transition function.
+• r(s, a) : S × A →R is the shared reward function, assigning the same team reward to all agents
+at each time step.
+• O = O1 × · · · × On is the joint observation space. Z : S →O is the observation function, where
+each agent i receives a local observation oi
+t = Z(st)i.
+• γ ∈[0, 1) is the discount factor.
+All agents act according to their individual policies µ = (π1, . . . , πN), with the collective objective
+of maximizing the expected cumulative discounted team return:
+J(π) = Es0,at,st+1
+" ∞
+X
+t=0
+γtr(st, at)
+ µ
+#
+.
+(2)
+2.2
+Value Function Factorization
+Value function factorization (VFF) aims to learn a joint action-value function Qtot(s, a) for cooperative
+multi-agent settings. This factorization is typically implemented via a mixing function that takes as
+input the individual agent values Qi and, optionally, the global state s, and outputs the global value
+Qtot. For example, VDN adopts a simple additive form:
+Qtot(s, a) =
+n
+X
+i=1
+Qi(ηi, ai),
+(3)
+where ηi denotes agent i’s action-observation history. QMIX employs a nonlinear mixing network gmix:
+Qtot(s, a) = gmix ({Qi(ηi, ai)}n
+i=1, s) .
+(4)
+These methods are trained end-to-end by minimizing the joint Bellman error. The typical loss
+function is defined as:
+L(θ) = Es,a,r,s′
+h ytot −Qtot(s, a; θ)
+2i
+,
+(5)
+where the target value is given by
+ytot = r + γ max
+a′ Qtot(s′, a′; θ−),
+and θ and θ−denote the parameters of the current and target networks, respectively.
+2.3
+IGM Consistency
+A value decomposition is said to satisfy the Individual-Global-Max (IGM) principle if, for any state s,
+the optimal joint action with respect to the global value function Qtot can be obtained by independently
+maximizing each agent’s local utility function. Formally, this condition is defined as:
+arg max
+a∈A Qtot(s, a)
+=
+
+arg max
+a1∈A1 Q1(η1, a1), . . . , arg max
+an∈An Qn(ηn, an)
+
+.
+(6)
+The IGM principle is crucial because it enables decentralized execution: when the condition holds,
+each agent can independently select its action by greedily maximizing its own local utility Qi, and the
+resulting joint action will be globally optimal with respect to the learned Qtot.
+i COLALab Report
+ì
+3 / 23
+
+===== PAGE 4 =====
+3
+Analysis
+We begin our analysis by simplifying the original Dec-POMDP problem into a single-state matrix
+game. Conceptually, a single-state game can be viewed as a localized coordination subproblem em-
+bedded within any Dec-POMDP state. Instead of using a temporal-difference target, we assume a
+known, fixed ground-truth payoff function y(a). The formal definition is as follows:
+Definition 1 (Single-State Game). Consider a single-state matrix game involving N agents. Each
+agent i ∈{1, . . . , N} has a discrete action set Ai. The joint action is denoted as a = (a1, . . . , aN),
+and the corresponding ground-truth reward is y(a) ∈R. We assume the existence of a unique globally
+optimal joint action:
+a∗= arg max
+a
+y(a).
+(7)
+The value function is represented by a parameterized value decomposition network. For a given
+parameter vector θ, the network outputs local values Qi(ai; θ) for each agent. A mixing network fmix
+then aggregates these local values into a joint value:
+Qtot(a; θ) = fmix
+ Q1(a1; θ), . . . , QN(aN; θ); θ
+
+.
+(8)
+To facilitate theoretical analysis, we define a global state vector q ∈R
+P
+i |Ai| that concatenates all
+local Q-values:
+q :=
+
+Q1(a1,1), . . . , Q1(a1,|A1|),
+. . . ,
+QN(aN,1), . . . , QN(aN,|AN|)
+⊤
+.
+(9)
+From this perspective, each Qi(ai) is a component of the vector q, and the joint value function
+Qtot(a; q) is treated as a function that directly takes q as input, with its specific form determined
+by the structure of fmix. We assume that fmix satisfies a local non-degeneracy condition: it is locally
+Lipschitz continuous in each coordinate direction, and its Jacobian with respect to q has full rank on
+the normal subspace at the points considered in our analysis.
+The learning objective is to minimize the mean squared error loss weighted by a behavior policy
+µ(a; q):
+L(q) =
+X
+a
+µ(a; q) (y(a) −Qtot(a; q))2 .
+(10)
+3.1
+Fixed Uniform Policy
+We begin by considering a fixed, uniform behavior policy µ0 that is independent of q, i.e., µ0(a) =
+1/|A|N. Under this setting, the loss simplifies to:
+L0(q) =
+1
+|A|N
+X
+a
+(y(a) −Qtot(a; q))2 .
+(11)
+This learning problem reduces to a standard supervised regression task, where the goal is to fit
+Qtot to a fixed target function y(a). The gradient of the loss with respect to q is given by:
+∇qL0(q)
+= −
+2
+|A|N
+X
+a
+(y(a) −Qtot(a; q)) ∇qQtot(a; q).
+(12)
+Theorem 1 (Zero-Loss Points Without IGM Consistency). Under the fixed uniform policy, there
+exists a set of zero-loss points M0 = {q | L0(q) = 0} containing infinitely many elements, and this
+set includes points that do not satisfy IGM consistency.
+i COLALab Report
+ì
+4 / 23
+
+===== PAGE 5 =====
+Proof. Due to the universal approximation capability of fmix, there may exist many local Q-value
+configurations q that violate the IGM condition but can still perfectly fit the target payoff function
+y(a) via appropriate mixing function parameters. At such points, the loss is exactly zero, and the
+gradient vanishes accordingly. The inherent ambiguity in credit assignment leads to a multiplicity of
+solutions. Consequently, the learning process may converge to any of these zero-loss solutions without
+any inherent bias toward IGM-consistent ones.
+■
+3.2
+Approximately Greedy Policy
+When using an approximately greedy policy, the behavior policy depends on the current value esti-
+mates, resulting in a value-coupled dynamical system. Directly analyzing ϵ-greedy policies is challeng-
+ing due to the non-differentiability of the arg max operator. To circumvent this issue, we introduce a
+smooth and differentiable surrogate based on the softmax policy with temperature parameter τ > 0:
+πτ
+i (ai | q) :=
+eQi(ai)/τ
+P
+b∈Ai eQi(b)/τ ,
+(13)
+µτ(a | q) =
+N
+Y
+i=1
+πτ
+i (ai | q).
+(14)
+The corresponding smooth loss function is defined as:
+Lτ(q) =
+X
+a
+µτ(a | q) (y(a) −Qtot(a; q))2 .
+(15)
+Lemma 1. Let {τk}∞
+k=1 be a sequence of temperatures such that τk ↓0. Suppose that at parameter
+point q, each agent has a unique greedy action and the mixing function fmix satisfies the local non-
+degeneracy condition. Then,
+lim
+k→∞∇qLτk(q) ∈∂C
+q L0(q),
+(16)
+where ∂C denotes the Clarke generalized gradient, and L0 corresponds to the limiting loss as τ →0 in
+the softmax policy µτ.
+Lemma 2 provides a theoretical justification for using the smooth surrogate system to analyze the
+stability properties of the original non-smooth objective. The complete proof is deferred to Appendix
+A.
+In contrast to the fixed uniform policy case, the gradient of Lτ(q) now consists of two distinct
+components:
+∇qLτ(q) =
+X
+a
+(∇qµτ(a | q)) (y(a) −Qtot)2
+|
+{z
+}
+policy gradient term
+−2
+X
+a
+µτ(a | q) (y(a) −Qtot) ∇qQtot
+|
+{z
+}
+value gradient term
+.
+(17)
+The first term (the policy gradient term) alters the learning dynamics compared to the uniform
+case. We model the learning process as a continuous-time gradient flow, represented by the following
+ordinary differential equation (ODE):
+˙q = −∇qLτ(q).
+(18)
+The local stability of a fixed point q∗is determined by the spectrum of its Jacobian matrix, given by
+Jτ(q∗) = −Hτ(q∗), where Hτ = ∇2
+qLτ is the Hessian matrix of the loss. If Hτ(q∗) is positive definite,
+then q∗is asymptotically stable. If it has at least one negative eigenvalue, then q∗is unstable.
+We now focus on the set of all zero-loss points and analyze their stability. These points form a
+zero-loss manifold M, defined as the set of parameter configurations that perfectly fit the ground-truth
+payoff:
+M := {q | Qtot(a; q) = y(a), ∀a} .
+(19)
+i COLALab Report
+ì
+5 / 23
+
+===== PAGE 6 =====
+Every point within M is a fixed point of the gradient flow. The local stability of such points is governed
+by the curvature of the loss function, as characterized by the Hessian matrix. Theorem 2 establishes
+that for any perturbation direction that alters a local greedy action to a suboptimal one, the corre-
+sponding quadratic form is strictly positive. As a result, the fixed point q∗is locally asymptotically
+stable along the center-stable manifold.
+Theorem 2 (Stability of IGM-Consistent Fixed Points). Suppose the following conditions hold:
+(H1) For every q ∈M, each agent’s greedy action arg maxai Qi(ai) is unique.
+(H2) The Jacobian of the mixing function fmix has full rank on the normal subspace of M (local
+non-degeneracy).
+(H3) The softmax temperature τ > 0 is sufficiently small such that the induced policy is dominated
+by greedy actions.
+Then for any zero-loss fixed point q∗∈M that satisfies IGM consistency (i.e., g(q∗) = u∗), the
+Hessian Hτ(q∗) is positive definite on the normal subspace (Tq∗M)⊥.
+Proof. We determine the spectral properties of the Hessian Hτ(q∗) by analyzing the sign of its
+quadratic form v⊤Hτ(q∗)v along critical directions. The full proof is provided in Appendix A.
+We aim to show that Hτ(q∗) is positive definite on the normal subspace (Tq∗M)⊥. Consider an
+arbitrary perturbation direction v in this subspace, such as v = eiu′
+i −eiu∗
+i , where u′
+i̸ = u∗
+i . This
+perturbation attempts to flip agent i’s greedy action from the optimal u∗
+i to a suboptimal alternative
+u′
+i.
+On the zero-loss manifold M, the quadratic form of the Hessian in this direction can be computed
+explicitly as:
+v⊤Hτ(q∗)v
+= 1
+τ
+X
+a
+µτ(a | q∗)
+h  1[ai = u′
+i] −πτ
+i (u′
+i)
+
+−
+ 1[ai = u∗
+i ] −πτ
+i (u∗
+i )
+ i2
+.
+(20)
+In the low-temperature limit τ →0, the policy µτ(a | q∗) concentrates its mass on the greedy joint
+action u∗. For this dominant term a = u∗, we have πτ
+i (u′
+i) →0, πτ
+i (u∗
+i ) →1, and the indicator
+functions yield 1[ai = u′
+i] = 0, 1[ai = u∗
+i ] = 1. The expression inside the brackets thus converges to
+a nonzero constant. Since the quadratic form is a weighted sum of squared terms with the dominant
+contribution strictly positive, we conclude that v⊤Hτ(q∗)v > 0. Therefore, Hτ(q∗) is positive definite
+in all directions that perturb the optimal greedy action, ensuring that q∗is asymptotically stable.
+■
+Theorem 3 (Instability of IGM-Inconsistent Fixed Points). Under the same assumptions (H1) –
+(H3) as in Theorem 2, consider a zero-loss fixed point q∗∈M that violates IGM consistency (i.e.,
+g(q∗)̸ = u∗). Then there exists an agent i and a perturbation direction
+v = ei,u∗
+i −ei,gi(q∗)
+(21)
+such that
+v⊤Hτ(q∗)v ≈−2
+τ [y(u∗) −y(g(q∗))] < 0,
+(22)
+indicating that Hτ(q∗) has a negative eigenvalue, and q∗is a structurally unstable saddle point.
+Proof. If g(q∗)̸ = u∗, we aim to show that Hτ(q∗) admits at least one negative eigenvalue.
+Let
+gi = gi(q∗) denote the suboptimal greedy action selected by agent i. We construct a perturbation
+direction intended to ”correct” this suboptimal choice:
+v = eiu∗
+i −eigi.
+(23)
+This perturbation attempts to redirect the greedy policy toward an action with potentially higher
+reward.
+i COLALab Report
+ì
+6 / 23
+
+===== PAGE 7 =====
+In the low-temperature regime, the softmax policy induces a gradient amplification effect that
+makes the Hessian’s curvature primarily governed by reward differences. It can be shown that the
+quadratic form in this direction approximately satisfies:
+v⊤Hτ(q∗)v ≈−C
+τ
+
+y(g′) −y(g(q∗))
+
+,
+(24)
+where C > 0 is a constant, and g′ is the new greedy joint action induced by the perturbation.
+Since g(q∗) is not globally optimal, there always exists a local improving direction such that y(g′) >
+y(g(q∗)). This implies that the quadratic form is strictly negative in the direction v, i.e., v⊤Hτ(q∗)v <
+0, thereby confirming the existence of a negative eigenvalue in the Hessian. Consequently, the fixed
+point q∗is a saddle point.
+■
+Combining Theorems 2 and 3, we conclude that the set of IGM-consistent zero-loss solutions forms
+the unique center-stable manifold of the learning dynamics, while any IGM-inconsistent zero-loss point
+is a saddle point and hence unstable. Under continued exploration, the system is guaranteed to escape
+from these unstable saddle points and ultimately converge to the stable submanifold:
+MIGM = {q ∈M | g(q) = u∗} .
+(25)
+4
+Methodology
+In this section, we investigate a non-monotonic variant of the QMIX algorithm and its two extensions
+designed to address the challenges introduced by removing the monotonicity constraint. Additional
+implementation details, including hyperparameters and pseudocode, are provided in Appendix B.
+4.1
+Non-Monotonic Mixing Function
+We investigate a non-monotonic variant of the QMIX algorithm. Standard QMIX imposes a mono-
+tonicity constraint on the mixing network, requiring that the joint action-value function Qtot be non-
+decreasing with respect to each individual agent’s utility Qi. Formally, ∂Qtot
+∂Qi ≥0, which is enforced by
+constraining the mixing network weights to be non-negative. While this constraint guarantees IGM
+consistency by design, it restricts the expressive capacity of the model.
+In contrast, our approach removes this structural constraint, allowing the mixing network to learn
+an arbitrary aggregation function of the individual values:
+Qtot(s, a) = gmix
+ {Qi(ηi, ai)}n
+i=1, s
+
+,
+(26)
+where s denotes the global state, ηi represents the local observation history of agent i, and gmix is
+implemented by a feed-forward neural network. Apart from the removal of the monotonicity constraint,
+the architecture remains identical to QMIX.
+Our central hypothesis is that under approximately greedy exploration policies, the learning dy-
+namics are sufficient to drive the system towards IGM-consistent solutions, even in the absence of
+explicit architectural constraints. The network is trained end-to-end by minimizing the joint Bellman
+error:
+L(θ) = Es,a,r,s′ ytot −Qtot(s, a; θ)
+2
+,
+(27)
+where the target is computed using a target network,
+ytot = r + γ max
+a′
+Qtot(s′, a′; θ−).
+(28)
+i COLALab Report
+ì
+7 / 23
+
+===== PAGE 8 =====
+4.2
+SARSA-Style Updating with TD(λ)
+Removing the monotonicity constraint introduces a potential issue: during the learning process, IGM
+consistency can no longer be guaranteed prior to convergence. In standard Q-learning, this may lead
+to undesirable effects because the target
+ytot
+Q = r + γ max
+a′
+Qtot(s′, a′; θ−),
+(29)
+which relies on the maxa′ operator, is no longer a reliable training signal in the absence of IGM.
+To address this issue, we adopt a SARSA-style update rule that removes the problematic max
+operator. Instead of computing the target based on the maximum over all possible next actions, we
+use the joint action a′ that was actually sampled from the replay buffer:
+ytot
+SARSA = r + γQtot(s′, a′; θ−),
+(30)
+where a′ is the next joint action executed by the behavior policy. This formulation aligns the training
+signal with the policy’s actual behavior and mitigates the bias caused by the max operator. We then
+incorporate the TD(λ) algorithm:
+ytot
+λ
+= (1 −λ)
+∞
+X
+n=1
+λn−1ytot
+(n),
+(31)
+where ytot
+(n) denotes the n-step return. By averaging over multiple step returns, TD(λ) smooths the
+learning signal, mitigates variance, and improves credit assignment over longer horizons, which is
+particularly beneficial for non-monotonic value decomposition.
+It is worth noting that SARSA-type updates are theoretically on-policy and would typically require
+off-policy corrections, such as importance sampling. However, prior work by (author?) [20] has shown
+that, in the context of deep RL, applying such corrections to SARSA often degrades performance.
+Therefore, we omit off-policy corrections in our implementation.
+4.3
+Intrinsic Reward Driven Exploration-Exploitation
+In our preliminary experiments, we observed that simply increasing the exploration rate in the original
+QMIX algorithm provided no benefit. In contrast, for our non-monotonic variant of QMIX, a higher
+degree of exploration consistently improved performance. Motivated by this observation, we integrate
+a curiosity-driven exploration mechanism based on Random Network Distillation (RND)[21]. RND
+encourages exploration by assigning intrinsic rewards for visiting novel states. It employs two neural
+networks: (i) a fixed, randomly initialized target network that maps states to feature embeddings, and
+(ii) a predictor network trained to approximate the target network’s output for visited states. The
+prediction error of the predictor network then serves as the intrinsic reward signal. The total reward
+used to train the value function is given by:
+r = rext + β · rint,
+(32)
+where rext is the extrinsic team reward from the environment, rint is the intrinsic curiosity reward
+generated by RND. This curiosity-driven mechanism serves as a more sophisticated alternative to
+ϵ–greedy exploration and allows us to investigate the role of exploration in non-monotonic value
+factorization.
+5
+Experiments
+We evaluate our approach on three representative benchmarks: one-step matrix games, the StarCraft
+Multi-Agent Challenge (SMAC) [22], and Google Research Football (GRF) [23]. We compare our
+method against three strong baselines: QMIX, QPLEX, and QTRAN. These baselines were selected
+i COLALab Report
+ì
+8 / 23
+
+===== PAGE 9 =====
+to cover the major paradigms in value factorization: a strictly monotonic approach (QMIX), a refined
+architecture that preserves a relaxed form of monotonicity (QPLEX), and a non-monotonic method
+based on an alternative factorization principle (QTRAN). Complete experimental results, along with
+additional ablation studies, are provided in Appendix C.
+u1
+u2
+A
+B
+C
+A
+12
+-12
+-12
+B
+-12
+0
+0
+C
+-12
+0
+0
+(a) Payoff of Game A
+Q1
+Q2
+A(7.4)
+B(-4.0)
+C(-4.1)
+A(8.1)
+12.0
+-12.0
+-12.0
+B(-4.3)
+-12.0
+0.0
+0.0
+C(-4.3)
+-12.0
+0.0
+0.0
+(b) Our method on Game A
+Q1
+Q2
+A(-5.2)
+B(0.1)
+C(0.1)
+A(-5.3)
+-12.0
+-12.0
+-12.0
+B(0.1)
+-12.0
+0.0
+-0.1
+C(0.1)
+-12.0
+-0.0
+-0.0
+(c) QMIX on Game A
+u1
+u2
+A
+B
+C
+A
+12
+0
+10
+B
+0
+0
+10
+C
+10
+10
+10
+(d) Payoff of Game B
+Q1
+Q2
+A(6.0)
+B(-3.7)
+C(2.5)
+A(6.2)
+12.0
+0.0
+10.0
+B(-4.4)
+0.0
+0.0
+10.0
+C(1.7)
+10.0
+10.0
+10.0
+(e) Our method on Game B
+Q1
+Q2
+A(-0.6)
+B(-0.6)
+C(0.5)
+A(-0.6)
+0.1
+0.1
+4.1
+B(-0.6)
+0.1
+0.1
+4.1
+C(0.5)
+5.6
+5.6
+10.0
+(f) QMIX on Game B
+Table 1: True payoff matrices and estimated value functions for two matrix games. Each row corre-
+sponds to one game: the left column shows the ground-truth payoff matrix, the middle column shows
+value estimates from our non-monotonic QMIX variant, and the right column shows estimates from
+standard QMIX. Top row: Game A. Bottom row: Game B.
+5.1
+Matrix Game
+We begin by evaluating non-monotonic QMIX with SARSA-style updates on two one-step matrix
+games, which are adapted from [14]. Among them, Game B is more challenging than Game A, as it
+contains stronger local optima that are more difficult to escape. In addition, unlike previous studies
+on matrix games that employ uniformly random policies, we adopt an ϵ-greedy strategy, which is
+consistent with our theoretical analysis.
+The results, summarized in Table 3, show that our method successfully learns the correct global
+payoff matrix. In contrast, QMIX fails to recover the true payoffs. These findings provide initial empir-
+ical evidence that, under appropriate exploration–exploitation mechanisms, removing the monotonic-
+ity constraint enables the algorithm to accurately recover IGM-optimal solutions in non-monotonic
+settings.
+5.2
+SMAC and GRF
+In order to validate our propositions, we implemented RND to generate intrinsic exploration rewards
+for non-monotonic QMIX with SARSA-style updates, and conducted experiments in complex, high-
+dimensional SMAC and GRF environments. As shown in Figures 1 and 2, our method demonstrates
+clear advantages over the baselines across a variety of maps. QTRAN, despite its success in the matrix
+game, performs poorly in these complex environments. Similarly, QMIX and QPLEX struggle to find
+optimal solutions in these non-monotonic sequential decision-making problems due to their inherent
+structural constraints. Further ablation studies on additional variants of our method are provided in
+Appendix C.
+5.3
+Discussion
+The empirical results provide strong evidence supporting our theoretical analysis. The observed learn-
+ing dynamics closely align with our model of stable and unstable equilibria. Unlike QTRAN, whose
+projection mechanism can restrict the use of non-optimal global actions and thus impede learning, our
+unconstrained approach leverages broad exploration. This enables the value function to be estimated
+across a wider range of joint actions, mitigating the risk of premature convergence to suboptimal
+solutions caused by relative overgeneralization.
+i COLALab Report
+ì
+9 / 23
+
+===== PAGE 10 =====
+Ours
+QMIX
+QPLEX
+QTRAN
+3s_vs_5z(Hard)
+Corridor(Super Hard)
+3s5z_vs_3s6z(Super Hard)
+0
+25
+50
+75
+100
+0                2.5              5.0              7.5            10.0
+Win Rate (%)
+0
+25
+50
+75
+100
+0
+25
+50
+75
+100
+0                2.5              5.0              7.5            10.0
+0                2.5              5.0              7.5            10.0
+Environment Step (M)
+Figure 1: Comparisons of test win rate on SMAC maps: 3s vs 5z, corridor, and 3s5z vs 3s6z. The
+results are averaged over five independent runs, with the 25%–75% interquartile range shown as a
+shaded region.
+academy_3_vs_1_with_keeper
+academy_counterattack_easy
+academy_counterattack_hard
+0
+25
+50
+75
+100
+0
+25
+50
+75
+100
+0
+20
+40
+60
+80
+0                2.5              5.0              7.5            10.0
+0                2.5              5.0              7.5            10.0
+0                2.5              5.0              7.5            10.0
+Win Rate (%)
+Environment Step (M)
+Ours
+QMIX
+QPLEX
+QTRAN
+Figure
+2:
+Comparisons
+of
+test
+win
+rate
+on
+GRF
+tasks:
+academy 3 vs 1 keeper,
+academy counterattack easy,
+and academy counterattack hard.
+The results are averaged
+over five independent runs.
+We initially expected non-monotonic QMIX to perform comparably to the original QMIX. Sur-
+prisingly, however, on several challenging SMAC tasks, our method not only consistently outperforms
+the original QMIX but also converges significantly faster. We hypothesize that this advantage arises
+from the removal of the monotonicity constraint, which substantially enhances the expressiveness of
+the mixing network. Under an appropriate exploration mechanism, this increased flexibility allows
+non-monotonic QMIX to more effectively discover optimal policies. In addition, both QPLEX and
+QTRAN enhance the representational capacity of the value function through specialized network ar-
+chitectures and additional soft constraints. However, on the challenging tasks we evaluated, neither
+method demonstrated superior performance. We hypothesize that the increased algorithmic complex-
+ity of these approaches may reduce their robustness and heighten sensitivity to hyperparameter choices,
+thereby limiting their practical effectiveness compared to our simpler unconstrained formulation.
+It is worth noting that in the GRF tasks, our method exhibits a slower reward increase during the
+early stage of training, followed by a sharp improvement in the later stage. We attribute this behavior
+to the existence of multiple zero-loss solutions in the initial learning dynamics, including suboptimal
+ones. During this exploratory phase, the algorithm navigates the policy space and transiently ap-
+proaches unstable saddle points. The system eventually escapes these unstable regions and converges
+to the stable, IGM-consistent submanifold, resulting in a rapid performance surge and superior final
+results.
+6
+Related Work
+Value Function Factorization (VFF) is a central branch of the CTDE paradigm in multi-agent rein-
+forcement learning. VFF methods seek to learn a global joint action-value function Qtot and decompose
+it into per-agent value functions Qi. This factorized structure is designed to ensure that optimizing
+each local utility Qi leads to the optimization of the global objective Qtot, while enabling decentralized
+execution based solely on local observations.
+One of the earliest VFF methods, Value-Decomposition Networks (VDN)[10], assumes that the
+i COLALab Report
+ì
+10 / 23
+
+===== PAGE 11 =====
+global joint action-value function is the sum of individual agent values. This additive assumption
+simplifies credit assignment but severely limits representational capacity, failing to capture nonlinear
+agent interactions.
+QMIX [13] extends VDN by introducing a nonlinear mixing network, thereby
+enhancing expressiveness. QMIX imposes a constraint that requires Qtot to be a monotonically non-
+decreasing function with respect to each individual Qi. Although more expressive than VDN, this
+constraint still restricts the representation of tasks with inherently non-monotonic value functions.
+To overcome the expressiveness limitations imposed by the monotonicity constraint, subsequent
+research has explored two main directions.
+The first focuses on enhancing the mixing network.
+WQMIX [24] introduces a weighting mechanism in the projection step of monotonic value decom-
+position, emphasizing more promising joint actions and biasing learning toward better solutions. Qat-
+ten [25] applies multi-head attention to adaptively learn interaction weights among agents, enabling
+a more flexible nonlinear combination.
+Another line aims to develop more general frameworks capable of representing the full class of
+IGM functions. QTRAN [14] introduces a transformed surrogate value function, reformulating the
+IGM condition as a set of linear constraints and incorporating them via soft regularization. While
+QTRAN is theoretically more expressive, it often suffers from instability during training and performs
+suboptimally in practice.
+QPLEX [15] introduces a duplex dueling architecture, which factorizes
+Qtot into a state-value term V (s) and a joint advantage function A(s, u). The IGM constraint is
+enforced by imposing monotonicity only on the advantage component. QPLEX theoretically covers
+the complete IGM function class and achieves strong empirical performance, though at the cost of
+increased architectural complexity.
+Current research in VFF largely focuses on designing increasingly complex network architectures
+and decomposition schemes to enhance representational capacity, aiming to capture a broader range
+of tasks while preserving IGM guarantees. In contrast, our work offers a different perspective: we
+argue that under standard approximately greedy exploration strategies, the learning dynamics may
+exhibit an implicit stabilizing mechanism. This mechanism can naturally guide unconstrained learning
+process toward IGM-consistent optimal solutions.
+7
+Conclusion
+This paper challenges the prevailing assumption that structural monotonicity is necessary for multi-
+agent value decomposition to ensure IGM consistency. We model the non-monotonic learning process
+as a continuous-time gradient flow and theoretically demonstrate that, under approximately greedy
+exploration, the dynamics themselves provide an implicit self-correction mechanism. This mechanism
+drives IGM-inconsistent solutions to unstable saddle points, while establishing IGM-consistent solu-
+tions as stable attractors.
+Experiments on synthetic matrix games, SMAC, and GRF empirically
+validate our theory, showing that removing monotonicity constraints not only reliably recovers opti-
+mal solutions but also consistently outperforms monotonic baselines. Although our formal analysis is
+developed in the single-state setting, these findings suggest that leveraging the natural dynamics of
+learning rather than imposing rigid architectural constraints offers a promising direction for designing
+more expressive, and more effective value-based MARL algorithms.
+Acknowledgment
+This work was supported in part by the UKRI Future Leaders Fellowship under Grant MR/S017062/1
+and MR/X011135/1; in part by NSFC under Grant 62376056 and 62076056; in part by the Royal
+Society under Grant IES/R2/212077; in part by the EPSRC under Grant 2404317; in part by the Kan
+Tong Po Fellowship (KTP\R1\231017); and in part by the Amazon Research Award and Alan Turing
+Fellowship.
+i COLALab Report
+ì
+11 / 23
+
+===== PAGE 12 =====
+References
+[1] P. Long, T. Fan, X. Liao, W. Liu, H. Zhang, and J. Pan, “Towards optimally decentralized
+multi-robot collision avoidance via deep reinforcement learning,” in Proc. IEEE International
+Conference on Robotics and Automation, 2018, pp. 6252–6259.
+[2] J. Duan, W. Wang, L. Xiao, J. Gao, S. E. Li, C. Liu, Y.-Q. Zhang, B. Cheng, and K. Li,
+“Distributional soft actor-critic with three refinements,” IEEE Transactions on Pattern Analysis
+and Machine Intelligence, vol. 47, no. 5, pp. 3935–3946, 2025.
+[3] T. Chu, J. Wang, L. Codec`a, and Z. Li, “Multi-agent deep reinforcement learning for large-scale
+traffic signal control,” IEEE Transactions on Intelligent Transportation Systems, vol. 21, no. 3,
+pp. 1086–1095, 2019.
+[4] Q. Li, Z. Peng, L. Feng, Q. Zhang, Z. Xue, and B. Zhou, “Metadrive: Composing diverse driving
+scenarios for generalizable reinforcement learning,” IEEE Transactions on Pattern Analysis and
+Machine Intelligence, vol. 45, no. 3, pp. 3461–3475, 2022.
+[5] R. Zhang, J. Hou, F. Walter, S. Gu, J. Guan, F. R¨ohrbein, Y. Du, P. Cai, G. Chen, and
+A. Knoll, “Multi-agent reinforcement learning for autonomous driving: A survey,” arXiv preprint
+arXiv:2408.09675, 2024.
+[6] L. Chen, P. Wu, K. Chitta, B. Jaeger, A. Geiger, and H. Li, “End-to-end autonomous driving:
+Challenges and frontiers,” IEEE Transactions on Pattern Analysis and Machine Intelligence,
+vol. 46, no. 12, pp. 10 164–10 183, 2024.
+[7] M. Roesch, C. Linder, R. Zimmermann, A. Rudolf, A. Hohmann, and G. Reinhart, “Smart grid
+for industry using multi-agent reinforcement learning,” Applied Sciences, vol. 10, no. 19, p. 6900,
+2020.
+[8] H.-M. Chung, S. Maharjan, Y. Zhang, and F. Eliassen, “Distributed deep reinforcement learn-
+ing for intelligent load scheduling in residential smart grids,” IEEE Transactions on Industrial
+Informatics, vol. 17, no. 4, pp. 2752–2763, 2020.
+[9] M. Tan, “Multi-agent reinforcement learning: Independent vs. cooperative agents,” in Proc.
+International Conference on Machine Learning, 1993, pp. 330–337.
+[10] P. Sunehag, G. Lever, A. Gruslys, W. M. Czarnecki, V. Zambaldi, M. Jaderberg, M. Lanctot,
+N. Sonnerat, J. Z. Leibo, K. Tuyls et al., “Value-decomposition networks for cooperative multi-
+agent learning based on team reward,” in Proc. International Conference on Autonomous Agents
+and MultiAgent Systems, 2018, pp. 2085–2087.
+[11] R. Lowe, Y. I. Wu, A. Tamar, J. Harb, O. Pieter Abbeel, and I. Mordatch, “Multi-agent actor-
+critic for mixed cooperative-competitive environments,” in Proc. Advances in Neural Information
+Processing Systems, 2017, pp. 6382–6393.
+[12] T. Hu, B. Luo, C. Yang, and T. Huang, “Mo-mix: Multi-objective multi-agent cooperative
+decision-making with deep reinforcement learning,” IEEE Transactions on Pattern Analysis and
+Machine Intelligence, vol. 45, no. 10, pp. 12 098–12 112, 2023.
+[13] T. Rashid, M. Samvelyan, C. Schroeder, G. Farquhar, J. Foerster, and S. Whiteson, “Qmix:
+Monotonic value function factorisation for deep multi-agent reinforcement learning,” in Proc.
+International Conference on Machine Learning, 2018, pp. 4295–4304.
+[14] K. Son, D. Kim, W. J. Kang, D. E. Hostallero, and Y. Yi, “Qtran: Learning to factorize with
+transformation for cooperative multi-agent reinforcement learning,” in Proc. International Con-
+ference on Machine Learning, 2019, pp. 5887–5896.
+i COLALab Report
+ì
+12 / 23
+
+===== PAGE 13 =====
+[15] J. Wang, Z. Ren, T. Liu, Y. Yu, and C. Zhang, “Qplex: Duplex dueling multi-agent q-learning,”
+in Proc. International Conference on Learning Representations, 2021, pp. 1–11.
+[16] A. Mahajan, T. Rashid, M. Samvelyan, and S. Whiteson, “Maven: Multi-agent variational ex-
+ploration,” Advances in Neural Information Processing Systems, vol. 32, no. 1, pp. 7613–7624,
+2019.
+[17] T. Gupta, A. Mahajan, B. Peng, W. B¨ohmer, and S. Whiteson, “Uneven: Universal value ex-
+ploration for multi-agent reinforcement learning,” in Proc. International Conference on Machine
+Learning.
+PMLR, 2021, pp. 3930–3941.
+[18] G. A. Rummery and M. Niranjan, On-line Q-learning using connectionist systems.
+University
+of Cambridge, Department of Engineering Cambridge, UK, 1994, vol. 37.
+[19] D. S. Bernstein, R. Givan, N. Immerman, and S. Zilberstein, “The complexity of decentralized
+control of markov decision processes,” Mathematics of operations research, vol. 27, no. 4, pp.
+819–840, 2002.
+[20] J. F. Hernandez-Garcia and R. S. Sutton, “Understanding multi-step deep reinforcement learning:
+A systematic study of the dqn target,” arXiv preprint arXiv:1901.07510, 2019.
+[21] Y. Burda, H. Edwards, A. Storkey, and O. Klimov, “Exploration by random network distillation,”
+arXiv preprint arXiv:1810.12894, 2018.
+[22] S. Whiteson, M. Samvelyan, T. Rashid, C. De Witt, G. Farquhar, N. Nardelli, T. Rudner,
+C. Hung, P. Torr, and J. Foerster, “The StarCraft multi-agent challenge,” in Proc. International
+Conference on Autonomous Agents and MultiAgent Systems, 2019, pp. 2186–2188.
+[23] K. Kurach, A. Raichuk, P. Sta´nczyk et al., “Google research football: A novel reinforcement
+learning environment,” in Proc. AAAI conference on artificial intelligence, vol. 34, no. 04, 2020,
+pp. 4501–4510.
+[24] T. Rashid, G. Farquhar, B. Peng, and S. Whiteson, “Weighted qmix: Expanding monotonic
+value function factorisation for deep multi-agent reinforcement learning,” Advances in Neural
+Information Processing Systems, vol. 33, pp. 10 199–10 210, 2020.
+[25] Y. Yang, J. Hao, B. Liao, K. Shao, G. Chen, W. Liu, and H. Tang, “Qatten: A general framework
+for cooperative multiagent reinforcement learning,” arXiv preprint arXiv:2002.03939, 2020.
+i COLALab Report
+ì
+13 / 23
+
+===== PAGE 14 =====
+A
+Proofs
+A.1
+Proof of Lemma 2
+Lemma 2. Let {τk}∞
+k=1 be a sequence of temperatures such that τk ↓0. Suppose that at parameter
+point q, each agent has a unique greedy action and the mixing function fmix satisfies the local non-
+degeneracy condition. Then,
+lim
+k→∞∇qLτk(q) ∈∂C
+q L0(q),
+(33)
+where ∂C denotes the Clarke generalized gradient, and L0 corresponds to the limiting loss as τ →0 in
+the softmax policy µτ.
+Proof. For any fixed τ > 0, define the policy of agent i as
+πτ
+i (ai; q) =
+exp(Qi(ai)/τ)
+P
+b exp(Qi(b)/τ).
+(34)
+πτ
+i is infinitely differentiable with respect to q. Consequently, the joint policy
+µτ(a; q) =
+Y
+i
+πτ
+i (ai; q),
+(35)
+and the corresponding loss function
+Lτ(q) =
+X
+a
+µτ(a; q)
+ y −Qtot
+2
+(36)
+are both smooth and differentiable.
+In the limit τ →0, since each agent’s greedy action gi(q) is unique, we have
+πτ
+i (gi(q); q) →1,
+πτ
+i (ai; q) →0
+(ai̸ = gi(q)).
+(37)
+Hence, µτ(a; q) converges pointwise to the deterministic greedy policy.
+The Clarke generalized gradient ∂Cf(q) of a non-smooth function f is defined as the convex hull
+of all limit points of gradients of smooth approximations converging to f:
+∂Cf(q) = conv
+
+lim
+k→∞∇fk(q)
+ fk →f, fk smooth
+
+.
+(38)
+If a sequence of smooth functions {fk} converges pointwise to f and has uniformly bounded Lipschitz
+constants, then
+lim
+k→∞∇fk(q) ∈∂Cf(q).
+(39)
+This property directly connects the gradients of smooth approximations to the Clarke generalized
+gradient of the limiting non-smooth function.
+We now apply this result to our problem. Define fk(q) = Lτk(q), where τk ↓0 and the Lipschitz
+constants of {Lτk} remain uniformly bounded. Clearly, fk converges pointwise to
+f0(q) =
+X
+a
+µgreedy(a; q)
+ y −Qtot
+2,
+(40)
+which corresponds precisely to the greedy policy loss. By the limit transfer theorem (Rockafellar and
+Wets, Variational Analysis, Theorem 9.13), we obtain
+lim
+k→∞∇fk(q) = lim
+k→∞∇qLτk(q) ∈∂Cf0(q).
+(41)
+This completes the proof.
+■
+i COLALab Report
+ì
+14 / 23
+
+===== PAGE 15 =====
+A.2
+Proof of Theorem 2
+Theorem 2 (Stability of IGM-Consistent Fixed Points). Suppose the following conditions hold:
+(H1) For every q ∈M, each agent’s greedy action arg maxai Qi(ai) is unique.
+(H2) The Jacobian of the mixing function fmix has full rank on the normal subspace of M (local
+non-degeneracy).
+(H3) The softmax temperature τ > 0 is sufficiently small such that the induced policy is dominated
+by greedy actions.
+Then for any zero-loss fixed point q∗∈M that satisfies IGM consistency (i.e., g(q∗) = u∗), the
+Hessian Hτ(q∗) is positive definite on the normal subspace (Tq∗M)⊥.
+Proof. To establish the local stability of IGM-consistent zero-loss points, we demonstrate that for any
+perturbation direction v attempting to change the greedy action from u∗to some suboptimal action
+g′, the quadratic form
+v⊤Hτ(q∗)v
+(42)
+is strictly positive.
+Without loss of generality, consider agent 1 and a suboptimal action u′
+1̸ = u∗
+1. Define the pertur-
+bation direction as
+v = e1u′
+1 −e1u∗
+1,
+(43)
+and examine the perturbed parameter vector
+q(ϵ) = q∗+ ϵv,
+(44)
+for sufficiently small ϵ > 0.
+Since q∗is a stationary point with zero gradient, a second-order Taylor expansion of the loss
+function Lτ around q∗yields
+Lτ(q(ϵ)) = ϵ2
+2 v⊤Hτ(q∗)v + O(ϵ3).
+(45)
+Thus, proving local stability reduces to showing that v⊤Hτ(q∗)v > 0, which would imply the
+perturbed loss increases quadratically with respect to ϵ along any direction that attempts to replace
+the greedy action with a suboptimal one.
+Under the low-temperature limit (τ →0), the perturbed greedy action of agent 1 switches from
+u∗
+1 to u′
+1, leading to a new joint greedy action g′ = (u′
+1, u∗
+2, . . . , u∗
+N). The loss is then dominated by
+the error associated with g′:
+Lτ(q(ϵ)) ≈
+
+y(g′) −Qtot(g′; q(ϵ))
+2 .
+(46)
+Since q∗∈M, we have Qtot(g′; q∗) = y(g′). Using a first-order Taylor expansion around q∗, we
+obtain
+Qtot(g′; q(ϵ)) ≈y(g′) + ϵ · ∇qQtot(g′; q∗)⊤v.
+(47)
+Substituting this approximation into the loss expression, we get
+Lτ(q(ϵ)) ≈ϵ2 
+∇qQtot(g′; q∗)⊤v
+2
+.
+(48)
+Thus, by definition of the Hessian, we have
+v⊤Hτ(q∗)v = 2
+
+∇qQtot(g′; q∗)⊤v
+2
+.
+(49)
+Finally, by assumption (H2), the local non-degeneracy condition implies
+∇qQtot(g′; q∗)⊤v̸ = 0.
+(50)
+Hence, we conclude
+v⊤Hτ(q∗)v > 0,
+(51)
+proving the strict positive definiteness of the Hessian along any action-switching direction, and thereby
+establishing the local stability of the IGM-consistent fixed point q∗.
+■
+i COLALab Report
+ì
+15 / 23
+
+===== PAGE 16 =====
+A.3
+Proof of Theorem 3
+Theorem 3 (Instability of IGM-Inconsistent Fixed Points). Under the same assumptions (H1) –
+(H3) as in Theorem 3, consider a zero-loss fixed point q∗∈M that violates IGM consistency (i.e.,
+g(q∗)̸ = u∗). Then there exists an agent i and a perturbation direction
+v = ei,u∗
+i −ei,gi(q∗)
+(52)
+such that
+v⊤Hτ(q∗)v ≈−2
+τ [y(u∗) −y(g(q∗))] < 0,
+(53)
+indicating that Hτ(q∗) has a negative eigenvalue, and q∗is a structurally unstable saddle point.
+Proof. To prove instability, it suffices to identify a perturbation direction v along which the Hessian
+exhibits negative curvature. Specifically, we aim to show that there exists at least one agent i for
+which perturbing the greedy action from the current suboptimal choice gi(q∗) to the globally optimal
+choice u∗
+i results in a strictly negative quadratic form:
+v⊤Hτ(q∗)v < 0.
+(54)
+Since g(q∗)̸ = u∗, at least one agent’s greedy action must differ from the globally optimal action.
+Without loss of generality, consider agent i with gi(q∗)̸ = u∗
+i , and define the perturbation direction as
+v = ei,u∗
+i −ei,gi(q∗).
+(55)
+This perturbation attempts to adjust the greedy action of agent i toward its globally optimal action
+u∗
+i , yielding a corrected joint action
+g′ = (u∗
+i , g−i(q∗)).
+(56)
+In the low-temperature limit (τ →0), the loss curvature along this direction is dominated by the
+payoff difference induced by switching actions. Specifically, a second-order Taylor expansion around
+q∗gives
+v⊤Hτ(q∗)v ≈−C
+τ
+
+y(g′) −y(g(q∗))
+
+,
+(57)
+where C > 0 is a positive constant depending on the policy gradient terms of the softmax function.
+Since g(q∗) is not globally optimal, we have
+y(g′) > y(g(q∗)),
+(58)
+implying
+v⊤Hτ(q∗)v < 0.
+(59)
+Thus, there exists a perturbation direction along which the Hessian has negative curvature, demon-
+strating the existence of a negative eigenvalue. Equivalently, the corresponding Jacobian of the learning
+dynamics possesses a positive eigenvalue, establishing that the IGM-inconsistent fixed point q∗is a
+structurally unstable saddle point.
+■
+B
+Implementation Details
+B.1
+Model Architecture
+Our model’s architecture, as illustrated in Figure 3, is based on the QMIX [13] framework and is
+composed of a set of decentralized agent networks and a centralized mixing network.
+i COLALab Report
+ì
+16 / 23
+
+===== PAGE 17 =====
+Mixing Network
+𝑠!
+𝑄!"! 𝜏, 𝑎
+⋯
+𝑄# 𝜏#, 𝑎!
+#
+𝑄$ 𝜏$, 𝑎!
+$
+Agent1
+Agent2
+⋯
+𝑜!
+#, 𝑎!%#
+#
+𝑜!
+$, 𝑎!%#
+$
+MLP
+MLP
+GRU
+ℎ!%#
+&
+ℎ!
+&
+𝑜!
+&, 𝑎!%#
+&
+𝑄& 𝜏&,⋅
+𝜖−𝑔𝑟𝑒𝑒𝑑𝑦
+𝜖
+𝑄& 𝜏&, 𝑎!
+&
+𝒘𝟏
+𝒘𝟐
+⋯
+𝑄# 𝜏#, 𝑎!
+# 𝑄$ 𝜏$, 𝑎!
+$
+𝑄!"! 𝜏, 𝑎
+s!
+𝒂𝒃𝒔⋅
+elu
+𝒂𝒃𝒔⋅
+𝒃𝟏
+𝒃𝟐
+Figure 3: Architecture of our method.
+Agent Networks
+Each agent possesses an individual recurrent network responsible for approxi-
+mating its local action-value function, Qi(τ i, ai
+t). This network processes the agent’s current local
+observation (oi
+t) and its previous action (ai
+t−1). The input is first passed through a Multi-Layer Per-
+ceptron (MLP), and the output is then fed into a Gated Recurrent Unit (GRU) which also receives
+the previous hidden state hi
+t−1. The GRU’s new hidden state, hi
+t, which encodes the agent’s action-
+observation history τ i, is then passed to a final MLP to produce the Q-values for all of the agent’s
+discrete actions. During execution, actions are chosen from these local Q-values using an ϵ-greedy
+policy.
+Mixing Network
+The mixing network is a centralized module that combines the individual Q-
+values from all agent networks, {Q1(τ 1, a1
+t ), . . . , Qn(τ n, an
+t )}, into a single global joint action-value,
+Qtot(τ, a). This network also takes the global state st as an input to enable state-dependent mixing.
+Hypernetwork Structure
+The mixing network utilizes a hypernetwork architecture. It consists of
+several linear layers that take the global state st as input and generate the weights (e.g., w1, w2) and
+biases (e.g., b1, b2) for the main mixing layers. The individual agent Q-values are then fed through
+these state-generated layers, with an ELU activation function applied between them, to compute the
+final Qtot. For standard QMIX, the weights of the hypernetwork are constrained to be non-negative
+to enforce the monotonicity constraint ∂Qtot
+∂Qi ≥0. Our non-monotonic approach, central to this paper,
+removes this constraint.
+B.2
+Intrinsic Reward Generation for Exploration
+To facilitate robust exploration, especially in complex environments with sparse extrinsic rewards, we
+integrate an intrinsic curiosity mechanism based on Random Network Distillation (RND) [21]. As
+illustrated in Figure 4, the RND module consists of two distinct neural networks:
+• A target network (g), which is initialized randomly and remains fixed throughout training. It
+takes the current state st and maps it to a feature embedding.
+• A predictor network (ˆg), which is trained to predict the output of the target network for the
+same state st.
+i COLALab Report
+ì
+17 / 23
+
+===== PAGE 18 =====
+s!
+RND random network
+RND prediction network
+𝑔
+𝑔#
+𝑟!
+"#! = 𝐿𝑜𝑠𝑠= 1
+2 (𝑔+ −𝑔)$
+Figure 4: Architecture of RND.
+The prediction error between the outputs of these two networks serves as the intrinsic reward signal.
+Specifically, the intrinsic reward rint
+t
+is calculated as the mean squared error between the feature
+embeddings:
+rint
+t
+= 1
+2∥ˆg(st; θpredictor) −g(st)∥2
+2
+(60)
+where θpredictor denotes the parameters of the trainable predictor network. This reward is high for
+novel, unfamiliar states where the predictor network makes large errors, and low for familiar states
+that have been visited frequently. By adding this curiosity-driven reward to the extrinsic environ-
+ment reward, we encourage the agents to systematically explore their state space and discover more
+promising regions of the environment.
+B.3
+Pseudocode
+The complete training procedure of our proposed method is summarized in Algorithm 1.
+We
+first initialize all agent networks, the non-monotonic mixing network, and their corresponding target
+networks, which are cloned from the initial parameters. In parallel, we initialize the RND module,
+consisting of a fixed random target network and a trainable predictor network, as well as an empty
+replay buffer for experience storage.
+During data collection, agents interact with the environment over full episodes. At each timestep,
+every agent selects an action according to its local action-value estimates using an ϵ-greedy exploration
+policy. The resulting joint action, extrinsic reward, and next state are then stored in the replay buffer
+as part of the trajectory.
+The training phase is executed periodically. We sample a mini-batch of complete trajectories from
+the replay buffer. For each step within these trajectories, we first compute an intrinsic reward using
+the RND module’s prediction error. This is added to the extrinsic reward to form a total reward.
+Next, we calculate the target value for the Bellman update. Following our methodology, we use the
+TD(λ) return, which forms a robust target by calculating a weighted average of all n-step SARSA
+returns along the trajectory. The final loss is the mean squared error between these TD(λ) targets
+and the Q-values produced by the online mixing network. This loss is used to update the parameters
+of both the agent networks and the mixing network via gradient descent. The RND predictor network
+is separately updated to minimize its prediction error. Finally, the target networks θ−are periodically
+updated by copying the parameters from the online networks θ.
+B.4
+Hyperparameters
+The important parameters used in the experiment are presented in Table 12. Mini-batch size refers
+to the number of episodes sampled from the buffer for training. Annual start weight means that the
+initial value of β is 0.5 and reduces to 0.05 over 100k steps.
+i COLALab Report
+ì
+18 / 23
+
+===== PAGE 19 =====
+Algorithm 1: Training Procedure
+Initialize: Agent networks Qi(·; θi) for i = 1..N, and mixing network Qtot(·; θmix)
+Initialize: Target networks θ−
+i , θ−
+mix with parameters copied from online networks
+Initialize: RND target network g (fixed) and predictor network ˆg(·; θpredictor)
+Initialize: Replay buffer D ←∅
+1: for episode = 1, . . . , M do
+2:
+Initialize environment and get initial state s0
+3:
+for t = 0, . . . , T −1 do
+4:
+for agent i = 1, . . . , N do
+5:
+Based on observation history τ i
+t, select action ai
+t using an ϵ-greedy policy on Qi(τ i
+t, ·; θi)
+6:
+end for
+7:
+Execute joint action at, observe extrinsic reward rt, next state st+1, and terminated flag
+dt+1
+8:
+Store transition sequence in buffer D
+9:
+if time to update then
+10:
+Sample a random mini-batch of trajectories B from D
+11:
+Initialize loss L ←0
+12:
+For each trajectory τj = {(st, at, rt, dt)}t=0...T in B:
+13:
+// First, calculate total rewards for the trajectory
+14:
+For t = 0, . . . , T:
+15:
+rint,t ←∥ˆg(st+1; θpredictor) −g(st+1)∥2
+2
+16:
+rtotal,t ←rt + β · rint,t
+17:
+For t = 0, . . . , T:
+18:
+// Calculate n-step SARSA returns starting from time t
+19:
+For n = 1, . . . , T −t:
+20:
+y(n)
+t
+←
+Pn−1
+k=0 γkrtotal,t+k
+
++ (1 −dt+n)γnQtot(st+n, at+n; θ−
+mix, θ−
+i )
+21:
+// Combine n-step returns to form the TD(λ) target
+22:
+yλ
+t ←(1 −λ) PT−t−1
+n=1
+λn−1y(n)
+t
++ λT−t−1y(T−t)
+t
+23:
+Qtot,t ←Qtot(st, at; θmix)
+24:
+L ←L + (yλ
+t −Qtot,t)2
+25:
+Update RND predictor network θpredictor to minimize P
+j,t rint,t
+26:
+Update agent networks θi and mixing network θmix by minimizing L
+27:
+Periodically update target networks: θ−
+i ←θi, θ−
+mix ←θmix
+28:
+end if
+29:
+end for
+30: end for
+Table 2: Hyperparameters
+Hyperparameter
+Value
+Hyperparameter
+Value
+Optimizer
+Adam
+Buffer size
+5000
+Agent learning rate
+1e-3
+RND learning rate
+5e-4
+Mini-batch size
+128
+Anneal start weight
+0.5
+Anneal step for β
+100K
+Anneal finish weight
+0.05
+Use learning rate decay
+False
+i COLALab Report
+ì
+19 / 23
+
+===== PAGE 20 =====
+C
+Experimental Validation and Ablation Studies
+In this section, we present additional experiments to further substantiate the theoretical results es-
+tablished in the main paper.
+C.1
+Matrix Game Results
+We provide the full set of results from the matrix-game experiments summarized in the main text.
+Table 3 compares the learned value functions produced by our method, QTRAN [14], QMIX[13], and
+QPLEX[15] against the true payoff matrices across two distinct games.
+As the results indicate, both our unconstrained method and QTRAN accurately recovered the
+global payoff matrices. In contrast, QMIX and QPLEX, which enforce monotonic constraints, failed to
+represent the true payoffs, especially in the non-monotonic Game A scenario. These findings strongly
+support our theoretical claim that removing monotonicity constraints enables reliable recovery of
+IGM-optimal solutions in cases where monotonic approaches inherently fall short.
+u1
+u2
+A
+B
+C
+A
+12
+-12
+-12
+B
+-12
+0
+0
+C
+-12
+0
+0
+(a) True payoff of matrix game A
+u1
+u2
+A
+B
+C
+A
+12
+0
+10
+B
+0
+0
+10
+C
+10
+10
+10
+(b) True payoff of matrix game B
+Q1
+Q2
+A(7.4)
+B(-4.0)
+C(-4.1)
+A(8.1)
+12.0
+-12.0
+-12.0
+B(-4.3)
+-12.0
+0.0
+0.0
+C(-4.3)
+-12.0
+0.0
+0.0
+(c) Our method on game A
+Q1
+Q2
+A(6.0)
+B(-3.7)
+C(2.5)
+A(6.2)
+12.0
+0.0
+10.0
+B(-4.4)
+0.0
+0.0
+10.0
+C(1.7)
+10.0
+10.0
+10.0
+(d) Our method on game B
+Q1
+Q2
+A(-5.2)
+B(0.1)
+C(0.1)
+A(-5.3)
+-12.0
+-12.0
+-12.0
+B(0.1)
+-12.0
+0.0
+-0.1
+C(0.1)
+-12.0
+-0.0
+-0.0
+(e) QMIX on game A
+Q1
+Q2
+A(-0.6)
+B(-0.6)
+C(0.5)
+A(-0.6)
+0.1
+0.1
+4.1
+B(-0.6)
+0.1
+0.1
+4.1
+C(0.5)
+5.6
+5.6
+10.0
+(f) QMIX on game B
+Q1
+Q2
+A(2.0)
+B(-8.5)
+C(-8.9)
+A(1.9)
+12.0
+-17.8
+-17.4
+B(-8.7)
+-14.6
+-44.4
+-44.0
+C(-8.8)
+-15.1
+-44.6
+-44.9
+(g) QPLEX on game A
+Q1
+Q2
+A(0.4)
+B(0.0)
+C(-27.1)
+A(0.4)
+12.1
+6.9
+-347.0
+B(0.0)
+5.3
+0.2
+-353.7
+C(-26.9)
+-430.9
+-436.0
+-789.9
+(h) QPLEX on game B
+Q1
+Q2
+A(6.3)
+B(0.2)
+C(0.7)
+A(6.0)
+12.0
+-12.0
+-12.0
+B(0.1)
+-12.0
+0.0
+0.0
+C(0.6)
+-12.0
+0.0
+0.0
+(i) QTRAN on game A
+Q1
+Q2
+A(4.5)
+B(3.3)
+C(3.6)
+A(4.0)
+12.0
+0.0
+10.0
+B(2.7)
+-0.0
+0.0
+10.0
+C(3.4)
+10.0
+10.0
+10.0
+(j) QTRAN on game B
+Table 3: True payoff matrices and estimated value functions for two matrix games. Each column
+corresponds to one game: the first row shows the ground-truth payoff matrix of Game A and Game
+B, and each of the remaining rows represents a method’s value estimate.
+i COLALab Report
+ì
+20 / 23
+
+===== PAGE 21 =====
+0                2.5              5.0              7.5            10.0
+0                2.5              5.0              7.5            10.0
+0
+25
+50
+75
+100
+0
+25
+50
+75
+100
+Environment Step (M)
+Win Rate (%)
+3s5z_vs_3s6z(Super Hard)
+3s_vs_5z(Hard)
+Ours
+QMIX
+500K-QMIX
+NM-QMIX
+500K-NM-QMIX
+Figure 5: Comparisons of test win rate on SMAC maps: 3s vs 5z, and 3s5z vs 3s6z. The results are
+averaged over five independent runs, with the 25%–75% interquartile range shown as a shaded region.
+Win Rate (%)
+0                2.5              5.0              7.5            10.0
+0                2.5              5.0              7.5            10.0
+0               2.5              5.0              7.5            10.0
+25
+50
+75
+100
+0
+25
+50
+75
+100
+0
+25
+50
+75
+100
+0
+Environment Step (M)
+Corridor(Super Hard)
+3s5z_vs_3s6z(Super Hard)
+3s_vs_5z(Hard)
+Ours
+QMIX-w-RND
+QMIX-w-SARSA
+QMIX-w-SARSA and RND
+QMIX
+Win Rate (%)
+Environment Step (M)
+Environment Step (M)
+Figure 6: Comparisons of test win rate on SMAC maps: 3s vs 5z, corridor, and 3s5z vs 3s6z. The
+results are averaged over five independent runs, with the 25%–75% interquartile range shown as a
+shaded region.
+C.2
+Ablation Studies
+We conduct ablation studies to validate the key design choices of our proposed method.
+First, we investigate the effect of directly removing the monotonicity constraint from QMIX,
+denoted as NM-QMIX. As shown in Figure 5, NM-QMIX performs very poorly on tasks such as
+3s5z vs 3s6z.
+This indicates that the monotonicity constraint is indeed beneficial in most cases,
+despite its limited representational capacity. By default, QMIX uses an exploration annealing schedule
+of 50k steps; we extend this to 500k but observe no improvement. This suggests that simply increasing
+ϵ-greedy exploration provides limited benefit. In contrast, our method achieves substantially better
+performance, which we attribute to the use of a more effective exploration strategy and the SARSA-
+style update. These findings align with our theoretical analysis: (1) sufficient exploration is crucial
+for escaping unstable saddle points and ultimately converging to the stable submanifold, and (2) the
+SARSA-style update, which does not rely on the maxa′ operator, provides a more reliable learning
+i COLALab Report
+ì
+21 / 23
+
+===== PAGE 22 =====
+0
+5m_vs_6m(Hard)
+0               2.5              5.0              7.5            10.0
+0
+Win Rate (%)
+25
+50
+75
+100
+25
+50
+75
+100
+MMM2(Super Hard)
+0               2.5              5.0              7.5            10.0
+Ours
+QMIX
+QPLEX
+QTRAN
+Environment Step (M)
+Figure 7: Comparisons of test win rate on SMAC maps: 5m vs 6m and MMM2. The results are averaged
+over five independent runs, with the 25%–75% interquartile range shown as a shaded region.
+signal.
+Second, we examine the effect of adding the RND component and the SARSA-style update to the
+original QMIX. As shown in the Figure 6, neither component consistently improves performance for
+standard QMIX. The SARSA-style update is specifically designed for non-monotonic factorization;
+adding it to monotonic QMIX is unnecessary. As for RND, it enhances exploration, but stronger
+exploration is not always beneficial: it helps our non-monotonic method recover IGM-optimal solu-
+tions, yet it tends to slow convergence in QMIX. These results further indicate that with an effective
+exploration mechanism and an appropriate algorithmic design, removing the monotonicity constraint
+can indeed lead to improved performance.
+C.3
+Failure Cases
+We also observe that our method does not consistently outperform the baselines on a small number of
+environments, as shown in Figure 7. In the 5m vs 6m environment, our method converges more slowly
+but eventually reaches performance comparable to QMIX. In MMM2, all methods exhibit very similar
+learning curves, except for QTRAN, and our method converges slightly more slowly than QMIX.
+Although we do not achieve absolute superiority on every benchmark, the results still demonstrate
+that multi-agent Q-learning can perform strongly even without imposing any constraints. We believe
+that further exploration of this unconstrained setting is a promising future direction.
+D
+Limitations and Future Work
+We provide several discussions on the limitations of our work and potential directions for future
+research.
+First, our theoretical analysis of learning dynamics is conducted in a simplified setting. Although
+the empirical results on challenging sequential benchmarks such as SMAC and GRF indicate that
+the core insights generalize well, a rigorous extension of the stability analysis to the full multi-state
+Dec-POMDP setting remains an important avenue for future investigation.
+We also discuss a possible direction for extending the theoretical analysis to practical settings.
+For RL based on multi-state MDPs, the overall training objective can be formulated as a weighted
+expectation of per-state losses. Consequently, the global Hessian can be regarded as the expectation
+of per-state Hessians. Therefore, the conclusion of Theorem 2 naturally extends to standard MDPs:
+if the quadratic form on the normal subspace remains positive for IGM-consistent points at each
+visited state, the expected Hessian will also be positive definite in the normal directions, implying
+that IGM-consistent points remain asymptotically stable.
+Lastly, our approach adopts a SARSA-style update rule, which is theoretically on-policy.
+For
+practical reasons, and following prior work [20], we omit off-policy corrections such as importance
+sampling. The implications of this omission, particularly the potential distribution shift between the
+i COLALab Report
+ì
+22 / 23
+
+===== PAGE 23 =====
+replay buffer and the current policy, are not explicitly captured in our theoretical analysis and warrant
+further study.
+i COLALab Report
+ì
+23 / 23

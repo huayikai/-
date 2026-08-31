@@ -1,0 +1,57 @@
+# DAVE on top of a non-monotonic QMIX mixer.
+# This file keeps one runnable default and also documents paper-style
+# recommendations for easier vs harder SMAC maps.
+
+action_selector: "multinomial"
+agent_output_type: "pi_logits"
+epsilon_start: 0.05
+epsilon_finish: 0.0
+epsilon_anneal_time: 1500000
+
+runner: "parallel"
+batch_size_run: 4
+buffer_size: 2500
+batch_size: 64
+optimizer: "adam"
+
+t_max: 10050000
+target_update_interval: 200
+
+mac: "dave_mac"
+agent: "dave_rnn"
+learner: "dave_learner"
+mixer: "qmix_without_abs"
+abs: False
+
+mixing_embed_dim: 32
+hypernet_embed: 64
+lr: 0.001
+
+dave_value_lr: 0.001
+dave_ego_lr: 0.001
+dave_recon_lr: 0.001
+dave_num_samples: 20
+dave_sample_chunk: 16
+dave_lambda_start: 0.0
+dave_lambda_finish: 0.0
+dave_lambda_anneal_time: 500000
+dave_recon_hidden_dim: 128
+dave_recon_latent_dim: 64
+
+# Easy / medium maps:
+# Examples: 2s_vs_1sc, 3s5z, 3s5z_vs_3s6z
+# Recommended:
+# dave_lambda_start: 0.0
+# dave_lambda_finish: 0.0
+# dave_lambda_anneal_time: 500000
+# dave_num_samples: 20-50 for 3s5z_vs_3s6z, 20-100 for other easy maps
+
+# Hard maps:
+# Examples: 5m_vs_6m, 8m_vs_9m, 10m_vs_11m, 6h_vs_8z
+# Recommended:
+# dave_lambda_start: 0.5
+# dave_lambda_finish: 0.0
+# dave_lambda_anneal_time: 1500000
+# dave_num_samples: 50-100
+
+name: "dave_qmix_without_abs"
