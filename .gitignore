@@ -22,3 +22,13 @@ results/
 *~
 
 .claude/
+
+# 虚拟环境（本地测试用，勿入库）
+pymarl/
+venv/
+.venv/
+
+# 临时/中间产物（PDF 提取文本、一次性脚本、mixer 冒烟测试）
+_*.txt
+_extract_pdf.py
+_test_dvd_layer.py

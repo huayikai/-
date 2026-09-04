@@ -44,12 +44,8 @@ per_alpha: 0.6
 per_beta: 0.4
 return_priority: False
 
-mixer: "dvd"
-dvd_heads: 4         # DVD 采样次数
+dvd_heads: 4         # DVD 采样次数（原文 SMAC 用 8）
 gat_embed_dim: 32    # GAT 内部维度
 rnn_hidden_dim: 64   # 必须与你的 agent rnn 维度一致
 
-use_causal_loss: True   # 开启因果正则化
-lambda_causal: 0.1      # 因果 Loss 的权重 (推荐 0.01 ~ 0.5 之间调整)
-
-name: "qmix"
+name: "dvd"

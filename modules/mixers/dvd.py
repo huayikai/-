@@ -96,8 +96,20 @@ class DVDMixer(nn.Module):
         # self.combined_dim = self.gat_dim + self.rnn_hidden_dim 
         self.combined_dim = self.gat_dim 
 
-        # 组件 2: 状态超网络 (生成 W1)
-        self.hyper_w_1_state = nn.Linear(self.state_dim, self.n_heads * self.embed_dim * self.combined_dim)
+        # [层次开关] 'first'=CA-DVD 默认(GAT 去混淆注入第一层 W1，作用在原始 agent Q 上)
+        #            'second'=原文式(GAT 去混淆注入第二层 credits，作用在混合后的 inter values 上)
+        # 只影响 mixer=dvd；默认 'first'，当前实验不受影响
+        self.dvd_layer = getattr(args, 'dvd_layer', 'first')
+
+        # 组件 2: 第一层权重生成
+        if self.dvd_layer == 'second':
+            # 原文式：第一层回归纯状态 |f_w(s)|（不含 GAT）
+            self.hyper_w1_plain = nn.Linear(self.state_dim, self.n_agents * self.embed_dim)
+            # 去混淆改到第二层：GAT 图特征生成 credits（每 head: embed x gat_dim）
+            self.hyper_w_final_dvd = nn.Linear(self.state_dim, self.n_heads * self.embed_dim * self.gat_dim)
+        else:
+            # 组件 2: 状态超网络 (生成 W1)，GAT 注入第一层
+            self.hyper_w_1_state = nn.Linear(self.state_dim, self.n_heads * self.embed_dim * self.combined_dim)
         self.hyper_b_1 = nn.Linear(self.state_dim, self.embed_dim)
 
         # 组件 3: 第二层混合 (W_final)
@@ -130,17 +142,59 @@ class DVDMixer(nn.Module):
         
         # 如果是非单调模式，特别处理超网络的输出层
         if not self.abs:
-            # 使 W1 初始值很小
-            self.hyper_w_1_state.weight.data.mul_(0.01)
-            # 使 W_final 初始值很小
-            if isinstance(self.hyper_w_final, nn.Linear):
-                self.hyper_w_final.weight.data.mul_(0.01)
+            if self.dvd_layer == 'second':
+                # 第二层版：第一层纯状态权重 + 第二层 GAT credits 都初始化得很小
+                self.hyper_w1_plain.weight.data.mul_(0.01)
+                self.hyper_w_final_dvd.weight.data.mul_(0.01)
             else:
-                # 如果是 Sequential，处理最后一层
-                self.hyper_w_final[-1].weight.data.mul_(0.01)
+                # 使 W1 初始值很小
+                self.hyper_w_1_state.weight.data.mul_(0.01)
+                # 使 W_final 初始值很小
+                if isinstance(self.hyper_w_final, nn.Linear):
+                    self.hyper_w_final.weight.data.mul_(0.01)
+                else:
+                    # 如果是 Sequential，处理最后一层
+                    self.hyper_w_final[-1].weight.data.mul_(0.01)
 
     def forward(self, agent_qs, states, hidden_states):
-        bs = agent_qs.size(0) 
+        # 按层次开关分派：默认第一层版（当前实验），second 为原文式第二层版
+        if self.dvd_layer == 'second':
+            return self._forward_second(agent_qs, states, hidden_states)
+        return self._forward_first(agent_qs, states, hidden_states)
+
+    def _forward_second(self, agent_qs, states, hidden_states):
+        """原文式 DVD：第一层纯状态混合，GAT 去混淆注入第二层 credits。
+        注意：第二层 credits 是 embed 维(无 agent 维)，必须把 per-agent 图特征
+        池化成图级表示——这一步会损失 per-agent 的去混淆信息（见证明对比）。"""
+        bs = agent_qs.size(0)
+        states = states.reshape(-1, self.state_dim)
+        agent_qs = agent_qs.reshape(-1, 1, self.n_agents)
+        hidden_states = hidden_states.reshape(-1, self.n_agents, self.rnn_hidden_dim)
+
+        graphs_out = self.gat(hidden_states)  # (bs*T, heads, agents, gat_dim)
+
+        # 第一层：纯状态 |f_w(s)|，把 agent Q 混合到 embed 维（此处不含去混淆）
+        w1 = self.hyper_w1_plain(states).view(-1, self.n_agents, self.embed_dim)
+        if self.abs:
+            w1 = th.abs(w1)
+        b1 = self.hyper_b_1(states).view(-1, 1, self.embed_dim)
+        hidden = F.elu(th.bmm(agent_qs, w1) + b1)  # (bs*T, 1, embed)
+
+        # 第二层 credits：GAT 图特征做后门调整（多头平均）
+        # credits 无 agent 维 → 须对 agents 池化（信息瓶颈的来源）
+        g_pooled = graphs_out.mean(dim=2)  # (bs*T, heads, gat_dim)
+        wf_state = self.hyper_w_final_dvd(states).view(-1, self.n_heads, self.embed_dim, self.gat_dim)
+        wf_heads = th.matmul(wf_state, g_pooled.unsqueeze(-1)).squeeze(-1)  # (bs*T, heads, embed)
+        if self.abs:
+            wf_heads = th.abs(wf_heads)
+        w_final = wf_heads.mean(dim=1).view(-1, self.embed_dim, 1)  # 多头平均 = 后门调整
+
+        v = self.V(states).view(-1, 1, 1)
+        y = th.bmm(hidden, w_final) + v
+        return y.view(bs, -1, 1)
+
+    def _forward_first(self, agent_qs, states, hidden_states):
+        bs = agent_qs.size(0)
         states = states.reshape(-1, self.state_dim)
         agent_qs = agent_qs.reshape(-1, 1, self.n_agents)
         hidden_states = hidden_states.reshape(-1, self.n_agents, self.rnn_hidden_dim)
