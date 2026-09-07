@@ -60,7 +60,7 @@ def run(_run, _config, _log):
     args.unique_token = unique_token
     if args.use_tensorboard:
         # 设置 tb_logs 的路径
-        tb_logs_direc = os.path.join(dirname(dirname(dirname(abspath(__file__)))), "results", "tb_logs")
+        tb_logs_direc = os.path.join(dirname(dirname(dirname(abspath(__file__)))), "ablation_results", "tb_logs")
         tb_exp_direc = os.path.join(tb_logs_direc, "{}").format(unique_token)
         logger.setup_tb(tb_exp_direc) # 初始化 TensorBoard 写入器
 

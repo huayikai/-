@@ -20,7 +20,7 @@ ex = Experiment("pymarl")
 ex.logger = logger
 ex.captured_out_filter = apply_backspaces_and_linefeeds
 
-results_path = join(dirname(dirname(abspath(__file__))), "results")
+results_path = join(dirname(dirname(abspath(__file__))), "ablation_results")
 
 
 @ex.main
