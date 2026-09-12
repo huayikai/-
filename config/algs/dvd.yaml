@@ -44,7 +44,8 @@ per_alpha: 0.6
 per_beta: 0.4
 return_priority: False
 
-dvd_heads: 4         # DVD 采样次数（原文 SMAC 用 8）
+dvd_heads: 8         # DVD 采样次数（原文 SMAC 用 8）
+dvd_layer: "first"
 gat_embed_dim: 32    # GAT 内部维度
 rnn_hidden_dim: 64   # 必须与你的 agent rnn 维度一致
 
