@@ -5,6 +5,7 @@ from torch.optim import Adam, RMSprop
 from components.episode_buffer import EpisodeBatch
 from modules.mixers.nmix import Mixer
 from modules.mixers.dvd import DVDMixer
+from modules.mixers.dvd_residual import ResidualDVDMixer
 from modules.exploration.rnd import RNDModel
 
 class RunningMeanStd:
@@ -60,6 +61,8 @@ class DVDNQLearner:
         # Mixer 初始化
         if args.mixer == "dvd":
             self.mixer = DVDMixer(args) # DVD 结构
+        elif args.mixer == "dvd_residual":
+            self.mixer = ResidualDVDMixer(args) # BM 主干 + DVD 门控残差
         elif args.mixer == "qmix_without_abs":
             self.mixer = Mixer(args)# Unconstrained Mixer
         else:
@@ -85,6 +88,11 @@ class DVDNQLearner:
             self.rnd_ms = RunningMeanStd()
 
     def train(self, batch: EpisodeBatch, t_env: int, episode_num: int):
+        if hasattr(self.mixer, "set_t_env"):
+            self.mixer.set_t_env(t_env)
+        if hasattr(self.target_mixer, "set_t_env"):
+            self.target_mixer.set_t_env(t_env)
+
         rewards = batch["reward"][:, :-1]
         actions = batch["actions"][:, :-1]
         terminated = batch["terminated"][:, :-1].float()
@@ -264,8 +272,8 @@ class DVDNQLearner:
 
             # Target Mixer 前向传播
             # 如果是 DVD Mixer，需要传入 hidden states
-            if self.args.mixer == "dvd":
-            # target hidden states 也要取 t=1 到 T
+            if self.args.mixer in ["dvd", "dvd_residual"]:
+                # target hidden states 也要取 t=1 到 T
                 target_hs_next = whole_target_hidden_states[:, 1:1+target_len]
                 target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len], target_hs_next)
             else:
@@ -288,7 +296,7 @@ class DVDNQLearner:
                                              self.args.n_agents, self.args.gamma, self.args.td_lambda)
 
         # 5. Online Mixer 前向传播
-        if self.args.mixer == "dvd":
+        if self.args.mixer in ["dvd", "dvd_residual"]:
             # DVD: 传入 Q, State, Hidden States
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main)
         else:
@@ -326,8 +334,14 @@ class DVDNQLearner:
             self.logger.log_stat("target_mean", (targets * mask).sum().item()/(mask.sum().item()), t_env)
 
             if self.use_rnd:
-                            self.logger.log_stat("rnd_loss", rnd_loss_item, t_env)
-                            self.logger.log_stat("intrinsic_rewards_mean", intrinsic_rewards_mean, t_env)
+                self.logger.log_stat("rnd_loss", rnd_loss_item, t_env)
+                self.logger.log_stat("intrinsic_rewards_mean", intrinsic_rewards_mean, t_env)
+
+            if hasattr(self.mixer, "last_gate_mean") and self.mixer.last_gate_mean is not None:
+                self.logger.log_stat("residual_gate_mean", self.mixer.last_gate_mean.item(), t_env)
+                self.logger.log_stat("residual_bm_q_mean", self.mixer.last_bm_q_mean.item(), t_env)
+                self.logger.log_stat("residual_dvd_q_mean", self.mixer.last_dvd_q_mean.item(), t_env)
+                self.logger.log_stat("residual_delta_mean", self.mixer.last_residual_mean.item(), t_env)
                             
             self.log_stats_t = t_env
 

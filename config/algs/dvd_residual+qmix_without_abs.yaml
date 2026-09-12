@@ -1,0 +1,63 @@
+# --- Residual DVD + non-monotonic QMIX ---
+# Innovation hypothesis:
+# Use BM/NQMIX as the stable backbone and let DVD provide a small gated residual.
+# This targets the observed 6h_vs_8z failure mode where fixed DVD mixing can
+# collapse return/target/TD signals early in training.
+
+action_selector: "epsilon_greedy"
+epsilon_start: 0.5
+epsilon_finish: 0.05
+epsilon_anneal_time: 500000
+
+runner: "parallel"
+batch_size_run: 4
+buffer_size: 2500
+batch_size: 64
+optimizer: 'adam'
+
+t_max: 10050000
+
+target_update_interval: 200
+
+mac: "n_mac"
+agent: "n_rnn"
+agent_output_type: q
+
+learner: "dvd_nq_learner_with_sarsa"
+mixer: "dvd_residual"
+abs: False
+mixing_embed_dim: 32
+hypernet_embed: 64
+lr: 0.001
+td_lambda: 0.3
+q_lambda: False
+
+use_layer_norm: False
+use_orthogonal: False
+gain: 0.01
+
+use_per: False
+per_alpha: 0.6
+per_beta: 0.4
+return_priority: False
+
+use_rnd: True
+rnd_beta: 0.01
+rnd_lr: 0.0005
+state_shape: 0
+
+dvd_heads: 8
+gat_embed_dim: 32
+rnn_hidden_dim: 64
+dvd_layer: "first"
+
+# Residual DVD controls.
+residual_bm_abs: False
+residual_gate_hidden_dim: 32
+residual_gate_init: 0.05
+residual_gate_warmup_steps: 1000000
+residual_gate_ramp_steps: 1000000
+residual_dvd_scale: 1.0
+residual_dvd_mode: "delta"
+
+name: "dvd_residual+qmix_without_abs"
