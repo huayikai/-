@@ -59,5 +59,7 @@ residual_gate_warmup_steps: 1000000
 residual_gate_ramp_steps: 1000000
 residual_dvd_scale: 1.0
 residual_dvd_mode: "delta"
+residual_delta_mode: "raw"   # raw, clip, tanh, positive
+residual_delta_clip: 10.0
 
 name: "dvd_residual+qmix_without_abs"

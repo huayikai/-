@@ -39,12 +39,15 @@ class ResidualDVDMixer(nn.Module):
 
         self.residual_scale = getattr(args, "residual_dvd_scale", 1.0)
         self.residual_mode = getattr(args, "residual_dvd_mode", "delta")
+        self.delta_mode = getattr(args, "residual_delta_mode", "raw")
+        self.delta_clip = getattr(args, "residual_delta_clip", None)
         self.gate_warmup_steps = getattr(args, "residual_gate_warmup_steps", 0)
         self.gate_ramp_steps = getattr(args, "residual_gate_ramp_steps", 1)
         self.current_t_env = 0
         self.last_gate_mean = None
         self.last_bm_q_mean = None
         self.last_dvd_q_mean = None
+        self.last_raw_residual_mean = None
         self.last_residual_mean = None
 
     def set_t_env(self, t_env):
@@ -67,11 +70,28 @@ class ResidualDVDMixer(nn.Module):
         else:
             residual = q_dvd
 
+        raw_residual = residual
+        if self.delta_mode == "clip":
+            if self.delta_clip is None or self.delta_clip <= 0:
+                raise ValueError("residual_delta_clip must be positive when residual_delta_mode='clip'")
+            residual = th.clamp(residual, -self.delta_clip, self.delta_clip)
+        elif self.delta_mode == "tanh":
+            if self.delta_clip is None or self.delta_clip <= 0:
+                raise ValueError("residual_delta_clip must be positive when residual_delta_mode='tanh'")
+            residual = self.delta_clip * th.tanh(residual / self.delta_clip)
+        elif self.delta_mode == "positive":
+            residual = th.relu(residual)
+            if self.delta_clip is not None and self.delta_clip > 0:
+                residual = th.clamp(residual, max=self.delta_clip)
+        elif self.delta_mode != "raw":
+            raise ValueError("residual_delta_mode must be one of: raw, clip, tanh, positive")
+
         q_tot = q_bm + gate * self.residual_scale * residual
 
         self.last_gate_mean = gate.detach().mean()
         self.last_bm_q_mean = q_bm.detach().mean()
         self.last_dvd_q_mean = q_dvd.detach().mean()
+        self.last_raw_residual_mean = raw_residual.detach().mean()
         self.last_residual_mean = residual.detach().mean()
 
         return q_tot

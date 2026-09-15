@@ -341,6 +341,8 @@ class DVDNQLearner:
                 self.logger.log_stat("residual_gate_mean", self.mixer.last_gate_mean.item(), t_env)
                 self.logger.log_stat("residual_bm_q_mean", self.mixer.last_bm_q_mean.item(), t_env)
                 self.logger.log_stat("residual_dvd_q_mean", self.mixer.last_dvd_q_mean.item(), t_env)
+                if hasattr(self.mixer, "last_raw_residual_mean") and self.mixer.last_raw_residual_mean is not None:
+                    self.logger.log_stat("residual_raw_delta_mean", self.mixer.last_raw_residual_mean.item(), t_env)
                 self.logger.log_stat("residual_delta_mean", self.mixer.last_residual_mean.item(), t_env)
                             
             self.log_stats_t = t_env
