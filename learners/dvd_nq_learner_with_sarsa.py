@@ -6,6 +6,7 @@ from components.episode_buffer import EpisodeBatch
 from modules.mixers.nmix import Mixer
 from modules.mixers.dvd import DVDMixer
 from modules.mixers.dvd_residual import ResidualDVDMixer
+from modules.mixers.dvd_credit import CreditDVDMixer
 from modules.exploration.rnd import RNDModel
 
 class RunningMeanStd:
@@ -63,6 +64,8 @@ class DVDNQLearner:
             self.mixer = DVDMixer(args) # DVD 结构
         elif args.mixer == "dvd_residual":
             self.mixer = ResidualDVDMixer(args) # BM 主干 + DVD 门控残差
+        elif args.mixer == "dvd_credit":
+            self.mixer = CreditDVDMixer(args) # BM 权重主干 + 可靠性感知 DVD 信用修正
         elif args.mixer == "qmix_without_abs":
             self.mixer = Mixer(args)# Unconstrained Mixer
         else:
@@ -272,7 +275,7 @@ class DVDNQLearner:
 
             # Target Mixer 前向传播
             # 如果是 DVD Mixer，需要传入 hidden states
-            if self.args.mixer in ["dvd", "dvd_residual"]:
+            if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit"]:
                 # target hidden states 也要取 t=1 到 T
                 target_hs_next = whole_target_hidden_states[:, 1:1+target_len]
                 target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len], target_hs_next)
@@ -296,7 +299,7 @@ class DVDNQLearner:
                                              self.args.n_agents, self.args.gamma, self.args.td_lambda)
 
         # 5. Online Mixer 前向传播
-        if self.args.mixer in ["dvd", "dvd_residual"]:
+        if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit"]:
             # DVD: 传入 Q, State, Hidden States
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main)
         else:
@@ -344,6 +347,18 @@ class DVDNQLearner:
                 if hasattr(self.mixer, "last_raw_residual_mean") and self.mixer.last_raw_residual_mean is not None:
                     self.logger.log_stat("residual_raw_delta_mean", self.mixer.last_raw_residual_mean.item(), t_env)
                 self.logger.log_stat("residual_delta_mean", self.mixer.last_residual_mean.item(), t_env)
+
+            if hasattr(self.mixer, "last_credit_gate_mean") and self.mixer.last_credit_gate_mean is not None:
+                self.logger.log_stat("credit_gate_mean", self.mixer.last_credit_gate_mean.item(), t_env)
+                self.logger.log_stat("credit_schedule_scale", self.mixer.last_credit_schedule_scale, t_env)
+                self.logger.log_stat("attention_entropy_mean", self.mixer.last_attention_entropy_mean.item(), t_env)
+                self.logger.log_stat("head_disagreement_mean", self.mixer.last_head_disagreement_mean.item(), t_env)
+                self.logger.log_stat("attention_confidence_mean", self.mixer.last_attention_confidence_mean.item(), t_env)
+                self.logger.log_stat("credit_delta_ratio_mean", self.mixer.last_credit_delta_ratio_mean.item(), t_env)
+                self.logger.log_stat("bm_w1_rms", self.mixer.last_bm_w1_rms.item(), t_env)
+                self.logger.log_stat("credit_delta_rms", self.mixer.last_credit_delta_rms.item(), t_env)
+                for stat_name, stat_value in self.mixer.gradient_stats().items():
+                    self.logger.log_stat(stat_name, stat_value, t_env)
                             
             self.log_stats_t = t_env
 

@@ -1,0 +1,62 @@
+# Reliability-aware DVD credit modulation on a non-monotonic BM backbone.
+
+action_selector: "epsilon_greedy"
+epsilon_start: 0.75
+epsilon_finish: 0.05
+epsilon_anneal_time: 500000
+
+runner: "parallel"
+batch_size_run: 4
+buffer_size: 2500
+batch_size: 64
+optimizer: "adam"
+
+t_max: 10050000
+target_update_interval: 200
+
+mac: "n_mac"
+agent: "n_rnn"
+agent_output_type: q
+
+learner: "dvd_nq_learner_with_sarsa"
+mixer: "dvd_credit"
+abs: False
+mixing_embed_dim: 32
+hypernet_embed: 64
+lr: 0.001
+td_lambda: 0.3
+q_lambda: False
+
+use_layer_norm: False
+use_orthogonal: False
+gain: 0.01
+
+use_per: False
+per_alpha: 0.6
+per_beta: 0.4
+return_priority: False
+
+use_rnd: True
+rnd_beta: 0.01
+rnd_lr: 0.0005
+state_shape: 0
+
+dvd_heads: 8
+gat_embed_dim: 32
+rnn_hidden_dim: 64
+
+# BM remains the sole Q_total path. DVD can only redistribute W1 credits.
+credit_bm_abs: False
+credit_delta_center: True
+credit_delta_ratio: 0.25
+credit_norm_eps: 0.000001
+
+# Keep early training close to matched-BM, then introduce a bounded correction.
+credit_gate_hidden_dim: 32
+credit_gate_init: 0.20
+credit_gate_max: 0.50
+credit_reliability_floor: 0.25
+credit_gate_warmup_steps: 1000000
+credit_gate_ramp_steps: 1000000
+
+name: "dvd_credit+qmix_without_abs"

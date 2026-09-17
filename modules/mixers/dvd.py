@@ -25,7 +25,7 @@ class MultiHeadGAT(nn.Module):
         
         self.leaky_relu = nn.LeakyReLU(0.2)
 
-    def forward(self, h):
+    def forward(self, h, return_attention=False):
         # h shape: (batch_size, n_agents, input_dim)
         bs, n_agents, _ = h.size()
         
@@ -70,6 +70,8 @@ class MultiHeadGAT(nn.Module):
         # 应用激活函数 sigma (通常是 ELU 或 ReLU)
         h_new = F.elu(h_new)
         
+        if return_attention:
+            return h_new, attention
         return h_new # 输出 G^d (batch_size, n_heads, n_agents, hidden_dim)
 
 
