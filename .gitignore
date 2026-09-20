@@ -33,3 +33,4 @@ _*.txt
 _extract_pdf.py
 _test_dvd_layer.py
 _test_dvd_credit.py
+_test_dvd_takeover.py
