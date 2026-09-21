@@ -146,13 +146,29 @@ class TakeoverDVDMixer(nn.Module):
         dvd_raw = dvd_heads.mean(dim=1).permute(0, 2, 1)
 
         reduce_dims = (1, 2)
-        bm_rms = th.sqrt(
-            bm_w1.pow(2).mean(dim=reduce_dims, keepdim=True)
-        ).clamp_min(self.norm_eps)
-        dvd_raw_rms = th.sqrt(
-            dvd_raw.pow(2).mean(dim=reduce_dims, keepdim=True)
-        ).clamp_min(self.norm_eps)
-        dvd_w1 = dvd_raw / dvd_raw_rms * bm_rms.detach()
+        bm_mean_square = bm_w1.pow(2).mean(
+            dim=reduce_dims, keepdim=True
+        )
+        dvd_raw_mean_square = dvd_raw.pow(2).mean(
+            dim=reduce_dims, keepdim=True
+        )
+
+        # Clamp the mean square *before* sqrt. sqrt(x).clamp_min(eps)
+        # still differentiates through sqrt(0), whose backward is infinite.
+        # Initial recurrent states are exactly zero, so this distinction is
+        # essential even while alpha=0 (0 * inf otherwise becomes NaN).
+        min_mean_square = self.norm_eps * self.norm_eps
+        bm_scale = th.sqrt(bm_mean_square.clamp_min(min_mean_square))
+        dvd_raw_scale = th.sqrt(
+            dvd_raw_mean_square.clamp_min(min_mean_square)
+        )
+        dvd_scaled = dvd_raw / dvd_raw_scale * bm_scale.detach()
+
+        # A zero graph representation contains no DVD credit information and
+        # has no meaningful direction to RMS-normalize. Fall back to BM for
+        # those rows; the detached mask also gives them a zero DVD gradient.
+        has_dvd_signal = (dvd_raw_mean_square > min_mean_square).detach()
+        dvd_w1 = th.where(has_dvd_signal, dvd_scaled, bm_w1.detach())
 
         entropy, disagreement, confidence = self._attention_reliability(attention)
         reliability = self.reliability_floor + (
@@ -163,9 +179,17 @@ class TakeoverDVDMixer(nn.Module):
         alpha_3d = alpha.view(-1, 1, 1)
         w1 = (1.0 - alpha_3d) * bm_w1 + alpha_3d * dvd_w1
 
-        dvd_rms = th.sqrt(dvd_w1.pow(2).mean(dim=reduce_dims))
-        shift_rms = th.sqrt((w1 - bm_w1).pow(2).mean(dim=reduce_dims))
-        bm_rms_flat = bm_rms.view(-1)
+        # Metrics are detached before sqrt so exact zero shifts can be logged
+        # without adding epsilon or creating another backward path at zero.
+        bm_rms_flat = th.sqrt(
+            bm_w1.detach().pow(2).mean(dim=reduce_dims)
+        )
+        dvd_rms = th.sqrt(
+            dvd_w1.detach().pow(2).mean(dim=reduce_dims)
+        )
+        shift_rms = th.sqrt(
+            (w1.detach() - bm_w1.detach()).pow(2).mean(dim=reduce_dims)
+        )
 
         self.last_takeover_alpha_mean = alpha.detach().mean()
         self.last_takeover_schedule_scale = schedule_scale

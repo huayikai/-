@@ -319,7 +319,11 @@ class DVDNQLearner:
         # 7. 反向传播与更新
         self.optimiser.zero_grad()
         total_loss.backward()
-        grad_norm = th.nn.utils.clip_grad_norm_(self.params, self.args.grad_norm_clip)
+        grad_norm = th.nn.utils.clip_grad_norm_(
+            self.params,
+            self.args.grad_norm_clip,
+            error_if_nonfinite=self.args.mixer == "dvd_takeover",
+        )
         self.optimiser.step()
 
         # 下面这个是硬更新
