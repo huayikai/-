@@ -68,6 +68,7 @@ zero_hidden_out = mixer(agent_qs, states, zero_hiddens)
 bm_out = mixer.bm_mixer(agent_qs, states)
 assert th.equal(zero_hidden_out, bm_out)
 assert mixer.last_adaptive_gate_mean.item() == 0.0
+assert mixer.last_adaptive_candidate_distance.item() == 0.0
 zero_hidden_out.pow(2).mean().backward()
 for parameter in mixer.parameters():
     if parameter.grad is not None:

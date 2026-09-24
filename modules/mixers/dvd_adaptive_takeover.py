@@ -189,9 +189,18 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         flat_bm = bm_w1.reshape(bm_w1.size(0), -1)
         flat_dvd = dvd_w1.reshape(dvd_w1.size(0), -1)
         cosine = F.cosine_similarity(flat_bm, flat_dvd, dim=-1, eps=self.norm_eps)
-        candidate_distance = th.sqrt(
-            (dvd_w1 - bm_w1).pow(2).mean(dim=reduce_dims)
-        ) / th.sqrt(
+        candidate_mean_square = (dvd_w1 - bm_w1).pow(2).mean(
+            dim=reduce_dims
+        )
+        # Keep an exact zero for identical candidates, but clamp before sqrt
+        # on the active branch. This remains finite even if a future change
+        # makes the diagnostic differentiable instead of detached.
+        candidate_rms = th.where(
+            candidate_mean_square > min_mean_square,
+            th.sqrt(candidate_mean_square.clamp_min(min_mean_square)),
+            th.zeros_like(candidate_mean_square),
+        )
+        candidate_distance = candidate_rms / th.sqrt(
             bm_w1.pow(2).mean(dim=reduce_dims).clamp_min(min_mean_square)
         )
 
