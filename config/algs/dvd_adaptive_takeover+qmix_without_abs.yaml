@@ -1,0 +1,57 @@
+# State-conditioned adaptive routing between BM and DVD credit weights.
+# No hand-authored warm-up, ramp, release time, or reliability floor is used.
+
+action_selector: "epsilon_greedy"
+epsilon_start: 0.75
+epsilon_finish: 0.05
+epsilon_anneal_time: 500000
+
+runner: "parallel"
+batch_size_run: 4
+buffer_size: 2500
+batch_size: 64
+optimizer: "adam"
+
+t_max: 10050000
+target_update_interval: 200
+
+mac: "n_mac"
+agent: "n_rnn"
+agent_output_type: q
+
+learner: "dvd_nq_learner_with_sarsa"
+mixer: "dvd_adaptive_takeover"
+abs: False
+mixing_embed_dim: 32
+hypernet_embed: 64
+lr: 0.001
+td_lambda: 0.3
+q_lambda: False
+
+use_layer_norm: False
+use_orthogonal: False
+gain: 0.01
+
+use_per: False
+per_alpha: 0.6
+per_beta: 0.4
+return_priority: False
+
+use_rnd: True
+rnd_beta: 0.01
+rnd_lr: 0.0005
+state_shape: 0
+
+dvd_heads: 8
+gat_embed_dim: 32
+rnn_hidden_dim: 64
+
+# The gate is learned end-to-end by the TD objective. Its conservative prior
+# starts near BM but can increase or decrease independently for every sample.
+adaptive_bm_abs: False
+adaptive_gate_hidden_dim: 32
+adaptive_gate_max: 1.0
+adaptive_gate_init: 0.1
+adaptive_norm_eps: 0.000001
+
+name: "dvd_adaptive_takeover+qmix_without_abs"

@@ -8,6 +8,7 @@ from modules.mixers.dvd import DVDMixer
 from modules.mixers.dvd_residual import ResidualDVDMixer
 from modules.mixers.dvd_credit import CreditDVDMixer
 from modules.mixers.dvd_takeover import TakeoverDVDMixer
+from modules.mixers.dvd_adaptive_takeover import AdaptiveTakeoverDVDMixer
 from modules.exploration.rnd import RNDModel
 
 class RunningMeanStd:
@@ -69,6 +70,8 @@ class DVDNQLearner:
             self.mixer = CreditDVDMixer(args) # BM 权重主干 + 可靠性感知 DVD 信用修正
         elif args.mixer == "dvd_takeover":
             self.mixer = TakeoverDVDMixer(args) # BM 到 DVD 信用权重的渐进接管
+        elif args.mixer == "dvd_adaptive_takeover":
+            self.mixer = AdaptiveTakeoverDVDMixer(args) # TD loss 学习的 BM/DVD 自适应路由
         elif args.mixer == "qmix_without_abs":
             self.mixer = Mixer(args)# Unconstrained Mixer
         else:
@@ -278,7 +281,7 @@ class DVDNQLearner:
 
             # Target Mixer 前向传播
             # 如果是 DVD Mixer，需要传入 hidden states
-            if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover"]:
+            if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover"]:
                 # target hidden states 也要取 t=1 到 T
                 target_hs_next = whole_target_hidden_states[:, 1:1+target_len]
                 target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len], target_hs_next)
@@ -302,7 +305,7 @@ class DVDNQLearner:
                                              self.args.n_agents, self.args.gamma, self.args.td_lambda)
 
         # 5. Online Mixer 前向传播
-        if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover"]:
+        if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover"]:
             # DVD: 传入 Q, State, Hidden States
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main)
         else:
@@ -322,7 +325,7 @@ class DVDNQLearner:
         grad_norm = th.nn.utils.clip_grad_norm_(
             self.params,
             self.args.grad_norm_clip,
-            error_if_nonfinite=self.args.mixer == "dvd_takeover",
+            error_if_nonfinite=self.args.mixer in ["dvd_takeover", "dvd_adaptive_takeover"],
         )
         self.optimiser.step()
 
@@ -377,6 +380,23 @@ class DVDNQLearner:
                 self.logger.log_stat("takeover_attention_confidence", self.mixer.last_attention_confidence_mean.item(), t_env)
                 self.logger.log_stat("takeover_bm_w1_rms", self.mixer.last_bm_w1_rms.item(), t_env)
                 self.logger.log_stat("takeover_dvd_w1_rms", self.mixer.last_dvd_w1_rms.item(), t_env)
+                for stat_name, stat_value in self.mixer.gradient_stats().items():
+                    self.logger.log_stat(stat_name, stat_value, t_env)
+
+            if hasattr(self.mixer, "last_adaptive_gate_mean") and self.mixer.last_adaptive_gate_mean is not None:
+                self.logger.log_stat("adaptive_gate_mean", self.mixer.last_adaptive_gate_mean.item(), t_env)
+                self.logger.log_stat("adaptive_gate_std", self.mixer.last_adaptive_gate_std.item(), t_env)
+                self.logger.log_stat("adaptive_gate_min", self.mixer.last_adaptive_gate_min.item(), t_env)
+                self.logger.log_stat("adaptive_gate_max", self.mixer.last_adaptive_gate_max.item(), t_env)
+                self.logger.log_stat("adaptive_shift_ratio", self.mixer.last_adaptive_shift_ratio.item(), t_env)
+                self.logger.log_stat("adaptive_dvd_w1_ratio", self.mixer.last_adaptive_dvd_w1_ratio.item(), t_env)
+                self.logger.log_stat("adaptive_bm_dvd_cosine", self.mixer.last_adaptive_bm_dvd_cosine.item(), t_env)
+                self.logger.log_stat("adaptive_candidate_distance", self.mixer.last_adaptive_candidate_distance.item(), t_env)
+                self.logger.log_stat("adaptive_attention_entropy", self.mixer.last_attention_entropy_mean.item(), t_env)
+                self.logger.log_stat("adaptive_head_disagreement", self.mixer.last_head_disagreement_mean.item(), t_env)
+                self.logger.log_stat("adaptive_attention_confidence", self.mixer.last_attention_confidence_mean.item(), t_env)
+                self.logger.log_stat("adaptive_bm_w1_rms", self.mixer.last_bm_w1_rms.item(), t_env)
+                self.logger.log_stat("adaptive_dvd_w1_rms", self.mixer.last_dvd_w1_rms.item(), t_env)
                 for stat_name, stat_value in self.mixer.gradient_stats().items():
                     self.logger.log_stat(stat_name, stat_value, t_env)
                             
