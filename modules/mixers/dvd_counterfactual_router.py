@@ -36,8 +36,16 @@ class CounterfactualRouterDVDMixer(AdaptiveTakeoverDVDMixer):
             -1, self.n_agents, self.rnn_hidden_dim
         )
 
-        mixed_w1, bm_w1, dvd_w1, gate = self._weights(
+        _, bm_w1, dvd_w1, gate = self._weights(
             flat_states, flat_hidden
+        )
+        # Route selection is supervised only by the counterfactual criterion
+        # in the learner. Detaching the gate here prevents the ordinary mixed
+        # TD objective from recreating Adaptive Takeover's easy-to-fit routing
+        # collapse, while both experts still receive mixed-value gradients.
+        routing_gate = gate.detach().unsqueeze(-1)
+        mixed_w1 = (
+            (1.0 - routing_gate) * bm_w1 + routing_gate * dvd_w1
         )
         b1 = self.bm_mixer.hyper_b1(flat_states).view(
             -1, 1, self.embed_dim

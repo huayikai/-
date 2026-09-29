@@ -26,7 +26,7 @@ def make_args():
         adaptive_bm_abs=False,
         adaptive_gate_hidden_dim=32,
         adaptive_gate_max=1.0,
-        adaptive_gate_init=0.01,
+        adaptive_gate_init=0.05,
         adaptive_norm_eps=1e-6,
     )
 
@@ -62,9 +62,20 @@ assert th.all(gate <= args.adaptive_gate_max)
 assert abs(gate.mean().item() - args.adaptive_gate_init) < 1e-6
 assert th.equal(bm_q, mixer.bm_mixer(agent_qs, states))
 
+# The mixed TD path trains both experts but must not directly train the gate.
+mixer.zero_grad(set_to_none=True)
+agent_qs.grad = None
+mixed_q.mean().backward()
+for parameter in mixer.gate_net.parameters():
+    assert parameter.grad is None
+assert mixer.hyper_dvd_w1.weight.grad.abs().sum().item() > 0.0
+assert mixer.bm_mixer.hyper_w1[0].weight.grad.abs().sum().item() > 0.0
+
 # A DVD-only auxiliary loss must not update agent inputs or the BM hypernets.
 mixer.zero_grad(set_to_none=True)
 agent_qs.grad = None
+mixed_q = mixer(agent_qs, states, hiddens)
+dvd_q = mixer.last_counterfactual_dvd_q
 dvd_q.mean().backward()
 assert agent_qs.grad is None
 assert mixer.hyper_dvd_w1.weight.grad.abs().sum().item() > 0.0
@@ -85,11 +96,10 @@ dvd_error = (dvd_q.detach() - target).abs()
 advantage = (bm_error - dvd_error) / (bm_error + dvd_error + 1e-6)
 route_target = ((advantage - 0.05).clamp_min(0.0) / 0.95).clamp_max(1.0)
 loss = (
-    (mixed_q - target).pow(2).mean()
-    + (bm_q - target).pow(2).mean()
+    0.5 * (mixed_q - target).pow(2).mean()
+    + 0.5 * (bm_q - target).pow(2).mean()
     + 0.1 * (dvd_q - target).pow(2).mean()
     + 0.1 * (gate - route_target.detach()).pow(2).mean()
-    + 0.01 * gate.mean()
 )
 loss.backward()
 assert agent_qs.grad is not None

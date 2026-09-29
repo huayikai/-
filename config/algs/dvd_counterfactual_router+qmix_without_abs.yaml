@@ -49,16 +49,18 @@ rnn_hidden_dim: 64
 adaptive_bm_abs: False
 adaptive_gate_hidden_dim: 32
 adaptive_gate_max: 1.0
-adaptive_gate_init: 0.01
+adaptive_gate_init: 0.05
 adaptive_norm_eps: 0.000001
 
-# BM has an explicit TD objective. The DVD auxiliary objective updates only
-# GAT/DVD parameters. The route label is positive only when DVD's absolute TD
-# error improves on BM by more than counterfactual_route_margin.
+# BM has an explicit TD objective. L_mix and lambda_BM * L_BM are divided by
+# (1 + lambda_BM), so lambda_BM is a relative weight rather than extra TD
+# gradient scale. The DVD auxiliary objective updates only GAT/DVD parameters.
+# The route label is positive only when DVD fits the current BM-anchored target
+# better than BM by more than counterfactual_route_margin.
 counterfactual_bm_loss_weight: 1.0
 counterfactual_dvd_loss_weight: 0.1
 counterfactual_route_loss_weight: 0.1
-counterfactual_sparse_weight: 0.01
+counterfactual_sparse_weight: 0.0
 counterfactual_route_margin: 0.05
 counterfactual_route_eps: 0.000001
 

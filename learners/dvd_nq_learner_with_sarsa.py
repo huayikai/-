@@ -372,8 +372,9 @@ class DVDNQLearner:
             loss_bm = ((mask * bm_error) ** 2).sum() / mask.sum()
             loss_dvd = ((mask * dvd_error) ** 2).sum() / mask.sum()
 
-            # Counterfactual routing label: DVD is used only when it beats BM
-            # against the same Bellman target by more than the margin.
+            # Routing criterion: use DVD only when its fitting error to the
+            # same BM-anchored bootstrap target is lower by the margin. This
+            # is not an estimate of error to the unknown true return.
             bm_error_abs = bm_error.detach().abs()
             dvd_error_abs = dvd_error.detach().abs()
             relative_advantage = (
@@ -396,9 +397,16 @@ class DVDNQLearner:
             loss_route = ((mask * route_error) ** 2).sum() / mask.sum()
             loss_sparse = (mask * gate).sum() / mask.sum()
 
-            total_loss = (
+            # Interpret bm_loss_weight as a relative mixture weight. Dividing
+            # by the total value weight keeps the initial BM TD-gradient budget
+            # close to matched-BM instead of nearly doubling it when gate is
+            # small and loss_td is already almost a BM loss.
+            loss_value = (
                 loss_td
                 + self.counterfactual_bm_loss_weight * loss_bm
+            ) / (1.0 + self.counterfactual_bm_loss_weight)
+            total_loss = (
+                loss_value
                 + self.counterfactual_dvd_loss_weight * loss_dvd
                 + self.counterfactual_route_loss_weight * loss_route
                 + self.counterfactual_sparse_weight * loss_sparse
@@ -411,6 +419,7 @@ class DVDNQLearner:
                     mask * (gate.detach() - gate_mean).pow(2)
                 ).sum() / mask.sum()
                 counterfactual_stats = {
+                    "loss_value": loss_value.detach(),
                     "loss_bm": loss_bm.detach(),
                     "loss_dvd": loss_dvd.detach(),
                     "loss_route": loss_route.detach(),
@@ -465,6 +474,7 @@ class DVDNQLearner:
 
             if counterfactual_stats is not None:
                 self.logger.log_stat("counterfactual_loss_mix", loss_td.item(), t_env)
+                self.logger.log_stat("counterfactual_loss_value", counterfactual_stats["loss_value"].item(), t_env)
                 self.logger.log_stat("counterfactual_loss_bm", counterfactual_stats["loss_bm"].item(), t_env)
                 self.logger.log_stat("counterfactual_loss_dvd", counterfactual_stats["loss_dvd"].item(), t_env)
                 self.logger.log_stat("counterfactual_loss_route", counterfactual_stats["loss_route"].item(), t_env)
