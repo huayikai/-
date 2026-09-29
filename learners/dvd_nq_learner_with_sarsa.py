@@ -9,6 +9,7 @@ from modules.mixers.dvd_residual import ResidualDVDMixer
 from modules.mixers.dvd_credit import CreditDVDMixer
 from modules.mixers.dvd_takeover import TakeoverDVDMixer
 from modules.mixers.dvd_adaptive_takeover import AdaptiveTakeoverDVDMixer
+from modules.mixers.dvd_counterfactual_router import CounterfactualRouterDVDMixer
 from modules.exploration.rnd import RNDModel
 
 class RunningMeanStd:
@@ -72,10 +73,47 @@ class DVDNQLearner:
             self.mixer = TakeoverDVDMixer(args) # BM 到 DVD 信用权重的渐进接管
         elif args.mixer == "dvd_adaptive_takeover":
             self.mixer = AdaptiveTakeoverDVDMixer(args) # TD loss 学习的 BM/DVD 自适应路由
+        elif args.mixer == "dvd_counterfactual_router":
+            self.mixer = CounterfactualRouterDVDMixer(args) # BM 锚定的反事实路由
         elif args.mixer == "qmix_without_abs":
             self.mixer = Mixer(args)# Unconstrained Mixer
         else:
             raise ValueError(f"Mixer {args.mixer} not supported in DVDNQLearner")
+
+        self.is_counterfactual_router = (
+            args.mixer == "dvd_counterfactual_router"
+        )
+        if self.is_counterfactual_router:
+            self.counterfactual_bm_loss_weight = float(
+                getattr(args, "counterfactual_bm_loss_weight", 1.0)
+            )
+            self.counterfactual_dvd_loss_weight = float(
+                getattr(args, "counterfactual_dvd_loss_weight", 0.1)
+            )
+            self.counterfactual_route_loss_weight = float(
+                getattr(args, "counterfactual_route_loss_weight", 0.1)
+            )
+            self.counterfactual_sparse_weight = float(
+                getattr(args, "counterfactual_sparse_weight", 0.01)
+            )
+            self.counterfactual_route_margin = float(
+                getattr(args, "counterfactual_route_margin", 0.05)
+            )
+            self.counterfactual_route_eps = float(
+                getattr(args, "counterfactual_route_eps", 1e-6)
+            )
+            loss_weights = (
+                self.counterfactual_bm_loss_weight,
+                self.counterfactual_dvd_loss_weight,
+                self.counterfactual_route_loss_weight,
+                self.counterfactual_sparse_weight,
+            )
+            if any(weight < 0.0 for weight in loss_weights):
+                raise ValueError("counterfactual loss weights must be non-negative")
+            if not 0.0 <= self.counterfactual_route_margin < 1.0:
+                raise ValueError("counterfactual_route_margin must be in [0, 1)")
+            if self.counterfactual_route_eps <= 0.0:
+                raise ValueError("counterfactual_route_eps must be positive")
 
         self.target_mixer = copy.deepcopy(self.mixer)
         self.params += list(self.mixer.parameters())
@@ -281,10 +319,14 @@ class DVDNQLearner:
 
             # Target Mixer 前向传播
             # 如果是 DVD Mixer，需要传入 hidden states
-            if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover"]:
+            if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"]:
                 # target hidden states 也要取 t=1 到 T
                 target_hs_next = whole_target_hidden_states[:, 1:1+target_len]
                 target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len], target_hs_next)
+                if self.is_counterfactual_router:
+                    # The target gate is not allowed to drift together with
+                    # the online gate. Pure target-BM is the Bellman anchor.
+                    target_q_tot = self.target_mixer.last_counterfactual_bm_q
             else:
                 target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len])
 
@@ -305,19 +347,94 @@ class DVDNQLearner:
                                              self.args.n_agents, self.args.gamma, self.args.td_lambda)
 
         # 5. Online Mixer 前向传播
-        if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover"]:
+        if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"]:
             # DVD: 传入 Q, State, Hidden States
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main)
         else:
             # Normal: 传入 Q, State
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min])
 
-        # 6. 计算 Loss (TD Loss + Causal Loss)
-        td_error = (online_q_tot - targets.detach())
+        # 6. 计算 Loss
+        detached_targets = targets.detach()
+        td_error = (online_q_tot - detached_targets)
         masked_td_error = mask * td_error
         loss_td = (masked_td_error ** 2).sum() / mask.sum()
 
         total_loss = loss_td
+        counterfactual_stats = None
+        if self.is_counterfactual_router:
+            bm_q = self.mixer.last_counterfactual_bm_q
+            dvd_q = self.mixer.last_counterfactual_dvd_q
+            gate = self.mixer.last_counterfactual_gate
+
+            bm_error = bm_q - detached_targets
+            dvd_error = dvd_q - detached_targets
+            loss_bm = ((mask * bm_error) ** 2).sum() / mask.sum()
+            loss_dvd = ((mask * dvd_error) ** 2).sum() / mask.sum()
+
+            # Counterfactual routing label: DVD is used only when it beats BM
+            # against the same Bellman target by more than the margin.
+            bm_error_abs = bm_error.detach().abs()
+            dvd_error_abs = dvd_error.detach().abs()
+            relative_advantage = (
+                (bm_error_abs - dvd_error_abs)
+                / (
+                    bm_error_abs
+                    + dvd_error_abs
+                    + self.counterfactual_route_eps
+                )
+            )
+            route_target = (
+                (relative_advantage - self.counterfactual_route_margin)
+                .clamp_min(0.0)
+                / (1.0 - self.counterfactual_route_margin)
+            ).clamp_max(1.0)
+            route_target = (
+                route_target * self.mixer.gate_max
+            ).detach()
+            route_error = gate - route_target
+            loss_route = ((mask * route_error) ** 2).sum() / mask.sum()
+            loss_sparse = (mask * gate).sum() / mask.sum()
+
+            total_loss = (
+                loss_td
+                + self.counterfactual_bm_loss_weight * loss_bm
+                + self.counterfactual_dvd_loss_weight * loss_dvd
+                + self.counterfactual_route_loss_weight * loss_route
+                + self.counterfactual_sparse_weight * loss_sparse
+            )
+
+            with th.no_grad():
+                valid_gate = gate.detach()[mask.bool()]
+                gate_mean = (mask * gate.detach()).sum() / mask.sum()
+                gate_variance = (
+                    mask * (gate.detach() - gate_mean).pow(2)
+                ).sum() / mask.sum()
+                counterfactual_stats = {
+                    "loss_bm": loss_bm.detach(),
+                    "loss_dvd": loss_dvd.detach(),
+                    "loss_route": loss_route.detach(),
+                    "loss_sparse": loss_sparse.detach(),
+                    "route_target_mean": (
+                        mask * route_target
+                    ).sum() / mask.sum(),
+                    "route_positive_rate": (
+                        mask * (route_target > 0.0).to(mask.dtype)
+                    ).sum() / mask.sum(),
+                    "relative_advantage_mean": (
+                        mask * relative_advantage
+                    ).sum() / mask.sum(),
+                    "bm_error_mean": (
+                        mask * bm_error_abs
+                    ).sum() / mask.sum(),
+                    "dvd_error_mean": (
+                        mask * dvd_error_abs
+                    ).sum() / mask.sum(),
+                    "gate_mean": gate_mean,
+                    "gate_std": th.sqrt(gate_variance.clamp_min(0.0)),
+                    "gate_min": valid_gate.min(),
+                    "gate_max": valid_gate.max(),
+                }
 
         # 7. 反向传播与更新
         self.optimiser.zero_grad()
@@ -325,7 +442,7 @@ class DVDNQLearner:
         grad_norm = th.nn.utils.clip_grad_norm_(
             self.params,
             self.args.grad_norm_clip,
-            error_if_nonfinite=self.args.mixer in ["dvd_takeover", "dvd_adaptive_takeover"],
+            error_if_nonfinite=self.args.mixer in ["dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"],
         )
         self.optimiser.step()
 
@@ -345,6 +462,22 @@ class DVDNQLearner:
             self.logger.log_stat("td_error_abs", (masked_td_error.abs().sum().item()/mask.sum().item()), t_env)
             self.logger.log_stat("q_taken_mean", (chosen_action_qvals * mask).sum().item()/(mask.sum().item()), t_env)
             self.logger.log_stat("target_mean", (targets * mask).sum().item()/(mask.sum().item()), t_env)
+
+            if counterfactual_stats is not None:
+                self.logger.log_stat("counterfactual_loss_mix", loss_td.item(), t_env)
+                self.logger.log_stat("counterfactual_loss_bm", counterfactual_stats["loss_bm"].item(), t_env)
+                self.logger.log_stat("counterfactual_loss_dvd", counterfactual_stats["loss_dvd"].item(), t_env)
+                self.logger.log_stat("counterfactual_loss_route", counterfactual_stats["loss_route"].item(), t_env)
+                self.logger.log_stat("counterfactual_loss_sparse", counterfactual_stats["loss_sparse"].item(), t_env)
+                self.logger.log_stat("counterfactual_route_target_mean", counterfactual_stats["route_target_mean"].item(), t_env)
+                self.logger.log_stat("counterfactual_route_positive_rate", counterfactual_stats["route_positive_rate"].item(), t_env)
+                self.logger.log_stat("counterfactual_relative_advantage_mean", counterfactual_stats["relative_advantage_mean"].item(), t_env)
+                self.logger.log_stat("counterfactual_bm_error_mean", counterfactual_stats["bm_error_mean"].item(), t_env)
+                self.logger.log_stat("counterfactual_dvd_error_mean", counterfactual_stats["dvd_error_mean"].item(), t_env)
+                self.logger.log_stat("counterfactual_gate_mean", counterfactual_stats["gate_mean"].item(), t_env)
+                self.logger.log_stat("counterfactual_gate_std", counterfactual_stats["gate_std"].item(), t_env)
+                self.logger.log_stat("counterfactual_gate_min", counterfactual_stats["gate_min"].item(), t_env)
+                self.logger.log_stat("counterfactual_gate_max", counterfactual_stats["gate_max"].item(), t_env)
 
             if self.use_rnd:
                 self.logger.log_stat("rnd_loss", rnd_loss_item, t_env)
