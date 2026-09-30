@@ -52,16 +52,17 @@ adaptive_gate_max: 1.0
 adaptive_gate_init: 0.05
 adaptive_norm_eps: 0.000001
 
-# BM has an explicit TD objective. L_mix and lambda_BM * L_BM are divided by
-# (1 + lambda_BM), so lambda_BM is a relative weight rather than extra TD
-# gradient scale. The DVD auxiliary objective updates only GAT/DVD parameters.
-# The route label is positive only when DVD fits the current BM-anchored target
-# better than BM by more than counterfactual_route_margin.
+# Keep agent learning BM-dominant: the normalized 0.25:1 mix/BM ratio gives
+# 20% mixed-value and 80% pure-BM value gradients. The DVD auxiliary objective
+# updates only GAT/DVD parameters. A positive route target requires both a
+# relative improvement and an absolute TD-error reduction of at least 0.01.
+counterfactual_mix_loss_weight: 0.25
 counterfactual_bm_loss_weight: 1.0
 counterfactual_dvd_loss_weight: 0.1
 counterfactual_route_loss_weight: 0.1
 counterfactual_sparse_weight: 0.0
 counterfactual_route_margin: 0.05
+counterfactual_route_min_abs_advantage: 0.01
 counterfactual_route_eps: 0.000001
 
 name: "dvd_counterfactual_router+qmix_without_abs"

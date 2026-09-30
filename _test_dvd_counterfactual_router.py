@@ -9,6 +9,7 @@ import torch as th
 
 from modules.mixers.dvd_counterfactual_router import (
     CounterfactualRouterDVDMixer,
+    build_counterfactual_route_target,
 )
 
 
@@ -94,10 +95,17 @@ target = th.randn_like(mixed_q)
 bm_error = (bm_q.detach() - target).abs()
 dvd_error = (dvd_q.detach() - target).abs()
 advantage = (bm_error - dvd_error) / (bm_error + dvd_error + 1e-6)
-route_target = ((advantage - 0.05).clamp_min(0.0) / 0.95).clamp_max(1.0)
+route_target, _, _, _ = build_counterfactual_route_target(
+    bm_error,
+    dvd_error,
+    args.adaptive_gate_max,
+    0.05,
+    0.01,
+    1e-6,
+)
 loss = (
-    0.5 * (mixed_q - target).pow(2).mean()
-    + 0.5 * (bm_q - target).pow(2).mean()
+    0.2 * (mixed_q - target).pow(2).mean()
+    + 0.8 * (bm_q - target).pow(2).mean()
     + 0.1 * (dvd_q - target).pow(2).mean()
     + 0.1 * (gate - route_target.detach()).pow(2).mean()
 )
@@ -110,6 +118,34 @@ assert mixer.gate_net[2].weight.grad.abs().sum().item() > 0.0
 for parameter in mixer.parameters():
     if parameter.grad is not None:
         assert th.isfinite(parameter.grad).all()
+
+# Relative wins caused only by tiny absolute errors must not open the route.
+tiny_bm_error = th.tensor([[[0.0040]]])
+tiny_dvd_error = th.tensor([[[0.0020]]])
+tiny_route_target, _, _, tiny_reliable = build_counterfactual_route_target(
+    tiny_bm_error,
+    tiny_dvd_error,
+    args.adaptive_gate_max,
+    0.05,
+    0.01,
+    1e-6,
+)
+assert tiny_route_target.item() == 0.0
+assert not tiny_reliable.item()
+
+# A material DVD improvement must still produce a positive route target.
+clear_bm_error = th.tensor([[[0.1000]]])
+clear_dvd_error = th.tensor([[[0.0500]]])
+clear_route_target, _, _, clear_reliable = build_counterfactual_route_target(
+    clear_bm_error,
+    clear_dvd_error,
+    args.adaptive_gate_max,
+    0.05,
+    0.01,
+    1e-6,
+)
+assert clear_route_target.item() > 0.0
+assert clear_reliable.item()
 
 # No DVD signal means exact BM fallback and a zero effective route.
 zero_hiddens = th.zeros_like(hiddens)

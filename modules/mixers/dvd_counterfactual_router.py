@@ -3,6 +3,41 @@ import torch.nn.functional as F
 from modules.mixers.dvd_adaptive_takeover import AdaptiveTakeoverDVDMixer
 
 
+def build_counterfactual_route_target(
+    bm_error_abs,
+    dvd_error_abs,
+    gate_max,
+    relative_margin,
+    min_abs_advantage,
+    eps,
+):
+    """Build a detached route target with relative and absolute safeguards."""
+    absolute_advantage = bm_error_abs - dvd_error_abs
+    relative_advantage = absolute_advantage / (
+        bm_error_abs + dvd_error_abs + eps
+    )
+    relative_target = (
+        (relative_advantage - relative_margin)
+        .clamp_min(0.0)
+        / (1.0 - relative_margin)
+    ).clamp_max(1.0)
+
+    # A relative comparison is unstable when both errors are already tiny.
+    # Require a minimum absolute TD-error reduction before routing to DVD.
+    route_is_reliable = absolute_advantage >= min_abs_advantage
+    route_target = (
+        relative_target
+        * route_is_reliable.to(relative_target.dtype)
+        * gate_max
+    ).detach()
+    return (
+        route_target,
+        relative_advantage,
+        absolute_advantage,
+        route_is_reliable,
+    )
+
+
 class CounterfactualRouterDVDMixer(AdaptiveTakeoverDVDMixer):
     """BM-protected routing between BM and DVD credit weights.
 
