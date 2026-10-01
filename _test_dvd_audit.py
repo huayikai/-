@@ -2,9 +2,11 @@
 import copy
 import importlib.util
 import hashlib
+import json
 from pathlib import Path
 from types import SimpleNamespace
 import sys
+import tempfile
 import unittest
 from unittest import mock
 
@@ -275,6 +277,11 @@ class EntryPointTests(unittest.TestCase):
 
     def test_runtime_registration_and_dispatch(self):
         ex, observer = mock.Mock(), object()
+        # Reproduce older Sacred's rejection instead of accepting every file.
+        def accept_python_source(filename):
+            if not filename.endswith('.py'):
+                raise AssertionError('Sacred Source.create expects Python source')
+        ex.add_source_file.side_effect = accept_python_source
         registry = {'existing': object()}
         entry = SimpleNamespace(ex=ex, results_path=str(ROOT / '_mock_results'), logger=mock.Mock(),
                                 parse_command=lambda args, key, default: next(
@@ -293,10 +300,55 @@ class EntryPointTests(unittest.TestCase):
         self.assertIs(registry['dvd_audit_learner'], audit.DVDNQLearner)
         self.assertEqual(len(registry), 2)
         self.assertEqual(ex.observers, [observer])
-        self.assertGreater(ex.add_source_file.call_count, 0)
+        self.assertEqual(ex.add_source_file.call_args_list,
+                         [mock.call(str(ROOT / name)) for name in main_audit.SOURCE_FILES])
+        ex.pre_run_hook.assert_called_once()
+        run = mock.Mock()
+        ex.pre_run_hook.call_args[0][0](run)
+        run.add_resource.assert_has_calls([
+            mock.call(str(ROOT / 'config/default.yaml')),
+            mock.call(str(ROOT / 'config/envs/sc2.yaml')),
+            mock.call(str(ROOT / 'config/algs/dvd_audit_router.yaml')),
+        ])
+        self.assertEqual(run.add_resource.call_count, 3)
         ex.run_commandline.assert_called_once_with([str(ROOT / 'main_audit.py')] + argv[2:])
         saved_config = ex.add_config.call_args[0][0]
         self.assertTrue(saved_config['audit_fix_td_lambda'])
+
+
+    def test_real_sacred_records_python_sources_and_yaml_resources(self):
+        if importlib.util.find_spec('sacred') is None:
+            self.skipTest('Sacred is optional for the CPU checks')
+        from sacred import Experiment
+        from sacred.observers import FileStorageObserver
+        config, _, sources = main_audit.load_configuration([
+            '--config=dvd_audit_router', '--env-config=sc2',
+        ])
+        ex = Experiment('audit_file_records', interactive=True)
+        main_audit.register_file_records(ex, sources)
+        ex.add_config(config)
+
+        @ex.main
+        def recording_only(_run):
+            return 'file-recording-only; no environment or training'
+
+        with tempfile.TemporaryDirectory() as directory:
+            observer = FileStorageObserver.create(directory)
+            ex.observers.append(observer)
+            # Host inspection is unrelated to this regression (old Sacred's
+            # CPU-info keys differ from newer local py-cpuinfo versions).
+            with mock.patch('sacred.initialize.get_host_info', return_value={}):
+                run = ex.run(options={'--capture': 'no'})
+            self.assertEqual(run.status, 'COMPLETED')
+            records = json.loads((Path(observer.dir) / 'run.json').read_text(encoding='utf-8'))
+            self.assertEqual(len(records['resources']), 3)
+            saved_contents = [path.read_bytes() for path in Path(observer.resource_dir).rglob('*') if path.is_file()]
+            for name in sources:
+                if name.endswith('.yaml'):
+                    self.assertIn((ROOT / name).read_bytes(), saved_contents)
+            recorded_sources = {str(item[0]).replace('\\', '/') for item in records['experiment']['sources']}
+            for name in main_audit.SOURCE_FILES:
+                self.assertTrue(any(path.endswith(name) for path in recorded_sources), name)
 
 
 if __name__ == '__main__':

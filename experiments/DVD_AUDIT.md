@@ -46,7 +46,7 @@ python3 src/_test_dvd_audit.py
 python3 src/main_audit.py --config=dvd_audit_router --env-config=sc2 --audit-print-config with audit_fix_td_lambda=False
 ```
 
-12 个测试覆盖末尾奖励、终止/截断/padding、独立 forward-view λ-return 对照、实际 GRU 的辅助/主损失梯度路径、前向值完全一致、关闭两项后含 RND 的单步更新与旧版逐参数一致、各配置和入口注册。测试里的 EpisodeBatch/MAC 输入及日志对象使用小型替身；本机缺少 SMAC/Sacred，尚未在真实 SC2 环境启动训练。服务器应先执行测试与一次短启动，确认环境可用。
+12 个基础测试覆盖末尾奖励、终止/截断/padding、独立 forward-view λ-return 对照、实际 GRU 的辅助/主损失梯度路径、前向值完全一致、关闭两项后含 RND 的单步更新与旧版逐参数一致、各配置和入口注册。另有一个真实 Sacred 文件保存测试：安装 Sacred 时自动运行，未安装时跳过；检查 Python 源码注册、YAML 资源保存及保存内容。测试里的 EpisodeBatch/MAC 输入及日志对象使用小型替身，文件保存测试只替换无关的主机信息探测。在本地独立环境的 Sacred 0.7.5 下共 13 项全部通过，尚未在真实 SC2 环境启动训练。服务器应先执行测试与一次短启动，确认环境可用。
 
 队列脚本默认只打印命令；加 `--run` 才启动，并要求显式指定 GPU。每张 GPU 同时只启动一个任务。
 
@@ -79,7 +79,7 @@ CUDA_VISIBLE_DEVICES=0 python3 src/main_audit.py --config=dvd_audit_router --env
 
 至少比较相同区间的测试胜率 AUC、9–10M 尾段胜率、非有限值和中断情况。router 还应检查 gate 与 route target 的相关性、gate 方差、DVD 相对 BM 的 TD 优势。不要只选择最高点，也不要把 5M 中断运行当作完整 10M 结果。若修正后仍不能稳定优于同配置 BM，停止继续扫 gate 超参更合理；基础 DVD 的 TD 开/关对照可以帮助判断之前较好结果是否依赖旧目标计算。
 
-每次新入口运行会把关键源码、实际使用的 YAML 配置加入 Sacred 源码保存列表，并在配置中记录 `audit_source_manifest` 的 SHA-256；CLI 覆盖参数由 Sacred 记录。结果仍存储到原流程的 `ablation_results`。原 mixer 是共享依赖，比较这轮四组期间不要再改其实现；manifest 用来核对是否跑了同一套源码。
+每次新入口运行会把关键 Python 源码加入 Sacred 源码保存列表；实际使用的三份 YAML 在 pre-run hook 中通过 `add_resource` 保存为输入资源，兼容旧版 Sacred 对源码扩展名的限制。配置中仍记录所有文件的 `audit_source_manifest` SHA-256；CLI 覆盖参数由 Sacred 记录。结果仍存储到原流程的 `ablation_results`。原 mixer 是共享依赖，比较这轮四组期间不要再改其实现；manifest 用来核对是否跑了同一套源码。
 
 ## 提交文件
 

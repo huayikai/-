@@ -83,6 +83,26 @@ def inspect_overrides(config, params):
     return config
 
 
+def register_file_records(ex, sources):
+    """Record Python sources and YAML inputs using their respective APIs.
+
+    Older Sacred Source.create rejects non-Python filenames. Resources must
+    be added after the run starts so its observers can store their contents.
+    """
+    resources = []
+    for name in sources:
+        filename = str(ROOT / name)
+        if Path(name).suffix == ".py":
+            ex.add_source_file(filename)
+        else:
+            resources.append(filename)
+
+    @ex.pre_run_hook
+    def save_audit_input_files(_run):
+        for filename in resources:
+            _run.add_resource(filename)
+
+
 def main(argv=None):
     config, params, sources = load_configuration(sys.argv[1:] if argv is None else argv)
     if "--audit-print-config" in params:
@@ -98,8 +118,7 @@ def main(argv=None):
 
     REGISTRY["dvd_audit_learner"] = DVDNQLearner
     ex = original_entry.ex
-    for name in sources:
-        ex.add_source_file(str(ROOT / name))
+    register_file_records(ex, sources)
     ex.add_config(config)
     map_name = original_entry.parse_command(
         params, "env_args.map_name", config["env_args"]["map_name"]

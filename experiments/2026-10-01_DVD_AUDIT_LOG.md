@@ -54,3 +54,13 @@ router 四组依次为两项关闭、仅 TD、仅辅助隔离、两项开启。b
 暂停常规 gate 参数扫描，先做服务器短启动，再用 seed79 做有限 2×2 排查。若有值得复验的改善，扩展到相同预算的完整配对种子并保留失败运行；正式结论需未参与选择的新种子。TD 修正的 router 应与同样修正的 BM 比较，base/BM 比较还需对齐 epsilon 等配置。若仍不能稳定优于匹配 BM，停止继续扩展路由设计更合理；不能为包装正结果删掉 seed82 或中断记录。
 
 命令、开关、提交文件清单和评价口径见 [DVD_AUDIT.md](DVD_AUDIT.md)。本日志只记录已经完成的实现和测试，不把待跑实验写成已完成结果。
+
+## 2026-10-01 追加：服务器启动时的 Sacred 文件类型兼容修复
+
+用户拉取 `f959be1` 后启动 legacy 组，入口在 `ex.add_source_file` → `Source.create` → `get_py_file_if_possible` 的 `.pyc` 断言处失败，尚未进入新实验的环境或训练。根因是入口将三份 YAML 配置作为 Python 源码注册；旧版 Sacred 仅接受对应的 Python 文件扩展名。原入口替身测试没有模拟这一限制，导致初次验收遗漏。
+
+修复仅修改独立入口和测试：Python 文件仍使用 `add_source_file`；YAML 在运行启动后通过 pre-run hook 的 `_run.add_resource` 保存。所有文件仍包含在 SHA-256 manifest 中。四组配置、实验开关、learner、梯度路径和训练目标均未改变，之前四卡命令继续适用。
+
+验证新增两层：入口替身拒绝非 Python source 并检查三份 YAML 的资源注册；真实 Sacred + FileStorageObserver 运行一个只保存文件、不创建环境的实验，核对 Python 源码登记及三份 YAML 保存内容与原文件字节一致。测试仅替换主机硬件信息探测，避免本地新 py-cpuinfo 与旧 Sacred 的无关字段差异。
+
+在临时独立虚拟环境中安装 Sacred 0.7.5，13 项测试全部通过；原项目解释器未安装 Sacred 时，12 个基础测试通过、真实 Sacred 测试跳过。无需升级服务器 Sacred 或更改原训练代码。真实服务器 SC2 启动与长训练仍需用户拉取修复后验证。
