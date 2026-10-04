@@ -1,0 +1,12 @@
+[
+  {
+    "directory": "D:\\科研\\ablation_results\\tb_logs\\ours_6h_eps10_ann100k_s79__2026-09-11_10-05-48",
+    "note": "matched unique same-name config within 2 seconds",
+    "config_timestamp": "2026-09-11_10-05-47"
+  },
+  {
+    "directory": "D:\\科研\\ablation_results\\tb_logs\\resdvd_6h_tanh10_s81__2026-09-15_10-17-43",
+    "note": "matched unique same-name config within 2 seconds",
+    "config_timestamp": "2026-09-15_10-17-42"
+  }
+]

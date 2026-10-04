@@ -1,0 +1,48 @@
+[
+  {
+    "map": "3s5z_vs_3s6z",
+    "method": "counterfactual_router_safev2_3s5z",
+    "n": 1,
+    "seeds": [
+      79
+    ],
+    "zero_runs": 0,
+    "auc_0_10m": 0.016870417810322915,
+    "auc_0_10m_sd": null,
+    "win_1_3m": 0.007172731064158138,
+    "win_1_3m_sd": null,
+    "win_3_5m": 0.021790795500178886,
+    "win_3_5m_sd": null,
+    "win_7_9m": 0.016658567803850527,
+    "win_7_9m_sd": null,
+    "win_9_10m": 0.016202636245528094,
+    "win_9_10m_sd": null,
+    "last5": 0.03125,
+    "last5_sd": null,
+    "final": 0.0,
+    "final_sd": null
+  },
+  {
+    "map": "3s5z_vs_3s6z",
+    "method": "takeoveroff_3s5z",
+    "n": 1,
+    "seeds": [
+      79
+    ],
+    "zero_runs": 0,
+    "auc_0_10m": 0.374731009375,
+    "auc_0_10m_sd": null,
+    "win_1_3m": 0.06619998933737996,
+    "win_1_3m_sd": null,
+    "win_3_5m": 0.28797771495892976,
+    "win_3_5m_sd": null,
+    "win_7_9m": 0.6718638257849952,
+    "win_7_9m_sd": null,
+    "win_9_10m": 0.7755342979446822,
+    "win_9_10m_sd": null,
+    "last5": 0.80625,
+    "last5_sd": null,
+    "final": 0.71875,
+    "final_sd": null
+  }
+]

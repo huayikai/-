@@ -2,6 +2,15 @@
 
 这组代码只新增文件，不修改现有入口、注册表、learner、mixer 或原配置。服务器必须使用 `main_audit.py`；原 `main.py` 不会注册新 learner。下面命令假定从服务器仓库根目录运行，代码位于 `src/`；若仓库根目录直接包含 `main.py`，去掉命令中的 `src/`。
 
+## 2026-10-04 预算更新
+
+最新结果与当前运行任务见[结果与预算日志](2026-10-04_RESULTS_AND_BUDGET_LOG.md)。用户已确认：正在运行的本轮实验保持原10.05M设置完成，后续主比较默认使用5M评估预算。配置中的`t_max`默认值继续保留，启动新实验时显式追加`t_max=5050000`；队列脚本使用`--t-max 5050000`。所有对照采用相同预算，报告0–5M AUC和4–5M平均胜率；已有10M结果截取相同窗口，已知后期回退继续保留。专门诊断长期稳定性的任务可继续采用10M。下方10.05M命令作为历史复现和长期诊断示例。
+
+```bash
+# 默认仅打印命令；确认实验名和种子未与已有任务重复后，再加 --run 启动。
+python3 src/experiments/run_dvd_audit.py --method router --variants both --seeds 82 --gpus 0 --t-max 5050000
+```
+
 ## 两项修正
 
 `audit_fix_td_lambda=True`：按已经对齐的下一时刻 SARSA 联合 Q 值递推，包括最后一个有效 transition 的奖励。真正终止时目标为该步奖励；时间限制或序列截断时目标为该步奖励加下一状态的一步 bootstrap。每条轨迹按自己的有效 mask 截止，padding 目标置零。递推是
@@ -46,7 +55,7 @@ python3 src/_test_dvd_audit.py
 python3 src/main_audit.py --config=dvd_audit_router --env-config=sc2 --audit-print-config with audit_fix_td_lambda=False
 ```
 
-12 个基础测试覆盖末尾奖励、终止/截断/padding、独立 forward-view λ-return 对照、实际 GRU 的辅助/主损失梯度路径、前向值完全一致、关闭两项后含 RND 的单步更新与旧版逐参数一致、各配置和入口注册。另有一个真实 Sacred 文件保存测试：安装 Sacred 时自动运行，未安装时跳过；检查 Python 源码注册、YAML 资源保存及保存内容。测试里的 EpisodeBatch/MAC 输入及日志对象使用小型替身，文件保存测试只替换无关的主机信息探测。在本地独立环境的 Sacred 0.7.5 下共 13 项全部通过，尚未在真实 SC2 环境启动训练。服务器应先执行测试与一次短启动，确认环境可用。
+12 个基础测试覆盖末尾奖励、终止/截断/padding、独立 forward-view λ-return 对照、实际 GRU 的辅助/主损失梯度路径、前向值完全一致、关闭两项后含 RND 的单步更新与旧版逐参数一致、各配置和入口注册。另有一个真实 Sacred 文件保存测试：安装 Sacred 时自动运行，未安装时跳过；检查 Python 源码注册、YAML 资源保存及保存内容。测试里的 EpisodeBatch/MAC 输入及日志对象使用小型替身，文件保存测试只替换无关的主机信息探测。在本地独立环境的 Sacred 0.7.5 下共 13 项全部通过；这些本地测试不含真实SC2训练。服务器实跑结果见最新结果日志，首次在新环境使用时应先执行测试与一次短启动，确认环境可用。
 
 队列脚本默认只打印命令；加 `--run` 才启动，并要求显式指定 GPU。每张 GPU 同时只启动一个任务。
 

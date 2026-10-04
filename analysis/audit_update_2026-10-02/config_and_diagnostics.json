@@ -1,0 +1,1734 @@
+[
+  {
+    "name": "audit_router_aux_3s5z_vs_3s6z_s79",
+    "config": {
+      "abs": false,
+      "action_selector": "epsilon_greedy",
+      "adaptive_bm_abs": false,
+      "adaptive_gate_hidden_dim": 32,
+      "adaptive_gate_init": 0.05,
+      "adaptive_gate_max": 1.0,
+      "adaptive_norm_eps": 1e-06,
+      "agent": "n_rnn",
+      "agent_output_type": "q",
+      "audit_fix_td_lambda": false,
+      "audit_isolate_dvd_aux_hidden": true,
+      "audit_source_manifest": [
+        {
+          "path": "main_audit.py",
+          "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+        },
+        {
+          "path": "main.py",
+          "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+        },
+        {
+          "path": "run/run.py",
+          "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+        },
+        {
+          "path": "config/default.yaml",
+          "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+        }
+      ],
+      "batch_size": 64,
+      "batch_size_run": 4,
+      "buffer_cpu_only": true,
+      "buffer_size": 2500,
+      "checkpoint_path": "",
+      "counterfactual_bm_loss_weight": 1.0,
+      "counterfactual_dvd_loss_weight": 0.1,
+      "counterfactual_mix_loss_weight": 0.25,
+      "counterfactual_route_eps": 1e-06,
+      "counterfactual_route_loss_weight": 0.1,
+      "counterfactual_route_margin": 0.05,
+      "counterfactual_route_min_abs_advantage": 0.01,
+      "counterfactual_sparse_weight": 0.0,
+      "critic_lr": 0.0005,
+      "dvd_heads": 8,
+      "env": "sc2",
+      "env_args": {
+        "continuing_episode": false,
+        "debug": false,
+        "difficulty": "7",
+        "game_version": null,
+        "heuristic_ai": false,
+        "heuristic_rest": false,
+        "map_name": "3s5z_vs_3s6z",
+        "move_amount": 2,
+        "obs_all_health": true,
+        "obs_instead_of_state": false,
+        "obs_last_action": false,
+        "obs_own_health": true,
+        "obs_pathing_grid": false,
+        "obs_terrain_height": false,
+        "obs_timestep_number": false,
+        "replay_dir": "",
+        "replay_prefix": "",
+        "reward_death_value": 10,
+        "reward_defeat": 0,
+        "reward_negative_scale": 0.5,
+        "reward_only_positive": true,
+        "reward_scale": true,
+        "reward_scale_rate": 20,
+        "reward_sparse": false,
+        "reward_win": 200,
+        "seed": null,
+        "state_last_action": true,
+        "state_timestep_number": false,
+        "step_mul": 8
+      },
+      "epsilon_anneal_time": 500000,
+      "epsilon_finish": 0.05,
+      "epsilon_start": 0.75,
+      "evaluate": false,
+      "gain": 0.01,
+      "gamma": 0.99,
+      "gat_embed_dim": 32,
+      "grad_norm_clip": 10,
+      "hypernet_embed": 64,
+      "label": "default_label",
+      "learner": "dvd_audit_learner",
+      "learner_log_interval": 10000,
+      "load_step": 0,
+      "local_results_path": "results",
+      "log_interval": 10000,
+      "lr": 0.001,
+      "mac": "n_mac",
+      "mixer": "dvd_counterfactual_router",
+      "mixing_embed_dim": 32,
+      "name": "audit_router_aux_3s5z_vs_3s6z_s79",
+      "obs_agent_id": true,
+      "obs_last_action": true,
+      "optim_alpha": 0.99,
+      "optim_eps": 1e-05,
+      "optimizer": "adam",
+      "per_alpha": 0.6,
+      "per_beta": 0.4,
+      "q_lambda": false,
+      "remark": "",
+      "repeat_id": 1,
+      "return_priority": false,
+      "rnd_beta": 0.01,
+      "rnd_lr": 0.0005,
+      "rnn_hidden_dim": 64,
+      "run": "default",
+      "runner": "parallel",
+      "runner_log_interval": 10000,
+      "save_model": false,
+      "save_model_interval": 2000000,
+      "save_replay": false,
+      "seed": 79,
+      "state_shape": 0,
+      "t_max": 10050000,
+      "target_update_interval": 200,
+      "td_lambda": 0.3,
+      "test_greedy": true,
+      "test_interval": 10000,
+      "test_nepisode": 32,
+      "use_cuda": true,
+      "use_layer_norm": false,
+      "use_orthogonal": false,
+      "use_per": false,
+      "use_rnd": true,
+      "use_tensorboard": true
+    },
+    "metadata": {
+      "artifacts": [],
+      "command": "my_main",
+      "experiment": {
+        "base_dir": "/home/zhangbei/pymarl2/src",
+        "dependencies": [
+          "munch==2.5.0",
+          "numpy==1.24.3",
+          "PyYAML==5.3.1",
+          "sacred==0.7.5",
+          "torch==1.12.1"
+        ],
+        "mainfile": "main.py",
+        "name": "pymarl",
+        "repositories": [],
+        "sources": [
+          [
+            "components/episode_buffer.py",
+            "_sources/episode_buffer_aac1a77501897528cb4a870893a6ade2.py"
+          ],
+          [
+            "controllers/n_controller.py",
+            "_sources/n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py"
+          ],
+          [
+            "learners/dvd_audit_learner.py",
+            "_sources/dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py"
+          ],
+          [
+            "main.py",
+            "_sources/main_9ffc57efd7c293db6b3dfee341b54652.py"
+          ],
+          [
+            "main_audit.py",
+            "_sources/main_audit_8cb21d71d974587bd4eb65696057385c.py"
+          ],
+          [
+            "modules/agents/n_rnn_agent.py",
+            "_sources/n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py"
+          ],
+          [
+            "modules/exploration/rnd.py",
+            "_sources/rnd_dfcd103004b7959a64adc23872fc951f.py"
+          ],
+          [
+            "modules/mixers/dvd.py",
+            "_sources/dvd_0e0811fd363530bf352eb0a90d61a404.py"
+          ],
+          [
+            "modules/mixers/dvd_adaptive_takeover.py",
+            "_sources/dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router.py",
+            "_sources/dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router_audit.py",
+            "_sources/dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py"
+          ],
+          [
+            "modules/mixers/dvd_credit.py",
+            "_sources/dvd_credit_4e831883c144412287bdfe95a7727316.py"
+          ],
+          [
+            "modules/mixers/dvd_residual.py",
+            "_sources/dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py"
+          ],
+          [
+            "modules/mixers/dvd_takeover.py",
+            "_sources/dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py"
+          ],
+          [
+            "modules/mixers/nmix.py",
+            "_sources/nmix_96f80ec3d27c6f06601ef84de801146b.py"
+          ],
+          [
+            "run/run.py",
+            "_sources/run_5ecffc3f8196a5196e851bb62e0a6e91.py"
+          ],
+          [
+            "utils/logging.py",
+            "_sources/logging_ce9a261c391cbeae67129d3d806d06da.py"
+          ],
+          [
+            "utils/td_lambda_audit.py",
+            "_sources/td_lambda_audit_13dc3286edca0f48316317954467e5ef.py"
+          ]
+        ]
+      },
+      "heartbeat": "2026-10-02T00:40:15.334520",
+      "host": {
+        "ENV": {},
+        "cpu": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+        "gpus": {
+          "driver_version": "535.247.01",
+          "gpus": [
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            }
+          ]
+        },
+        "hostname": "XieLab3090",
+        "os": [
+          "Linux",
+          "Linux-5.15.0-139-generic-x86_64-with-glibc2.17"
+        ],
+        "python_version": "3.8.20"
+      },
+      "meta": {
+        "command": "my_main",
+        "options": {
+          "--beat_interval": null,
+          "--capture": null,
+          "--comment": null,
+          "--debug": false,
+          "--enforce_clean": false,
+          "--file_storage": null,
+          "--force": false,
+          "--help": false,
+          "--loglevel": null,
+          "--mongo_db": null,
+          "--name": null,
+          "--pdb": false,
+          "--print_config": false,
+          "--priority": null,
+          "--queue": false,
+          "--sql": null,
+          "--tiny_db": null,
+          "--unobserved": false,
+          "COMMAND": null,
+          "UPDATE": [
+            "env_args.map_name=3s5z_vs_3s6z",
+            "use_tensorboard=True",
+            "seed=79",
+            "name=audit_router_aux_3s5z_vs_3s6z_s79",
+            "audit_fix_td_lambda=False",
+            "audit_isolate_dvd_aux_hidden=True"
+          ],
+          "help": false,
+          "with": true
+        }
+      },
+      "resources": [
+        [
+          "/home/zhangbei/pymarl2/src/config/default.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_aux_3s5z_vs_3s6z_s79/_resources/default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/envs/sc2.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_aux_3s5z_vs_3s6z_s79/_resources/sc2_e0db63036759e634b836cb6981c1a654.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/algs/dvd_audit_router.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_aux_3s5z_vs_3s6z_s79/_resources/dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml"
+        ]
+      ],
+      "result": null,
+      "start_time": "2026-10-01T04:48:55.681488",
+      "status": "RUNNING"
+    },
+    "diagnostics": {
+      "return_mean": 17.96982261251599,
+      "return_std": 3.6125481650372917,
+      "battle_won_mean": 0.5870305815609971,
+      "ep_length_mean": 89.18414338939061,
+      "epsilon": 0.05000000074505806,
+      "test_return_mean": 19.587788402666646,
+      "test_return_std": 2.0576074419872765,
+      "test_ep_length_mean": 86.74971743998087,
+      "audit_fix_td_lambda": 0.0,
+      "audit_isolate_dvd_aux_hidden": 1.0,
+      "loss_td": 0.057594416606771524,
+      "grad_norm": 0.9995351705072734,
+      "td_error_abs": 0.14386169358833034,
+      "q_taken_mean": 0.7812667513498348,
+      "target_mean": 6.008428273794731,
+      "counterfactual_loss_mix": 0.057594416606771524,
+      "counterfactual_loss_value": 0.05906211406571141,
+      "counterfactual_loss_bm": 0.05942903725917419,
+      "counterfactual_loss_dvd": 0.060928312428138655,
+      "counterfactual_loss_route": 0.05655414708374355,
+      "counterfactual_loss_sparse": 0.13092226221760025,
+      "counterfactual_route_target_mean": 0.13144527335434378,
+      "counterfactual_route_positive_rate": 0.368909823997006,
+      "counterfactual_route_reliable_rate": 0.39044033224337826,
+      "counterfactual_relative_advantage_mean": -0.025508316894931764,
+      "counterfactual_absolute_advantage_mean": -0.00471547876914065,
+      "counterfactual_bm_error_mean": 0.14653223563264683,
+      "counterfactual_dvd_error_mean": 0.15124771566554832,
+      "counterfactual_gate_mean": 0.13092226221760025,
+      "counterfactual_gate_std": 0.01438202894660923,
+      "counterfactual_gate_min": 0.08801195726681858,
+      "counterfactual_gate_max": 0.21544886974021962,
+      "counterfactual_gate_target_correlation": 0.05644183340062539,
+      "counterfactual_gate_output_weight_norm": 1.0228184833088592,
+      "rnd_loss": 0.0,
+      "intrinsic_rewards_mean": 0.0,
+      "adaptive_gate_mean": 0.14025283508216124,
+      "adaptive_gate_std": 0.014644763467694092,
+      "adaptive_gate_min": 0.08780046297941715,
+      "adaptive_gate_max": 0.21769474500640865,
+      "adaptive_shift_ratio": 0.12758650662202312,
+      "adaptive_dvd_w1_ratio": 1.0,
+      "adaptive_bm_dvd_cosine": 0.5815268743309592,
+      "adaptive_candidate_distance": 0.8980624506485437,
+      "adaptive_attention_entropy": 0.8724454230060507,
+      "adaptive_head_disagreement": 0.1094408167934326,
+      "adaptive_attention_confidence": 0.11067163784931625,
+      "adaptive_bm_w1_rms": 0.36755139731663844,
+      "adaptive_dvd_w1_rms": 0.36755139790351643,
+      "adaptive_bm_grad_norm": 0.8507154563958342,
+      "adaptive_gat_grad_norm": 0.003827992508966936,
+      "adaptive_dvd_grad_norm": 0.0025460592815526937,
+      "adaptive_gate_grad_norm": 0.00048616638895688857,
+      "episode": 131787.34262624988
+    }
+  },
+  {
+    "name": "audit_router_both_3s5z_vs_3s6z_s79",
+    "config": {
+      "abs": false,
+      "action_selector": "epsilon_greedy",
+      "adaptive_bm_abs": false,
+      "adaptive_gate_hidden_dim": 32,
+      "adaptive_gate_init": 0.05,
+      "adaptive_gate_max": 1.0,
+      "adaptive_norm_eps": 1e-06,
+      "agent": "n_rnn",
+      "agent_output_type": "q",
+      "audit_fix_td_lambda": true,
+      "audit_isolate_dvd_aux_hidden": true,
+      "audit_source_manifest": [
+        {
+          "path": "main_audit.py",
+          "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+        },
+        {
+          "path": "main.py",
+          "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+        },
+        {
+          "path": "run/run.py",
+          "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+        },
+        {
+          "path": "config/default.yaml",
+          "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+        }
+      ],
+      "batch_size": 64,
+      "batch_size_run": 4,
+      "buffer_cpu_only": true,
+      "buffer_size": 2500,
+      "checkpoint_path": "",
+      "counterfactual_bm_loss_weight": 1.0,
+      "counterfactual_dvd_loss_weight": 0.1,
+      "counterfactual_mix_loss_weight": 0.25,
+      "counterfactual_route_eps": 1e-06,
+      "counterfactual_route_loss_weight": 0.1,
+      "counterfactual_route_margin": 0.05,
+      "counterfactual_route_min_abs_advantage": 0.01,
+      "counterfactual_sparse_weight": 0.0,
+      "critic_lr": 0.0005,
+      "dvd_heads": 8,
+      "env": "sc2",
+      "env_args": {
+        "continuing_episode": false,
+        "debug": false,
+        "difficulty": "7",
+        "game_version": null,
+        "heuristic_ai": false,
+        "heuristic_rest": false,
+        "map_name": "3s5z_vs_3s6z",
+        "move_amount": 2,
+        "obs_all_health": true,
+        "obs_instead_of_state": false,
+        "obs_last_action": false,
+        "obs_own_health": true,
+        "obs_pathing_grid": false,
+        "obs_terrain_height": false,
+        "obs_timestep_number": false,
+        "replay_dir": "",
+        "replay_prefix": "",
+        "reward_death_value": 10,
+        "reward_defeat": 0,
+        "reward_negative_scale": 0.5,
+        "reward_only_positive": true,
+        "reward_scale": true,
+        "reward_scale_rate": 20,
+        "reward_sparse": false,
+        "reward_win": 200,
+        "seed": null,
+        "state_last_action": true,
+        "state_timestep_number": false,
+        "step_mul": 8
+      },
+      "epsilon_anneal_time": 500000,
+      "epsilon_finish": 0.05,
+      "epsilon_start": 0.75,
+      "evaluate": false,
+      "gain": 0.01,
+      "gamma": 0.99,
+      "gat_embed_dim": 32,
+      "grad_norm_clip": 10,
+      "hypernet_embed": 64,
+      "label": "default_label",
+      "learner": "dvd_audit_learner",
+      "learner_log_interval": 10000,
+      "load_step": 0,
+      "local_results_path": "results",
+      "log_interval": 10000,
+      "lr": 0.001,
+      "mac": "n_mac",
+      "mixer": "dvd_counterfactual_router",
+      "mixing_embed_dim": 32,
+      "name": "audit_router_both_3s5z_vs_3s6z_s79",
+      "obs_agent_id": true,
+      "obs_last_action": true,
+      "optim_alpha": 0.99,
+      "optim_eps": 1e-05,
+      "optimizer": "adam",
+      "per_alpha": 0.6,
+      "per_beta": 0.4,
+      "q_lambda": false,
+      "remark": "",
+      "repeat_id": 1,
+      "return_priority": false,
+      "rnd_beta": 0.01,
+      "rnd_lr": 0.0005,
+      "rnn_hidden_dim": 64,
+      "run": "default",
+      "runner": "parallel",
+      "runner_log_interval": 10000,
+      "save_model": false,
+      "save_model_interval": 2000000,
+      "save_replay": false,
+      "seed": 79,
+      "state_shape": 0,
+      "t_max": 10050000,
+      "target_update_interval": 200,
+      "td_lambda": 0.3,
+      "test_greedy": true,
+      "test_interval": 10000,
+      "test_nepisode": 32,
+      "use_cuda": true,
+      "use_layer_norm": false,
+      "use_orthogonal": false,
+      "use_per": false,
+      "use_rnd": true,
+      "use_tensorboard": true
+    },
+    "metadata": {
+      "artifacts": [],
+      "command": "my_main",
+      "experiment": {
+        "base_dir": "/home/zhangbei/pymarl2/src",
+        "dependencies": [
+          "munch==2.5.0",
+          "numpy==1.24.3",
+          "PyYAML==5.3.1",
+          "sacred==0.7.5",
+          "torch==1.12.1"
+        ],
+        "mainfile": "main.py",
+        "name": "pymarl",
+        "repositories": [],
+        "sources": [
+          [
+            "components/episode_buffer.py",
+            "_sources/episode_buffer_aac1a77501897528cb4a870893a6ade2.py"
+          ],
+          [
+            "controllers/n_controller.py",
+            "_sources/n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py"
+          ],
+          [
+            "learners/dvd_audit_learner.py",
+            "_sources/dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py"
+          ],
+          [
+            "main.py",
+            "_sources/main_9ffc57efd7c293db6b3dfee341b54652.py"
+          ],
+          [
+            "main_audit.py",
+            "_sources/main_audit_8cb21d71d974587bd4eb65696057385c.py"
+          ],
+          [
+            "modules/agents/n_rnn_agent.py",
+            "_sources/n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py"
+          ],
+          [
+            "modules/exploration/rnd.py",
+            "_sources/rnd_dfcd103004b7959a64adc23872fc951f.py"
+          ],
+          [
+            "modules/mixers/dvd.py",
+            "_sources/dvd_0e0811fd363530bf352eb0a90d61a404.py"
+          ],
+          [
+            "modules/mixers/dvd_adaptive_takeover.py",
+            "_sources/dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router.py",
+            "_sources/dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router_audit.py",
+            "_sources/dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py"
+          ],
+          [
+            "modules/mixers/dvd_credit.py",
+            "_sources/dvd_credit_4e831883c144412287bdfe95a7727316.py"
+          ],
+          [
+            "modules/mixers/dvd_residual.py",
+            "_sources/dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py"
+          ],
+          [
+            "modules/mixers/dvd_takeover.py",
+            "_sources/dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py"
+          ],
+          [
+            "modules/mixers/nmix.py",
+            "_sources/nmix_96f80ec3d27c6f06601ef84de801146b.py"
+          ],
+          [
+            "run/run.py",
+            "_sources/run_5ecffc3f8196a5196e851bb62e0a6e91.py"
+          ],
+          [
+            "utils/logging.py",
+            "_sources/logging_ce9a261c391cbeae67129d3d806d06da.py"
+          ],
+          [
+            "utils/td_lambda_audit.py",
+            "_sources/td_lambda_audit_13dc3286edca0f48316317954467e5ef.py"
+          ]
+        ]
+      },
+      "heartbeat": "2026-10-02T00:45:19.255854",
+      "host": {
+        "ENV": {},
+        "cpu": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+        "gpus": {
+          "driver_version": "535.247.01",
+          "gpus": [
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            }
+          ]
+        },
+        "hostname": "XieLab3090",
+        "os": [
+          "Linux",
+          "Linux-5.15.0-139-generic-x86_64-with-glibc2.17"
+        ],
+        "python_version": "3.8.20"
+      },
+      "meta": {
+        "command": "my_main",
+        "options": {
+          "--beat_interval": null,
+          "--capture": null,
+          "--comment": null,
+          "--debug": false,
+          "--enforce_clean": false,
+          "--file_storage": null,
+          "--force": false,
+          "--help": false,
+          "--loglevel": null,
+          "--mongo_db": null,
+          "--name": null,
+          "--pdb": false,
+          "--print_config": false,
+          "--priority": null,
+          "--queue": false,
+          "--sql": null,
+          "--tiny_db": null,
+          "--unobserved": false,
+          "COMMAND": null,
+          "UPDATE": [
+            "env_args.map_name=3s5z_vs_3s6z",
+            "use_tensorboard=True",
+            "seed=79",
+            "name=audit_router_both_3s5z_vs_3s6z_s79",
+            "audit_fix_td_lambda=True",
+            "audit_isolate_dvd_aux_hidden=True"
+          ],
+          "help": false,
+          "with": true
+        }
+      },
+      "resources": [
+        [
+          "/home/zhangbei/pymarl2/src/config/default.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_both_3s5z_vs_3s6z_s79/_resources/default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/envs/sc2.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_both_3s5z_vs_3s6z_s79/_resources/sc2_e0db63036759e634b836cb6981c1a654.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/algs/dvd_audit_router.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_both_3s5z_vs_3s6z_s79/_resources/dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml"
+        ]
+      ],
+      "result": null,
+      "start_time": "2026-10-01T04:49:19.471165",
+      "status": "RUNNING"
+    },
+    "diagnostics": {
+      "return_mean": 18.19324432702311,
+      "return_std": 3.3955932262267874,
+      "battle_won_mean": 0.6310152705508135,
+      "ep_length_mean": 86.82324084538152,
+      "epsilon": 0.05000000074505806,
+      "test_return_mean": 19.316774236765422,
+      "test_return_std": 2.203430839376208,
+      "test_ep_length_mean": 80.75840605662151,
+      "audit_fix_td_lambda": 1.0,
+      "audit_isolate_dvd_aux_hidden": 1.0,
+      "loss_td": 0.0547798903381554,
+      "grad_norm": 1.0906121056235396,
+      "td_error_abs": 0.14041736936484758,
+      "q_taken_mean": 1.4888265331765782,
+      "target_mean": 6.208242753118697,
+      "counterfactual_loss_mix": 0.0547798903381554,
+      "counterfactual_loss_value": 0.05604726420396395,
+      "counterfactual_loss_bm": 0.05636410646965267,
+      "counterfactual_loss_dvd": 0.058396388564822356,
+      "counterfactual_loss_route": 0.05650306727634759,
+      "counterfactual_loss_sparse": 0.1301988836326368,
+      "counterfactual_route_target_mean": 0.1303188794978251,
+      "counterfactual_route_positive_rate": 0.3631738652745822,
+      "counterfactual_route_reliable_rate": 0.3844347887209122,
+      "counterfactual_relative_advantage_mean": -0.034175585170692475,
+      "counterfactual_absolute_advantage_mean": -0.006052029079615954,
+      "counterfactual_bm_error_mean": 0.14267408946517854,
+      "counterfactual_dvd_error_mean": 0.14872611860536716,
+      "counterfactual_gate_mean": 0.1301988836326368,
+      "counterfactual_gate_std": 0.013841699774081808,
+      "counterfactual_gate_min": 0.08237782853054267,
+      "counterfactual_gate_max": 0.19913910776239316,
+      "counterfactual_gate_target_correlation": 0.06424773442884134,
+      "counterfactual_gate_output_weight_norm": 0.9043700435227011,
+      "rnd_loss": 0.0,
+      "intrinsic_rewards_mean": 0.0,
+      "adaptive_gate_mean": 0.12619384258065128,
+      "adaptive_gate_std": 0.011157796853408038,
+      "adaptive_gate_min": 0.08237782853054267,
+      "adaptive_gate_max": 0.20203318891801367,
+      "adaptive_shift_ratio": 0.10593690775279567,
+      "adaptive_dvd_w1_ratio": 1.0,
+      "adaptive_bm_dvd_cosine": 0.6308065563945698,
+      "adaptive_candidate_distance": 0.843251837588709,
+      "adaptive_attention_entropy": 0.8921617783780199,
+      "adaptive_head_disagreement": 0.09493442786187493,
+      "adaptive_attention_confidence": 0.09136079483465599,
+      "adaptive_bm_w1_rms": 0.42645640817352426,
+      "adaptive_dvd_w1_rms": 0.4264564081819285,
+      "adaptive_bm_grad_norm": 0.9895575856304544,
+      "adaptive_gat_grad_norm": 0.003712752775612072,
+      "adaptive_dvd_grad_norm": 0.0025317933635447395,
+      "adaptive_gate_grad_norm": 0.0006102448875856229,
+      "episode": 134538.6667324306
+    }
+  },
+  {
+    "name": "audit_router_legacy_3s5z_vs_3s6z_s79",
+    "config": {
+      "abs": false,
+      "action_selector": "epsilon_greedy",
+      "adaptive_bm_abs": false,
+      "adaptive_gate_hidden_dim": 32,
+      "adaptive_gate_init": 0.05,
+      "adaptive_gate_max": 1.0,
+      "adaptive_norm_eps": 1e-06,
+      "agent": "n_rnn",
+      "agent_output_type": "q",
+      "audit_fix_td_lambda": false,
+      "audit_isolate_dvd_aux_hidden": false,
+      "audit_source_manifest": [
+        {
+          "path": "main_audit.py",
+          "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+        },
+        {
+          "path": "main.py",
+          "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+        },
+        {
+          "path": "run/run.py",
+          "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+        },
+        {
+          "path": "config/default.yaml",
+          "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+        }
+      ],
+      "batch_size": 64,
+      "batch_size_run": 4,
+      "buffer_cpu_only": true,
+      "buffer_size": 2500,
+      "checkpoint_path": "",
+      "counterfactual_bm_loss_weight": 1.0,
+      "counterfactual_dvd_loss_weight": 0.1,
+      "counterfactual_mix_loss_weight": 0.25,
+      "counterfactual_route_eps": 1e-06,
+      "counterfactual_route_loss_weight": 0.1,
+      "counterfactual_route_margin": 0.05,
+      "counterfactual_route_min_abs_advantage": 0.01,
+      "counterfactual_sparse_weight": 0.0,
+      "critic_lr": 0.0005,
+      "dvd_heads": 8,
+      "env": "sc2",
+      "env_args": {
+        "continuing_episode": false,
+        "debug": false,
+        "difficulty": "7",
+        "game_version": null,
+        "heuristic_ai": false,
+        "heuristic_rest": false,
+        "map_name": "3s5z_vs_3s6z",
+        "move_amount": 2,
+        "obs_all_health": true,
+        "obs_instead_of_state": false,
+        "obs_last_action": false,
+        "obs_own_health": true,
+        "obs_pathing_grid": false,
+        "obs_terrain_height": false,
+        "obs_timestep_number": false,
+        "replay_dir": "",
+        "replay_prefix": "",
+        "reward_death_value": 10,
+        "reward_defeat": 0,
+        "reward_negative_scale": 0.5,
+        "reward_only_positive": true,
+        "reward_scale": true,
+        "reward_scale_rate": 20,
+        "reward_sparse": false,
+        "reward_win": 200,
+        "seed": null,
+        "state_last_action": true,
+        "state_timestep_number": false,
+        "step_mul": 8
+      },
+      "epsilon_anneal_time": 500000,
+      "epsilon_finish": 0.05,
+      "epsilon_start": 0.75,
+      "evaluate": false,
+      "gain": 0.01,
+      "gamma": 0.99,
+      "gat_embed_dim": 32,
+      "grad_norm_clip": 10,
+      "hypernet_embed": 64,
+      "label": "default_label",
+      "learner": "dvd_audit_learner",
+      "learner_log_interval": 10000,
+      "load_step": 0,
+      "local_results_path": "results",
+      "log_interval": 10000,
+      "lr": 0.001,
+      "mac": "n_mac",
+      "mixer": "dvd_counterfactual_router",
+      "mixing_embed_dim": 32,
+      "name": "audit_router_legacy_3s5z_vs_3s6z_s79",
+      "obs_agent_id": true,
+      "obs_last_action": true,
+      "optim_alpha": 0.99,
+      "optim_eps": 1e-05,
+      "optimizer": "adam",
+      "per_alpha": 0.6,
+      "per_beta": 0.4,
+      "q_lambda": false,
+      "remark": "",
+      "repeat_id": 1,
+      "return_priority": false,
+      "rnd_beta": 0.01,
+      "rnd_lr": 0.0005,
+      "rnn_hidden_dim": 64,
+      "run": "default",
+      "runner": "parallel",
+      "runner_log_interval": 10000,
+      "save_model": false,
+      "save_model_interval": 2000000,
+      "save_replay": false,
+      "seed": 79,
+      "state_shape": 0,
+      "t_max": 10050000,
+      "target_update_interval": 200,
+      "td_lambda": 0.3,
+      "test_greedy": true,
+      "test_interval": 10000,
+      "test_nepisode": 32,
+      "use_cuda": true,
+      "use_layer_norm": false,
+      "use_orthogonal": false,
+      "use_per": false,
+      "use_rnd": true,
+      "use_tensorboard": true
+    },
+    "metadata": {
+      "artifacts": [],
+      "command": "my_main",
+      "experiment": {
+        "base_dir": "/home/zhangbei/pymarl2/src",
+        "dependencies": [
+          "munch==2.5.0",
+          "numpy==1.24.3",
+          "PyYAML==5.3.1",
+          "sacred==0.7.5",
+          "torch==1.12.1"
+        ],
+        "mainfile": "main.py",
+        "name": "pymarl",
+        "repositories": [],
+        "sources": [
+          [
+            "components/episode_buffer.py",
+            "_sources/episode_buffer_aac1a77501897528cb4a870893a6ade2.py"
+          ],
+          [
+            "controllers/n_controller.py",
+            "_sources/n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py"
+          ],
+          [
+            "learners/dvd_audit_learner.py",
+            "_sources/dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py"
+          ],
+          [
+            "main.py",
+            "_sources/main_9ffc57efd7c293db6b3dfee341b54652.py"
+          ],
+          [
+            "main_audit.py",
+            "_sources/main_audit_8cb21d71d974587bd4eb65696057385c.py"
+          ],
+          [
+            "modules/agents/n_rnn_agent.py",
+            "_sources/n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py"
+          ],
+          [
+            "modules/exploration/rnd.py",
+            "_sources/rnd_dfcd103004b7959a64adc23872fc951f.py"
+          ],
+          [
+            "modules/mixers/dvd.py",
+            "_sources/dvd_0e0811fd363530bf352eb0a90d61a404.py"
+          ],
+          [
+            "modules/mixers/dvd_adaptive_takeover.py",
+            "_sources/dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router.py",
+            "_sources/dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router_audit.py",
+            "_sources/dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py"
+          ],
+          [
+            "modules/mixers/dvd_credit.py",
+            "_sources/dvd_credit_4e831883c144412287bdfe95a7727316.py"
+          ],
+          [
+            "modules/mixers/dvd_residual.py",
+            "_sources/dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py"
+          ],
+          [
+            "modules/mixers/dvd_takeover.py",
+            "_sources/dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py"
+          ],
+          [
+            "modules/mixers/nmix.py",
+            "_sources/nmix_96f80ec3d27c6f06601ef84de801146b.py"
+          ],
+          [
+            "run/run.py",
+            "_sources/run_5ecffc3f8196a5196e851bb62e0a6e91.py"
+          ],
+          [
+            "utils/logging.py",
+            "_sources/logging_ce9a261c391cbeae67129d3d806d06da.py"
+          ],
+          [
+            "utils/td_lambda_audit.py",
+            "_sources/td_lambda_audit_13dc3286edca0f48316317954467e5ef.py"
+          ]
+        ]
+      },
+      "heartbeat": "2026-10-01T21:47:43.613475",
+      "host": {
+        "ENV": {},
+        "cpu": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+        "gpus": {
+          "driver_version": "535.247.01",
+          "gpus": [
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            }
+          ]
+        },
+        "hostname": "XieLab3090",
+        "os": [
+          "Linux",
+          "Linux-5.15.0-139-generic-x86_64-with-glibc2.17"
+        ],
+        "python_version": "3.8.20"
+      },
+      "meta": {
+        "command": "my_main",
+        "options": {
+          "--beat_interval": null,
+          "--capture": null,
+          "--comment": null,
+          "--debug": false,
+          "--enforce_clean": false,
+          "--file_storage": null,
+          "--force": false,
+          "--help": false,
+          "--loglevel": null,
+          "--mongo_db": null,
+          "--name": null,
+          "--pdb": false,
+          "--print_config": false,
+          "--priority": null,
+          "--queue": false,
+          "--sql": null,
+          "--tiny_db": null,
+          "--unobserved": false,
+          "COMMAND": null,
+          "UPDATE": [
+            "env_args.map_name=3s5z_vs_3s6z",
+            "use_tensorboard=True",
+            "seed=79",
+            "name=audit_router_legacy_3s5z_vs_3s6z_s79",
+            "audit_fix_td_lambda=False",
+            "audit_isolate_dvd_aux_hidden=False"
+          ],
+          "help": false,
+          "with": true
+        }
+      },
+      "resources": [
+        [
+          "/home/zhangbei/pymarl2/src/config/default.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_legacy_3s5z_vs_3s6z_s79/_resources/default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/envs/sc2.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_legacy_3s5z_vs_3s6z_s79/_resources/sc2_e0db63036759e634b836cb6981c1a654.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/algs/dvd_audit_router.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_legacy_3s5z_vs_3s6z_s79/_resources/dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml"
+        ]
+      ],
+      "result": null,
+      "start_time": "2026-10-01T04:46:54.302403",
+      "status": "RUNNING"
+    },
+    "diagnostics": {
+      "return_mean": 14.091301287460455,
+      "return_std": 1.862145414691516,
+      "battle_won_mean": 0.0034604931472831013,
+      "ep_length_mean": 140.09135741566513,
+      "epsilon": 0.05000000074505806,
+      "test_return_mean": 14.988742493020226,
+      "test_return_std": 1.8201003514503378,
+      "test_ep_length_mean": 142.6890232050979,
+      "audit_fix_td_lambda": 0.0,
+      "audit_isolate_dvd_aux_hidden": 0.0,
+      "loss_td": 0.012535810792580208,
+      "grad_norm": 0.34722179666256103,
+      "td_error_abs": 0.059289731529653604,
+      "q_taken_mean": -0.8220760745376957,
+      "target_mean": 2.6817232737053462,
+      "counterfactual_loss_mix": 0.012535810792580208,
+      "counterfactual_loss_value": 0.012937553959305053,
+      "counterfactual_loss_bm": 0.013037989477336963,
+      "counterfactual_loss_dvd": 0.01362634509597697,
+      "counterfactual_loss_route": 0.045164321047507346,
+      "counterfactual_loss_sparse": 0.09074340466682275,
+      "counterfactual_route_target_mean": 0.09327862889094853,
+      "counterfactual_route_positive_rate": 0.23079945425524373,
+      "counterfactual_route_reliable_rate": 0.23956790665735167,
+      "counterfactual_relative_advantage_mean": -0.036865424485937937,
+      "counterfactual_absolute_advantage_mean": -0.0030793045385285015,
+      "counterfactual_bm_error_mean": 0.06037844466454861,
+      "counterfactual_dvd_error_mean": 0.06345774988016797,
+      "counterfactual_gate_mean": 0.09074340466682275,
+      "counterfactual_gate_std": 0.04175946408214421,
+      "counterfactual_gate_min": 0.019771855994672096,
+      "counterfactual_gate_max": 0.23039753651030512,
+      "counterfactual_gate_target_correlation": 0.1885604478009871,
+      "counterfactual_gate_output_weight_norm": 1.2300876218025345,
+      "rnd_loss": 0.0,
+      "intrinsic_rewards_mean": 0.0,
+      "adaptive_gate_mean": 0.09893521844124606,
+      "adaptive_gate_std": 0.04191174942977135,
+      "adaptive_gate_min": 0.019771855994672096,
+      "adaptive_gate_max": 0.23320046951478218,
+      "adaptive_shift_ratio": 0.09731223012101495,
+      "adaptive_dvd_w1_ratio": 1.0,
+      "adaptive_bm_dvd_cosine": 0.5469773187475013,
+      "adaptive_candidate_distance": 0.9384698041898636,
+      "adaptive_attention_entropy": 0.8644633699960493,
+      "adaptive_head_disagreement": 0.12186164720572738,
+      "adaptive_attention_confidence": 0.11401447380671667,
+      "adaptive_bm_w1_rms": 0.3793805404476328,
+      "adaptive_dvd_w1_rms": 0.379380539217378,
+      "adaptive_bm_grad_norm": 0.3218962137605729,
+      "adaptive_gat_grad_norm": 0.001237261209131306,
+      "adaptive_dvd_grad_norm": 0.0006553884746897537,
+      "adaptive_gate_grad_norm": 0.0005884849341832737,
+      "episode": 103317.20283358719
+    }
+  },
+  {
+    "name": "audit_router_td_3s5z_vs_3s6z_s79",
+    "config": {
+      "abs": false,
+      "action_selector": "epsilon_greedy",
+      "adaptive_bm_abs": false,
+      "adaptive_gate_hidden_dim": 32,
+      "adaptive_gate_init": 0.05,
+      "adaptive_gate_max": 1.0,
+      "adaptive_norm_eps": 1e-06,
+      "agent": "n_rnn",
+      "agent_output_type": "q",
+      "audit_fix_td_lambda": true,
+      "audit_isolate_dvd_aux_hidden": false,
+      "audit_source_manifest": [
+        {
+          "path": "main_audit.py",
+          "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+        },
+        {
+          "path": "main.py",
+          "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+        },
+        {
+          "path": "run/run.py",
+          "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+        },
+        {
+          "path": "config/default.yaml",
+          "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+        }
+      ],
+      "batch_size": 64,
+      "batch_size_run": 4,
+      "buffer_cpu_only": true,
+      "buffer_size": 2500,
+      "checkpoint_path": "",
+      "counterfactual_bm_loss_weight": 1.0,
+      "counterfactual_dvd_loss_weight": 0.1,
+      "counterfactual_mix_loss_weight": 0.25,
+      "counterfactual_route_eps": 1e-06,
+      "counterfactual_route_loss_weight": 0.1,
+      "counterfactual_route_margin": 0.05,
+      "counterfactual_route_min_abs_advantage": 0.01,
+      "counterfactual_sparse_weight": 0.0,
+      "critic_lr": 0.0005,
+      "dvd_heads": 8,
+      "env": "sc2",
+      "env_args": {
+        "continuing_episode": false,
+        "debug": false,
+        "difficulty": "7",
+        "game_version": null,
+        "heuristic_ai": false,
+        "heuristic_rest": false,
+        "map_name": "3s5z_vs_3s6z",
+        "move_amount": 2,
+        "obs_all_health": true,
+        "obs_instead_of_state": false,
+        "obs_last_action": false,
+        "obs_own_health": true,
+        "obs_pathing_grid": false,
+        "obs_terrain_height": false,
+        "obs_timestep_number": false,
+        "replay_dir": "",
+        "replay_prefix": "",
+        "reward_death_value": 10,
+        "reward_defeat": 0,
+        "reward_negative_scale": 0.5,
+        "reward_only_positive": true,
+        "reward_scale": true,
+        "reward_scale_rate": 20,
+        "reward_sparse": false,
+        "reward_win": 200,
+        "seed": null,
+        "state_last_action": true,
+        "state_timestep_number": false,
+        "step_mul": 8
+      },
+      "epsilon_anneal_time": 500000,
+      "epsilon_finish": 0.05,
+      "epsilon_start": 0.75,
+      "evaluate": false,
+      "gain": 0.01,
+      "gamma": 0.99,
+      "gat_embed_dim": 32,
+      "grad_norm_clip": 10,
+      "hypernet_embed": 64,
+      "label": "default_label",
+      "learner": "dvd_audit_learner",
+      "learner_log_interval": 10000,
+      "load_step": 0,
+      "local_results_path": "results",
+      "log_interval": 10000,
+      "lr": 0.001,
+      "mac": "n_mac",
+      "mixer": "dvd_counterfactual_router",
+      "mixing_embed_dim": 32,
+      "name": "audit_router_td_3s5z_vs_3s6z_s79",
+      "obs_agent_id": true,
+      "obs_last_action": true,
+      "optim_alpha": 0.99,
+      "optim_eps": 1e-05,
+      "optimizer": "adam",
+      "per_alpha": 0.6,
+      "per_beta": 0.4,
+      "q_lambda": false,
+      "remark": "",
+      "repeat_id": 1,
+      "return_priority": false,
+      "rnd_beta": 0.01,
+      "rnd_lr": 0.0005,
+      "rnn_hidden_dim": 64,
+      "run": "default",
+      "runner": "parallel",
+      "runner_log_interval": 10000,
+      "save_model": false,
+      "save_model_interval": 2000000,
+      "save_replay": false,
+      "seed": 79,
+      "state_shape": 0,
+      "t_max": 10050000,
+      "target_update_interval": 200,
+      "td_lambda": 0.3,
+      "test_greedy": true,
+      "test_interval": 10000,
+      "test_nepisode": 32,
+      "use_cuda": true,
+      "use_layer_norm": false,
+      "use_orthogonal": false,
+      "use_per": false,
+      "use_rnd": true,
+      "use_tensorboard": true
+    },
+    "metadata": {
+      "artifacts": [],
+      "command": "my_main",
+      "experiment": {
+        "base_dir": "/home/zhangbei/pymarl2/src",
+        "dependencies": [
+          "munch==2.5.0",
+          "numpy==1.24.3",
+          "PyYAML==5.3.1",
+          "sacred==0.7.5",
+          "torch==1.12.1"
+        ],
+        "mainfile": "main.py",
+        "name": "pymarl",
+        "repositories": [],
+        "sources": [
+          [
+            "components/episode_buffer.py",
+            "_sources/episode_buffer_aac1a77501897528cb4a870893a6ade2.py"
+          ],
+          [
+            "controllers/n_controller.py",
+            "_sources/n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py"
+          ],
+          [
+            "learners/dvd_audit_learner.py",
+            "_sources/dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py"
+          ],
+          [
+            "main.py",
+            "_sources/main_9ffc57efd7c293db6b3dfee341b54652.py"
+          ],
+          [
+            "main_audit.py",
+            "_sources/main_audit_8cb21d71d974587bd4eb65696057385c.py"
+          ],
+          [
+            "modules/agents/n_rnn_agent.py",
+            "_sources/n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py"
+          ],
+          [
+            "modules/exploration/rnd.py",
+            "_sources/rnd_dfcd103004b7959a64adc23872fc951f.py"
+          ],
+          [
+            "modules/mixers/dvd.py",
+            "_sources/dvd_0e0811fd363530bf352eb0a90d61a404.py"
+          ],
+          [
+            "modules/mixers/dvd_adaptive_takeover.py",
+            "_sources/dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router.py",
+            "_sources/dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py"
+          ],
+          [
+            "modules/mixers/dvd_counterfactual_router_audit.py",
+            "_sources/dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py"
+          ],
+          [
+            "modules/mixers/dvd_credit.py",
+            "_sources/dvd_credit_4e831883c144412287bdfe95a7727316.py"
+          ],
+          [
+            "modules/mixers/dvd_residual.py",
+            "_sources/dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py"
+          ],
+          [
+            "modules/mixers/dvd_takeover.py",
+            "_sources/dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py"
+          ],
+          [
+            "modules/mixers/nmix.py",
+            "_sources/nmix_96f80ec3d27c6f06601ef84de801146b.py"
+          ],
+          [
+            "run/run.py",
+            "_sources/run_5ecffc3f8196a5196e851bb62e0a6e91.py"
+          ],
+          [
+            "utils/logging.py",
+            "_sources/logging_ce9a261c391cbeae67129d3d806d06da.py"
+          ],
+          [
+            "utils/td_lambda_audit.py",
+            "_sources/td_lambda_audit_13dc3286edca0f48316317954467e5ef.py"
+          ]
+        ]
+      },
+      "heartbeat": "2026-10-02T00:22:51.677299",
+      "host": {
+        "ENV": {},
+        "cpu": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+        "gpus": {
+          "driver_version": "535.247.01",
+          "gpus": [
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            },
+            {
+              "model": "NVIDIA GeForce RTX 3090",
+              "persistence_mode": false,
+              "total_memory": 24576
+            }
+          ]
+        },
+        "hostname": "XieLab3090",
+        "os": [
+          "Linux",
+          "Linux-5.15.0-139-generic-x86_64-with-glibc2.17"
+        ],
+        "python_version": "3.8.20"
+      },
+      "meta": {
+        "command": "my_main",
+        "options": {
+          "--beat_interval": null,
+          "--capture": null,
+          "--comment": null,
+          "--debug": false,
+          "--enforce_clean": false,
+          "--file_storage": null,
+          "--force": false,
+          "--help": false,
+          "--loglevel": null,
+          "--mongo_db": null,
+          "--name": null,
+          "--pdb": false,
+          "--print_config": false,
+          "--priority": null,
+          "--queue": false,
+          "--sql": null,
+          "--tiny_db": null,
+          "--unobserved": false,
+          "COMMAND": null,
+          "UPDATE": [
+            "env_args.map_name=3s5z_vs_3s6z",
+            "use_tensorboard=True",
+            "seed=79",
+            "name=audit_router_td_3s5z_vs_3s6z_s79",
+            "audit_fix_td_lambda=True",
+            "audit_isolate_dvd_aux_hidden=False"
+          ],
+          "help": false,
+          "with": true
+        }
+      },
+      "resources": [
+        [
+          "/home/zhangbei/pymarl2/src/config/default.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_td_3s5z_vs_3s6z_s79/_resources/default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/envs/sc2.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_td_3s5z_vs_3s6z_s79/_resources/sc2_e0db63036759e634b836cb6981c1a654.yaml"
+        ],
+        [
+          "/home/zhangbei/pymarl2/src/config/algs/dvd_audit_router.yaml",
+          "/home/zhangbei/pymarl2/ablation_results/sacred/3s5z_vs_3s6z/audit_router_td_3s5z_vs_3s6z_s79/_resources/dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml"
+        ]
+      ],
+      "result": null,
+      "start_time": "2026-10-01T04:48:37.271003",
+      "status": "RUNNING"
+    },
+    "diagnostics": {
+      "return_mean": 17.18680762464363,
+      "return_std": 3.8092117109988846,
+      "battle_won_mean": 0.4730570048298669,
+      "ep_length_mean": 90.57786804481917,
+      "epsilon": 0.05000000074505806,
+      "test_return_mean": 19.00341512478756,
+      "test_return_std": 2.734321742498882,
+      "test_ep_length_mean": 86.87395803696297,
+      "audit_fix_td_lambda": 1.0,
+      "audit_isolate_dvd_aux_hidden": 0.0,
+      "loss_td": 0.062269070366817586,
+      "grad_norm": 0.9217350868528948,
+      "td_error_abs": 0.15391118193076359,
+      "q_taken_mean": 0.7574202614226917,
+      "target_mean": 5.407485854944413,
+      "counterfactual_loss_mix": 0.062269070366817586,
+      "counterfactual_loss_value": 0.06387404578628379,
+      "counterfactual_loss_bm": 0.06427528817740419,
+      "counterfactual_loss_dvd": 0.06539590715297536,
+      "counterfactual_loss_route": 0.05456411716713946,
+      "counterfactual_loss_sparse": 0.12749098148386512,
+      "counterfactual_route_target_mean": 0.1266643982551181,
+      "counterfactual_route_positive_rate": 0.363540355235147,
+      "counterfactual_route_reliable_rate": 0.38735974147686775,
+      "counterfactual_relative_advantage_mean": -0.027710576608916706,
+      "counterfactual_absolute_advantage_mean": -0.004503683589597251,
+      "counterfactual_bm_error_mean": 0.15655322107488054,
+      "counterfactual_dvd_error_mean": 0.16105690612891102,
+      "counterfactual_gate_mean": 0.12749098148386512,
+      "counterfactual_gate_std": 0.017889739782635028,
+      "counterfactual_gate_min": 0.07592940030353888,
+      "counterfactual_gate_max": 0.20760031523070588,
+      "counterfactual_gate_target_correlation": 0.0811449258133099,
+      "counterfactual_gate_output_weight_norm": 0.8747448727020428,
+      "rnd_loss": 0.0,
+      "intrinsic_rewards_mean": 0.0,
+      "adaptive_gate_mean": 0.12466174090459771,
+      "adaptive_gate_std": 0.013725029780894862,
+      "adaptive_gate_min": 0.07592940030353888,
+      "adaptive_gate_max": 0.2122177136201405,
+      "adaptive_shift_ratio": 0.10638176943684963,
+      "adaptive_dvd_w1_ratio": 1.0,
+      "adaptive_bm_dvd_cosine": 0.6222777485811646,
+      "adaptive_candidate_distance": 0.8533090523771921,
+      "adaptive_attention_entropy": 0.859724766380754,
+      "adaptive_head_disagreement": 0.12656228686043694,
+      "adaptive_attention_confidence": 0.11714081708130249,
+      "adaptive_bm_w1_rms": 0.34267717274661436,
+      "adaptive_dvd_w1_rms": 0.3426771730550684,
+      "adaptive_bm_grad_norm": 0.7635176765160469,
+      "adaptive_gat_grad_norm": 0.004314211905762347,
+      "adaptive_dvd_grad_norm": 0.0018827024151798638,
+      "adaptive_gate_grad_norm": 0.0006087032020925085,
+      "episode": 141966.9485535511
+    }
+  }
+]

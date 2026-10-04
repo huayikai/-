@@ -1,0 +1,1058 @@
+{
+  "pairs": [
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "differences": {
+        "adaptive_bm_abs": [
+          false,
+          null
+        ],
+        "adaptive_gate_hidden_dim": [
+          32,
+          null
+        ],
+        "adaptive_gate_init": [
+          0.05,
+          null
+        ],
+        "adaptive_gate_max": [
+          1.0,
+          null
+        ],
+        "adaptive_norm_eps": [
+          1e-06,
+          null
+        ],
+        "audit_isolate_dvd_aux_hidden": [
+          true,
+          false
+        ],
+        "audit_source_manifest": [
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_router.yaml",
+              "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+            }
+          ],
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_bm.yaml",
+              "sha256": "57bd41163f060d1404474bede363db334af22a5ab4499ce39204014330c4cf3b"
+            }
+          ]
+        ],
+        "counterfactual_bm_loss_weight": [
+          1.0,
+          null
+        ],
+        "counterfactual_dvd_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_mix_loss_weight": [
+          0.25,
+          null
+        ],
+        "counterfactual_route_eps": [
+          1e-06,
+          null
+        ],
+        "counterfactual_route_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_route_margin": [
+          0.05,
+          null
+        ],
+        "counterfactual_route_min_abs_advantage": [
+          0.01,
+          null
+        ],
+        "counterfactual_sparse_weight": [
+          0.0,
+          null
+        ],
+        "mixer": [
+          "dvd_counterfactual_router",
+          "dvd_takeover"
+        ],
+        "name": [
+          "audit_router_both_3s5z_vs_3s6z_s79",
+          "audit_bm_td_3s5z_vs_3s6z_s79"
+        ],
+        "takeover_bm_abs": [
+          null,
+          false
+        ],
+        "takeover_max": [
+          null,
+          1.0
+        ],
+        "takeover_norm_eps": [
+          null,
+          1e-06
+        ],
+        "takeover_ramp_steps": [
+          null,
+          4000000
+        ],
+        "takeover_reliability_floor": [
+          null,
+          0.5
+        ],
+        "takeover_warmup_steps": [
+          null,
+          20000000
+        ]
+      },
+      "unexpected": []
+    },
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 80,
+      "differences": {
+        "adaptive_bm_abs": [
+          false,
+          null
+        ],
+        "adaptive_gate_hidden_dim": [
+          32,
+          null
+        ],
+        "adaptive_gate_init": [
+          0.05,
+          null
+        ],
+        "adaptive_gate_max": [
+          1.0,
+          null
+        ],
+        "adaptive_norm_eps": [
+          1e-06,
+          null
+        ],
+        "audit_isolate_dvd_aux_hidden": [
+          true,
+          false
+        ],
+        "audit_source_manifest": [
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_router.yaml",
+              "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+            }
+          ],
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_bm.yaml",
+              "sha256": "57bd41163f060d1404474bede363db334af22a5ab4499ce39204014330c4cf3b"
+            }
+          ]
+        ],
+        "counterfactual_bm_loss_weight": [
+          1.0,
+          null
+        ],
+        "counterfactual_dvd_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_mix_loss_weight": [
+          0.25,
+          null
+        ],
+        "counterfactual_route_eps": [
+          1e-06,
+          null
+        ],
+        "counterfactual_route_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_route_margin": [
+          0.05,
+          null
+        ],
+        "counterfactual_route_min_abs_advantage": [
+          0.01,
+          null
+        ],
+        "counterfactual_sparse_weight": [
+          0.0,
+          null
+        ],
+        "mixer": [
+          "dvd_counterfactual_router",
+          "dvd_takeover"
+        ],
+        "name": [
+          "audit_router_both_3s5z_vs_3s6z_s80",
+          "audit_bm_td_3s5z_vs_3s6z_s80"
+        ],
+        "takeover_bm_abs": [
+          null,
+          false
+        ],
+        "takeover_max": [
+          null,
+          1.0
+        ],
+        "takeover_norm_eps": [
+          null,
+          1e-06
+        ],
+        "takeover_ramp_steps": [
+          null,
+          4000000
+        ],
+        "takeover_reliability_floor": [
+          null,
+          0.5
+        ],
+        "takeover_warmup_steps": [
+          null,
+          20000000
+        ]
+      },
+      "unexpected": []
+    },
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "differences": {
+        "adaptive_bm_abs": [
+          false,
+          null
+        ],
+        "adaptive_gate_hidden_dim": [
+          32,
+          null
+        ],
+        "adaptive_gate_init": [
+          0.05,
+          null
+        ],
+        "adaptive_gate_max": [
+          1.0,
+          null
+        ],
+        "adaptive_norm_eps": [
+          1e-06,
+          null
+        ],
+        "audit_isolate_dvd_aux_hidden": [
+          true,
+          false
+        ],
+        "audit_source_manifest": [
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_router.yaml",
+              "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+            }
+          ],
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_bm.yaml",
+              "sha256": "57bd41163f060d1404474bede363db334af22a5ab4499ce39204014330c4cf3b"
+            }
+          ]
+        ],
+        "counterfactual_bm_loss_weight": [
+          1.0,
+          null
+        ],
+        "counterfactual_dvd_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_mix_loss_weight": [
+          0.25,
+          null
+        ],
+        "counterfactual_route_eps": [
+          1e-06,
+          null
+        ],
+        "counterfactual_route_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_route_margin": [
+          0.05,
+          null
+        ],
+        "counterfactual_route_min_abs_advantage": [
+          0.01,
+          null
+        ],
+        "counterfactual_sparse_weight": [
+          0.0,
+          null
+        ],
+        "mixer": [
+          "dvd_counterfactual_router",
+          "dvd_takeover"
+        ],
+        "name": [
+          "audit_router_both_3s5z_vs_3s6z_s81",
+          "audit_bm_td_3s5z_vs_3s6z_s81"
+        ],
+        "takeover_bm_abs": [
+          null,
+          false
+        ],
+        "takeover_max": [
+          null,
+          1.0
+        ],
+        "takeover_norm_eps": [
+          null,
+          1e-06
+        ],
+        "takeover_ramp_steps": [
+          null,
+          4000000
+        ],
+        "takeover_reliability_floor": [
+          null,
+          0.5
+        ],
+        "takeover_warmup_steps": [
+          null,
+          20000000
+        ]
+      },
+      "unexpected": []
+    },
+    {
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "differences": {
+        "adaptive_bm_abs": [
+          false,
+          null
+        ],
+        "adaptive_gate_hidden_dim": [
+          32,
+          null
+        ],
+        "adaptive_gate_init": [
+          0.05,
+          null
+        ],
+        "adaptive_gate_max": [
+          1.0,
+          null
+        ],
+        "adaptive_norm_eps": [
+          1e-06,
+          null
+        ],
+        "audit_isolate_dvd_aux_hidden": [
+          true,
+          false
+        ],
+        "audit_source_manifest": [
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_router.yaml",
+              "sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59"
+            }
+          ],
+          [
+            {
+              "path": "main_audit.py",
+              "sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d"
+            },
+            {
+              "path": "main.py",
+              "sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a"
+            },
+            {
+              "path": "learners/dvd_audit_learner.py",
+              "sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87"
+            },
+            {
+              "path": "utils/td_lambda_audit.py",
+              "sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+              "sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0"
+            },
+            {
+              "path": "modules/mixers/dvd_counterfactual_router.py",
+              "sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37"
+            },
+            {
+              "path": "modules/mixers/dvd_adaptive_takeover.py",
+              "sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5"
+            },
+            {
+              "path": "modules/mixers/dvd_takeover.py",
+              "sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c"
+            },
+            {
+              "path": "modules/mixers/dvd_credit.py",
+              "sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a"
+            },
+            {
+              "path": "modules/mixers/dvd_residual.py",
+              "sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92"
+            },
+            {
+              "path": "modules/mixers/dvd.py",
+              "sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08"
+            },
+            {
+              "path": "modules/mixers/nmix.py",
+              "sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae"
+            },
+            {
+              "path": "modules/agents/n_rnn_agent.py",
+              "sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308"
+            },
+            {
+              "path": "controllers/n_controller.py",
+              "sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec"
+            },
+            {
+              "path": "modules/exploration/rnd.py",
+              "sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d"
+            },
+            {
+              "path": "run/run.py",
+              "sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49"
+            },
+            {
+              "path": "components/episode_buffer.py",
+              "sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557"
+            },
+            {
+              "path": "config/default.yaml",
+              "sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5"
+            },
+            {
+              "path": "config/envs/sc2.yaml",
+              "sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb"
+            },
+            {
+              "path": "config/algs/dvd_audit_bm.yaml",
+              "sha256": "57bd41163f060d1404474bede363db334af22a5ab4499ce39204014330c4cf3b"
+            }
+          ]
+        ],
+        "counterfactual_bm_loss_weight": [
+          1.0,
+          null
+        ],
+        "counterfactual_dvd_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_mix_loss_weight": [
+          0.25,
+          null
+        ],
+        "counterfactual_route_eps": [
+          1e-06,
+          null
+        ],
+        "counterfactual_route_loss_weight": [
+          0.1,
+          null
+        ],
+        "counterfactual_route_margin": [
+          0.05,
+          null
+        ],
+        "counterfactual_route_min_abs_advantage": [
+          0.01,
+          null
+        ],
+        "counterfactual_sparse_weight": [
+          0.0,
+          null
+        ],
+        "mixer": [
+          "dvd_counterfactual_router",
+          "dvd_takeover"
+        ],
+        "name": [
+          "audit_router_both_6h_vs_8z_s79",
+          "audit_bm_td_6h_vs_8z_s79"
+        ],
+        "takeover_bm_abs": [
+          null,
+          false
+        ],
+        "takeover_max": [
+          null,
+          1.0
+        ],
+        "takeover_norm_eps": [
+          null,
+          1e-06
+        ],
+        "takeover_ramp_steps": [
+          null,
+          4000000
+        ],
+        "takeover_reliability_floor": [
+          null,
+          0.5
+        ],
+        "takeover_warmup_steps": [
+          null,
+          20000000
+        ]
+      },
+      "unexpected": []
+    }
+  ],
+  "aux_both_seed81": {
+    "audit_fix_td_lambda": [
+      false,
+      true
+    ],
+    "name": [
+      "audit_router_aux_3s5z_vs_3s6z_s81",
+      "audit_router_both_3s5z_vs_3s6z_s81"
+    ]
+  }
+}

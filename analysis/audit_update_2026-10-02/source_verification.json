@@ -1,0 +1,48 @@
+{
+  "runs": [
+    {
+      "name": "audit_router_aux_3s5z_vs_3s6z_s79",
+      "verified_manifest_files": 20,
+      "errors": []
+    },
+    {
+      "name": "audit_router_both_3s5z_vs_3s6z_s79",
+      "verified_manifest_files": 20,
+      "errors": []
+    },
+    {
+      "name": "audit_router_legacy_3s5z_vs_3s6z_s79",
+      "verified_manifest_files": 20,
+      "errors": []
+    },
+    {
+      "name": "audit_router_td_3s5z_vs_3s6z_s79",
+      "verified_manifest_files": 20,
+      "errors": []
+    }
+  ],
+  "legacy_reproduction": {
+    "win_curves_equal": true,
+    "common_tags": 53,
+    "identical_tags": 53,
+    "different_tags": [],
+    "different_config": {
+      "name": [
+        "counterfactual_router_safev2_3s5z_s79",
+        "audit_router_legacy_3s5z_vs_3s6z_s79"
+      ],
+      "audit_fix_td_lambda": [
+        null,
+        false
+      ],
+      "audit_isolate_dvd_aux_hidden": [
+        null,
+        false
+      ],
+      "learner": [
+        "dvd_nq_learner_with_sarsa",
+        "dvd_audit_learner"
+      ]
+    }
+  }
+}

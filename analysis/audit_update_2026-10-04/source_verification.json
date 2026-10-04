@@ -1,0 +1,62 @@
+[
+  {
+    "name": "audit_bm_td_3s5z_vs_3s6z_s79",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_bm_td_3s5z_vs_3s6z_s80",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_bm_td_3s5z_vs_3s6z_s81",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_bm_td_6h_vs_8z_s79",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_aux_3s5z_vs_3s6z_s79",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_aux_3s5z_vs_3s6z_s81",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_both_3s5z_vs_3s6z_s79",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_both_3s5z_vs_3s6z_s80",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_both_3s5z_vs_3s6z_s81",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_both_6h_vs_8z_s79",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_legacy_3s5z_vs_3s6z_s79",
+    "manifest_files": 20,
+    "errors": []
+  },
+  {
+    "name": "audit_router_td_3s5z_vs_3s6z_s79",
+    "manifest_files": 20,
+    "errors": []
+  }
+]

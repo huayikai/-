@@ -1,0 +1,394 @@
+[
+  {
+    "first": "creditdvd_6h",
+    "second": "creditoff_6h",
+    "seed": 79,
+    "differences": {
+      "credit_gate_warmup_steps": [
+        1000000,
+        20000000
+      ]
+    }
+  },
+  {
+    "first": "creditdvd_6h",
+    "second": "creditoff_6h",
+    "seed": 80,
+    "differences": {
+      "credit_gate_warmup_steps": [
+        1000000,
+        20000000
+      ]
+    }
+  },
+  {
+    "first": "creditdvd_6h",
+    "second": "creditoff_6h",
+    "seed": 81,
+    "differences": {
+      "credit_gate_warmup_steps": [
+        1000000,
+        20000000
+      ]
+    }
+  },
+  {
+    "first": "creditdvd_6h",
+    "second": "creditoff_6h",
+    "seed": 82,
+    "differences": {
+      "credit_gate_warmup_steps": [
+        1000000,
+        20000000
+      ]
+    }
+  },
+  {
+    "first": "counterfactual_router_safev2_3s5z",
+    "second": "takeoveroff_3s5z",
+    "seed": 79,
+    "differences": {
+      "adaptive_gate_hidden_dim": [
+        32,
+        null
+      ],
+      "counterfactual_route_eps": [
+        1e-06,
+        null
+      ],
+      "counterfactual_route_loss_weight": [
+        0.1,
+        null
+      ],
+      "mixer": [
+        "dvd_counterfactual_router",
+        "dvd_takeover"
+      ],
+      "takeover_norm_eps": [
+        null,
+        1e-06
+      ],
+      "counterfactual_route_min_abs_advantage": [
+        0.01,
+        null
+      ],
+      "takeover_bm_abs": [
+        null,
+        false
+      ],
+      "counterfactual_sparse_weight": [
+        0.0,
+        null
+      ],
+      "takeover_ramp_steps": [
+        null,
+        4000000
+      ],
+      "adaptive_bm_abs": [
+        false,
+        null
+      ],
+      "adaptive_gate_max": [
+        1.0,
+        null
+      ],
+      "counterfactual_bm_loss_weight": [
+        1.0,
+        null
+      ],
+      "counterfactual_route_margin": [
+        0.05,
+        null
+      ],
+      "counterfactual_dvd_loss_weight": [
+        0.1,
+        null
+      ],
+      "takeover_reliability_floor": [
+        null,
+        0.5
+      ],
+      "adaptive_norm_eps": [
+        1e-06,
+        null
+      ],
+      "adaptive_gate_init": [
+        0.05,
+        null
+      ],
+      "counterfactual_mix_loss_weight": [
+        0.25,
+        null
+      ],
+      "takeover_max": [
+        null,
+        1.0
+      ],
+      "takeover_warmup_steps": [
+        null,
+        20000000
+      ]
+    }
+  },
+  {
+    "first": "counterfactual_router_safev2_3s5z",
+    "second": "takeoveroff_3s5z",
+    "seed": 80,
+    "differences": {
+      "adaptive_gate_hidden_dim": [
+        32,
+        null
+      ],
+      "counterfactual_route_eps": [
+        1e-06,
+        null
+      ],
+      "counterfactual_route_loss_weight": [
+        0.1,
+        null
+      ],
+      "mixer": [
+        "dvd_counterfactual_router",
+        "dvd_takeover"
+      ],
+      "takeover_norm_eps": [
+        null,
+        1e-06
+      ],
+      "counterfactual_route_min_abs_advantage": [
+        0.01,
+        null
+      ],
+      "takeover_bm_abs": [
+        null,
+        false
+      ],
+      "counterfactual_sparse_weight": [
+        0.0,
+        null
+      ],
+      "takeover_ramp_steps": [
+        null,
+        4000000
+      ],
+      "adaptive_bm_abs": [
+        false,
+        null
+      ],
+      "adaptive_gate_max": [
+        1.0,
+        null
+      ],
+      "counterfactual_bm_loss_weight": [
+        1.0,
+        null
+      ],
+      "counterfactual_route_margin": [
+        0.05,
+        null
+      ],
+      "counterfactual_dvd_loss_weight": [
+        0.1,
+        null
+      ],
+      "takeover_reliability_floor": [
+        null,
+        0.5
+      ],
+      "adaptive_norm_eps": [
+        1e-06,
+        null
+      ],
+      "adaptive_gate_init": [
+        0.05,
+        null
+      ],
+      "counterfactual_mix_loss_weight": [
+        0.25,
+        null
+      ],
+      "takeover_max": [
+        null,
+        1.0
+      ],
+      "takeover_warmup_steps": [
+        null,
+        20000000
+      ]
+    }
+  },
+  {
+    "first": "counterfactual_router_safev2_3s5z",
+    "second": "takeoveroff_3s5z",
+    "seed": 81,
+    "differences": {
+      "adaptive_gate_hidden_dim": [
+        32,
+        null
+      ],
+      "counterfactual_route_eps": [
+        1e-06,
+        null
+      ],
+      "counterfactual_route_loss_weight": [
+        0.1,
+        null
+      ],
+      "mixer": [
+        "dvd_counterfactual_router",
+        "dvd_takeover"
+      ],
+      "takeover_norm_eps": [
+        null,
+        1e-06
+      ],
+      "counterfactual_route_min_abs_advantage": [
+        0.01,
+        null
+      ],
+      "takeover_bm_abs": [
+        null,
+        false
+      ],
+      "counterfactual_sparse_weight": [
+        0.0,
+        null
+      ],
+      "takeover_ramp_steps": [
+        null,
+        4000000
+      ],
+      "adaptive_bm_abs": [
+        false,
+        null
+      ],
+      "adaptive_gate_max": [
+        1.0,
+        null
+      ],
+      "counterfactual_bm_loss_weight": [
+        1.0,
+        null
+      ],
+      "counterfactual_route_margin": [
+        0.05,
+        null
+      ],
+      "counterfactual_dvd_loss_weight": [
+        0.1,
+        null
+      ],
+      "takeover_reliability_floor": [
+        null,
+        0.5
+      ],
+      "adaptive_norm_eps": [
+        1e-06,
+        null
+      ],
+      "adaptive_gate_init": [
+        0.05,
+        null
+      ],
+      "counterfactual_mix_loss_weight": [
+        0.25,
+        null
+      ],
+      "takeover_max": [
+        null,
+        1.0
+      ],
+      "takeover_warmup_steps": [
+        null,
+        20000000
+      ]
+    }
+  },
+  {
+    "first": "counterfactual_router_safev2_3s5z",
+    "second": "takeoveroff_3s5z",
+    "seed": 82,
+    "differences": {
+      "adaptive_gate_hidden_dim": [
+        32,
+        null
+      ],
+      "counterfactual_route_eps": [
+        1e-06,
+        null
+      ],
+      "counterfactual_route_loss_weight": [
+        0.1,
+        null
+      ],
+      "mixer": [
+        "dvd_counterfactual_router",
+        "dvd_takeover"
+      ],
+      "takeover_norm_eps": [
+        null,
+        1e-06
+      ],
+      "counterfactual_route_min_abs_advantage": [
+        0.01,
+        null
+      ],
+      "takeover_bm_abs": [
+        null,
+        false
+      ],
+      "counterfactual_sparse_weight": [
+        0.0,
+        null
+      ],
+      "takeover_ramp_steps": [
+        null,
+        4000000
+      ],
+      "adaptive_bm_abs": [
+        false,
+        null
+      ],
+      "adaptive_gate_max": [
+        1.0,
+        null
+      ],
+      "counterfactual_bm_loss_weight": [
+        1.0,
+        null
+      ],
+      "counterfactual_route_margin": [
+        0.05,
+        null
+      ],
+      "counterfactual_dvd_loss_weight": [
+        0.1,
+        null
+      ],
+      "takeover_reliability_floor": [
+        null,
+        0.5
+      ],
+      "adaptive_norm_eps": [
+        1e-06,
+        null
+      ],
+      "adaptive_gate_init": [
+        0.05,
+        null
+      ],
+      "counterfactual_mix_loss_weight": [
+        0.25,
+        null
+      ],
+      "takeover_max": [
+        null,
+        1.0
+      ],
+      "takeover_warmup_steps": [
+        null,
+        20000000
+      ]
+    }
+  }
+]

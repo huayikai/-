@@ -32,3 +32,8 @@ venv/
 _*.txt
 _extract_pdf.py
 _test_dvd_layer.py
+
+# 实验分析的完整标量缓存（由本地 Sacred / TensorBoard 日志重建）
+analysis/**/details.json
+analysis/**/details.json.gz
+analysis/**/historical_controls.json.gz
