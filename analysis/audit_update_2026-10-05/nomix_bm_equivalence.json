@@ -1,0 +1,28 @@
+{
+  "shared_tags": 19,
+  "exact_tags": [
+    "audit_fix_td_lambda",
+    "battle_won_mean",
+    "ep_length_mean",
+    "episode",
+    "epsilon",
+    "intrinsic_rewards_mean",
+    "q_taken_mean",
+    "return_mean",
+    "return_std",
+    "rnd_loss",
+    "target_mean",
+    "test_battle_won_mean",
+    "test_ep_length_mean",
+    "test_return_mean",
+    "test_return_std"
+  ],
+  "different_tags": [
+    "audit_isolate_dvd_aux_hidden",
+    "grad_norm",
+    "loss_td",
+    "td_error_abs"
+  ],
+  "win_points": 989,
+  "scope": "Observed scalar series only; no saved parameter trajectory comparison."
+}
