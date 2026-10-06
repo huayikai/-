@@ -88,7 +88,7 @@ CUDA_VISIBLE_DEVICES=0 python3 src/main_audit.py --config=dvd_audit_router --env
 
 至少比较相同区间的测试胜率 AUC、9–10M 尾段胜率、非有限值和中断情况。router 还应检查 gate 与 route target 的相关性、gate 方差、DVD 相对 BM 的 TD 优势。不要只选择最高点，也不要把 5M 中断运行当作完整 10M 结果。若修正后仍不能稳定优于同配置 BM，停止继续扫 gate 超参更合理；基础 DVD 的 TD 开/关对照可以帮助判断之前较好结果是否依赖旧目标计算。
 
-每次新入口运行会把关键 Python 源码加入 Sacred 源码保存列表；实际使用的三份 YAML 在 pre-run hook 中通过 `add_resource` 保存为输入资源，兼容旧版 Sacred 对源码扩展名的限制。配置中仍记录所有文件的 `audit_source_manifest` SHA-256；CLI 覆盖参数由 Sacred 记录。结果仍存储到原流程的 `ablation_results`。原 mixer 是共享依赖，比较这轮四组期间不要再改其实现；manifest 用来核对是否跑了同一套源码。
+每次新入口运行会把关键 Python 源码加入 Sacred 源码保存列表；实际使用的三份 YAML 在 pre-run hook 中通过 `add_resource` 保存为输入资源，兼容旧版 Sacred 对源码扩展名的限制。配置中仍记录所有文件的 `audit_source_manifest` SHA-256；CLI 覆盖参数由 Sacred 记录。从2026-10-06的输出路径更新开始，结果默认保存到项目根目录的 `ablation_results_10_6`；旧运行快照仍对应原 `ablation_results`。原 mixer 是共享依赖，比较这轮四组期间不要再改其实现；manifest 用来核对是否跑了同一套源码。
 
 ## 提交文件
 
@@ -106,3 +106,23 @@ config/algs/dvd_audit_bm.yaml
 experiments/run_dvd_audit.py
 experiments/DVD_AUDIT.md
 ```
+
+
+## 2026-10-06：统一保存目录
+
+`main.py`和`main_audit.py`在启动时一次解析`local_results_path`，默认`ablation_results_10_6`，相对路径从项目根目录（`src`的父目录）解析。所有新实验都写入这个固定目录。服务器现有布局下，例如：
+
+```text
+/home/zhangbei/pymarl2/ablation_results_10_6/
+  sacred/<map>/<name>/<run_id>/
+  tb_logs/<name>__<timestamp>/
+  models/<name>__<timestamp>/<t_env>/
+```
+
+两个入口、四种runner的TensorBoard及模型均使用同一个解析后的绝对根目录，该路径保存在Sacred配置中。模型仍需`save_model=True`才会保存；默认runner补全了此前缺失的save_path创建逻辑。
+
+在原命令的`with`参数后添加`local_results_path=/data/dvd_runs`可以指定准确根目录。配置检查命令`--audit-print-config`也会显示最终路径。历史实验数据无需移动；服务器采用本次更新的源码后，新启动的实验才使用新路径，已有进程不会切换。
+
+新增路径检查：`python3 src/_test_results_path.py`（需要PyYAML，无需Sacred/SMAC）。审计manifest新增`utils/results.py`，上传服务器时需一并更新`main.py`、`main_audit.py`、`config/default.yaml`、`run/*.py`及该helper。
+
+最新结果：[10月5日下午小mixed权重实验](../analysis/audit_update_2026-10-06/report.md)。四组均覆盖5M；0.05恢复6h80但损失3s79收益，暂不作为统一候选。本次没有改训练算法或启动新实验。
