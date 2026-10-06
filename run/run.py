@@ -60,7 +60,7 @@ def run(_run, _config, _log):
     args.unique_token = unique_token
     if args.use_tensorboard:
         # 设置 tb_logs 的路径
-        tb_logs_direc = os.path.join(dirname(dirname(dirname(abspath(__file__)))), "ablation_results", "tb_logs")
+        tb_logs_direc = os.path.join(args.local_results_path, "tb_logs")
         tb_exp_direc = os.path.join(tb_logs_direc, "{}").format(unique_token)
         logger.setup_tb(tb_exp_direc) # 初始化 TensorBoard 写入器
 
@@ -243,7 +243,9 @@ def run_sequential(args, logger):
         # --- [第 4 步: 保存模型 (Saving)] ---
         if args.save_model and (runner.t_env - model_save_time >= args.save_model_interval or model_save_time == 0):
             model_save_time = runner.t_env
-            # ... (创建保存路径) ...
+            save_path = os.path.join(args.local_results_path, "models",
+                                     args.unique_token, str(runner.t_env))
+            os.makedirs(save_path, exist_ok=True)
             logger.console_logger.info("Saving models to {}".format(save_path))
             
             # [关键] 告诉 Learner 保存所有模型 (MAC, Mixer, 优化器状态等)

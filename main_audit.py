@@ -1,18 +1,20 @@
 """Optional experiment entry point; registers only the new audit learner.
 
-The existing main.py, registries, learner, and configurations are untouched.
+Training fixes stay isolated; output locations use the shared path helper.
 Use --audit-print-config to inspect flags without importing SMAC or Sacred.
 """
 import hashlib
 import json
 import sys
 from pathlib import Path
+from utils.results import prepare_results_path
 
 ROOT = Path(__file__).resolve().parent
 AUDIT_CONFIGS = ("dvd_audit_router", "dvd_audit_base", "dvd_audit_bm")
 SOURCE_FILES = (
     "main_audit.py", "main.py", "learners/dvd_audit_learner.py",
-    "utils/td_lambda_audit.py", "modules/mixers/dvd_counterfactual_router_audit.py",
+    "utils/td_lambda_audit.py", "utils/results.py",
+    "modules/mixers/dvd_counterfactual_router_audit.py",
     "modules/mixers/dvd_counterfactual_router.py",
     "modules/mixers/dvd_adaptive_takeover.py", "modules/mixers/dvd_takeover.py",
     "modules/mixers/dvd_credit.py", "modules/mixers/dvd_residual.py",
@@ -105,6 +107,7 @@ def register_file_records(ex, sources):
 
 def main(argv=None):
     config, params, sources = load_configuration(sys.argv[1:] if argv is None else argv)
+    params = prepare_results_path(config, params, ROOT.parent)
     if "--audit-print-config" in params:
         params.remove("--audit-print-config")
         print(json.dumps(inspect_overrides(config, params), indent=2, ensure_ascii=False))
@@ -124,7 +127,7 @@ def main(argv=None):
         params, "env_args.map_name", config["env_args"]["map_name"]
     )
     algo_name = original_entry.parse_command(params, "name", config["name"])
-    observer_path = Path(original_entry.results_path) / "sacred" / map_name / algo_name
+    observer_path = Path(config["local_results_path"]) / "sacred" / map_name / algo_name
     original_entry.logger.info("Audit experiment records: %s", observer_path)
     ex.observers.append(FileStorageObserver.create(str(observer_path)))
     ex.run_commandline([str(ROOT / "main_audit.py")] + params)

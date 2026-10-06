@@ -12,6 +12,7 @@ from utils.logging import get_logger
 import yaml
 
 from run import REGISTRY as run_REGISTRY
+from utils.results import prepare_results_path
 
 SETTINGS['CAPTURE_MODE'] = "fd" # set to "no" if you want to see stdout/stderr in console
 logger = get_logger()
@@ -19,8 +20,6 @@ logger = get_logger()
 ex = Experiment("pymarl")
 ex.logger = logger
 ex.captured_out_filter = apply_backspaces_and_linefeeds
-
-results_path = join(dirname(dirname(abspath(__file__))), "ablation_results")
 
 
 @ex.main
@@ -101,13 +100,16 @@ if __name__ == '__main__':
     config_dict = recursive_dict_update(config_dict, env_config)
     config_dict = recursive_dict_update(config_dict, alg_config)
 
+    # Resolve once, before both Sacred overrides and logger setup.
+    params = prepare_results_path(config_dict, params)
+
     # now add all the config to sacred
     ex.add_config(config_dict)
 
     # Save to disk by default for sacred
     map_name = parse_command(params, "env_args.map_name", config_dict['env_args']['map_name'])
     algo_name = parse_command(params, "name", config_dict['name']) 
-    file_obs_path = join(results_path, "sacred", map_name, algo_name)
+    file_obs_path = join(config_dict["local_results_path"], "sacred", map_name, algo_name)
     
     logger.info("Saving to FileStorageObserver in {}.".format(file_obs_path))
     ex.observers.append(FileStorageObserver.create(file_obs_path))
