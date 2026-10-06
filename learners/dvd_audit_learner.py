@@ -1,7 +1,7 @@
 """Frozen experimental copy of DVDNQLearner; existing learner is untouched.
 
-Only the optional TD(lambda) helper and auxiliary-router gradient isolation
-are changed. Keep this snapshot separate while comparing the 2x2 variants.
+Optional TD(lambda), auxiliary isolation, and mixed-hidden controls are
+contained here. Disabled mixed controls preserve the previous audit behavior.
 The original TD(lambda) helper below is deliberately retained for parity.
 """
 import copy
@@ -507,6 +507,12 @@ class DVDNQLearner:
                     ),
                 }
 
+        agent_gradient_stats = None
+        if (self.is_counterfactual_router
+                and bool(getattr(self.args, "audit_log_agent_gradients", False))
+                and t_env - self.log_stats_t >= self.args.learner_log_interval):
+            agent_gradient_stats = self._agent_gradient_stats(loss_bm, loss_td)
+
         # 7. 反向传播与更新
         self.optimiser.zero_grad()
         total_loss.backward()
@@ -540,6 +546,11 @@ class DVDNQLearner:
             self.logger.log_stat("target_mean", (targets * mask).sum().item()/(mask.sum().item()), t_env)
 
             if counterfactual_stats is not None:
+                self.logger.log_stat("audit_detach_mixed_hidden", int(
+                    self.mixer.audit_detach_mixed_hidden), t_env)
+                if agent_gradient_stats is not None:
+                    for stat_name, stat_value in agent_gradient_stats.items():
+                        self.logger.log_stat(stat_name, stat_value, t_env)
                 self.logger.log_stat("counterfactual_loss_mix", loss_td.item(), t_env)
                 self.logger.log_stat("counterfactual_loss_value", counterfactual_stats["loss_value"].item(), t_env)
                 self.logger.log_stat("counterfactual_loss_bm", counterfactual_stats["loss_bm"].item(), t_env)
@@ -617,6 +628,43 @@ class DVDNQLearner:
             self.log_stats_t = t_env
 
         return {}
+
+    def _agent_gradient_stats(self, loss_bm, loss_mix):
+        """Raw same-batch gradients on agent parameters, before global clipping.
+
+        autograd.grad does not populate .grad or step an optimizer. These
+        diagnostics describe loss gradients, not Adam's actual update ratio.
+        """
+        agent_params = [p for p in self.mac.parameters() if p.requires_grad]
+        bm_grads = th.autograd.grad(
+            loss_bm, agent_params, retain_graph=True, allow_unused=True
+        )
+        mix_grads = th.autograd.grad(
+            loss_mix, agent_params, retain_graph=True, allow_unused=True
+        )
+        bm_square = loss_bm.detach().new_zeros(())
+        mix_square = bm_square.clone()
+        dot = bm_square.clone()
+        for bm_grad, mix_grad in zip(bm_grads, mix_grads):
+            if bm_grad is not None:
+                bm_square += bm_grad.detach().square().sum()
+            if mix_grad is not None:
+                mix_square += mix_grad.detach().square().sum()
+            if bm_grad is not None and mix_grad is not None:
+                dot += (bm_grad.detach() * mix_grad.detach()).sum()
+        bm_norm, mix_norm = bm_square.sqrt(), mix_square.sqrt()
+        cosine = dot / (bm_norm * mix_norm).clamp_min(1e-12)
+        # The common value-loss normalizer cancels from this norm ratio.
+        weighted_ratio = (
+            self.counterfactual_mix_loss_weight * mix_norm
+            / (self.counterfactual_bm_loss_weight * bm_norm).clamp_min(1e-12)
+        )
+        return {
+            "audit_agent_bm_grad_norm": bm_norm.item(),
+            "audit_agent_mix_grad_norm": mix_norm.item(),
+            "audit_agent_bm_mix_grad_cosine": cosine.clamp(-1.0, 1.0).item(),
+            "audit_agent_weighted_mix_bm_grad_ratio": weighted_ratio.item(),
+        }
 
     def _update_targets(self):
         self.target_mac.load_state(self.mac)

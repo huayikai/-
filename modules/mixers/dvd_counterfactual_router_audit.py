@@ -1,27 +1,28 @@
-"""Optional auxiliary-gradient isolation; the existing router is unchanged."""
+"""Optional hidden-gradient controls; the original router is unchanged."""
 import torch as th
 
 from modules.mixers.dvd_counterfactual_router import CounterfactualRouterDVDMixer
 
 
 class CounterfactualRouterAuditMixer(CounterfactualRouterDVDMixer):
-    """Keep mixed-value gradients, but detach the auxiliary expert's inputs.
+    """Control mixed and auxiliary hidden paths independently.
 
-No additional parameters or random initialization are introduced. With the
-flag disabled this is exactly the existing router, including its gradients.
-The isolated branch recomputes DVD weights from detached hidden states;
-detaching only the final DVD weights would also stop training the GAT.
-"""
+    Detaching mixed hidden inputs leaves agent Q and GAT/DVD parameter
+    gradients active. It introduces no parameters or random initialization.
+    With the mixed flag off, the previous audit behavior is preserved.
+    """
 
     def __init__(self, args):
         super(CounterfactualRouterAuditMixer, self).__init__(args)
         self.audit_isolate_dvd_aux_hidden = bool(
             getattr(args, "audit_isolate_dvd_aux_hidden", True)
         )
+        self.audit_detach_mixed_hidden = bool(
+            getattr(args, "audit_detach_mixed_hidden", False)
+        )
 
-    def _isolated_dvd_weights(self, states, hidden_states):
-        # The auxiliary branch must train only GAT and the DVD hypernetwork.
-        # The mixed branch has already used the original, attached hidden states.
+    def _auxiliary_dvd_weights(self, states, hidden_states):
+        # Caller controls hidden isolation; auxiliary BM/Q inputs stay detached.
         with th.no_grad():
             bm_w1 = self.bm_mixer.hyper_w1(states).view(
                 -1, self.n_agents, self.embed_dim
@@ -33,7 +34,7 @@ detaching only the final DVD weights would also stop training the GAT.
                 bm_w1.pow(2).mean(dim=(1, 2), keepdim=True).clamp_min(min_mean_square)
             )
 
-        graph_features = self.gat(hidden_states.detach())
+        graph_features = self.gat(hidden_states)
         dvd_hyper = self.hyper_dvd_w1(states).view(
             -1, self.n_heads, self.embed_dim, self.gat_dim
         )
@@ -45,17 +46,26 @@ detaching only the final DVD weights would also stop training the GAT.
         return th.where(dvd_mean_square > min_mean_square, dvd_scaled, bm_w1)
 
     def forward(self, agent_qs, states, hidden_states):
-        mixed_q = super(CounterfactualRouterAuditMixer, self).forward(
-            agent_qs, states, hidden_states
+        mixed_hidden = (
+            hidden_states.detach() if self.audit_detach_mixed_hidden else hidden_states
         )
-        if not self.audit_isolate_dvd_aux_hidden or not th.is_grad_enabled():
+        mixed_q = super(CounterfactualRouterAuditMixer, self).forward(
+            agent_qs, states, mixed_hidden
+        )
+        if not th.is_grad_enabled():
+            return mixed_q
+        if not self.audit_isolate_dvd_aux_hidden and not self.audit_detach_mixed_hidden:
             return mixed_q
 
+        # Recompute the auxiliary expert from its own hidden input. In
+        # particular, mixed detachment must not implicitly isolate auxiliary
+        # hidden gradients when the auxiliary switch is disabled.
         flat_states = states.detach().reshape(-1, self.state_dim)
-        flat_hidden = hidden_states.detach().reshape(
-            -1, self.n_agents, self.rnn_hidden_dim
+        aux_hidden = (
+            hidden_states.detach() if self.audit_isolate_dvd_aux_hidden else hidden_states
         )
-        dvd_w1 = self._isolated_dvd_weights(flat_states, flat_hidden)
+        flat_hidden = aux_hidden.reshape(-1, self.n_agents, self.rnn_hidden_dim)
+        dvd_w1 = self._auxiliary_dvd_weights(flat_states, flat_hidden)
         with th.no_grad():
             b1 = self.bm_mixer.hyper_b1(flat_states).view(-1, 1, self.embed_dim)
             w2 = self.bm_mixer.hyper_w2(flat_states).view(-1, self.embed_dim, 1)

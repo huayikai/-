@@ -68,5 +68,9 @@ counterfactual_route_min_abs_advantage: 0.01
 counterfactual_route_eps: 0.000001
 
 audit_isolate_dvd_aux_hidden: True
+# Optional mixed-hidden ablation; defaults preserve previous training.
+audit_detach_mixed_hidden: False
+# Same-batch agent gradients before clipping, sampled at learner log steps.
+audit_log_agent_gradients: False
 audit_fix_td_lambda: True
 name: "dvd_audit_router"
