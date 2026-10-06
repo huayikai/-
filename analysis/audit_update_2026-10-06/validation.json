@@ -1,0 +1,18 @@
+{
+  "passed_tests": 19,
+  "skipped_tests": 1,
+  "path_tests_passed": 7,
+  "existing_audit_cpu_tests_passed": 12,
+  "skipped_reason": "Sacred not installed; no real Sacred file-storage test",
+  "config_previews": [
+    "default root",
+    "custom relative root"
+  ],
+  "historical_runs_checked": 16,
+  "historical_metric_checks": 64,
+  "historical_metrics_tolerance": 1e-14,
+  "syntax_check": "passed",
+  "git_diff_check": "passed",
+  "real_sc2_training": false,
+  "server_deployment": false
+}

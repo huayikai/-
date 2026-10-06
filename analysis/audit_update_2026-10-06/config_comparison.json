@@ -1,0 +1,70 @@
+[
+  {
+    "name": "audit_router_both_mix005_5m_3s5z_vs_3s6z_s79",
+    "differences": {
+      "counterfactual_mix_loss_weight": {
+        "old_025": 0.25,
+        "new_005": 0.05
+      },
+      "name": {
+        "old_025": "audit_router_both_3s5z_vs_3s6z_s79",
+        "new_005": "audit_router_both_mix005_5m_3s5z_vs_3s6z_s79"
+      },
+      "t_max": {
+        "old_025": 10050000,
+        "new_005": 5050000
+      }
+    }
+  },
+  {
+    "name": "audit_router_both_mix005_5m_3s5z_vs_3s6z_s81",
+    "differences": {
+      "counterfactual_mix_loss_weight": {
+        "old_025": 0.25,
+        "new_005": 0.05
+      },
+      "name": {
+        "old_025": "audit_router_both_3s5z_vs_3s6z_s81",
+        "new_005": "audit_router_both_mix005_5m_3s5z_vs_3s6z_s81"
+      },
+      "t_max": {
+        "old_025": 10050000,
+        "new_005": 5050000
+      }
+    }
+  },
+  {
+    "name": "audit_router_both_mix005_5m_6h_vs_8z_s79",
+    "differences": {
+      "counterfactual_mix_loss_weight": {
+        "old_025": 0.25,
+        "new_005": 0.05
+      },
+      "name": {
+        "old_025": "audit_router_both_6h_vs_8z_s79",
+        "new_005": "audit_router_both_mix005_5m_6h_vs_8z_s79"
+      },
+      "t_max": {
+        "old_025": 10050000,
+        "new_005": 5050000
+      }
+    }
+  },
+  {
+    "name": "audit_router_both_mix005_5m_6h_vs_8z_s80",
+    "differences": {
+      "counterfactual_mix_loss_weight": {
+        "old_025": 0.25,
+        "new_005": 0.05
+      },
+      "name": {
+        "old_025": "audit_router_both_6h_vs_8z_s80",
+        "new_005": "audit_router_both_mix005_5m_6h_vs_8z_s80"
+      },
+      "t_max": {
+        "old_025": 10050000,
+        "new_005": 5050000
+      }
+    }
+  }
+]

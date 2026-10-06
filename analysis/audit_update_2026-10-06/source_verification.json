@@ -1,0 +1,666 @@
+{
+  "checked_at_local": "2026-10-06T10:47:08.947306",
+  "local_code_root": "D:\\src",
+  "runs": [
+    {
+      "name": "audit_router_both_mix005_5m_3s5z_vs_3s6z_s79",
+      "files": [
+        {
+          "path": "main_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\main_audit_8cb21d71d974587bd4eb65696057385c.py",
+          "manifest_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "snapshot_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "main.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\main_9ffc57efd7c293db6b3dfee341b54652.py",
+          "manifest_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "snapshot_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py",
+          "manifest_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "snapshot_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\td_lambda_audit_13dc3286edca0f48316317954467e5ef.py",
+          "manifest_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "snapshot_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py",
+          "manifest_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "snapshot_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py",
+          "manifest_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "snapshot_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py",
+          "manifest_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "snapshot_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py",
+          "manifest_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "snapshot_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_credit_4e831883c144412287bdfe95a7727316.py",
+          "manifest_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "snapshot_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py",
+          "manifest_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "snapshot_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\dvd_0e0811fd363530bf352eb0a90d61a404.py",
+          "manifest_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "snapshot_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\nmix_96f80ec3d27c6f06601ef84de801146b.py",
+          "manifest_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "snapshot_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py",
+          "manifest_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "snapshot_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py",
+          "manifest_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "snapshot_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\rnd_dfcd103004b7959a64adc23872fc951f.py",
+          "manifest_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "snapshot_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "run/run.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\run_5ecffc3f8196a5196e851bb62e0a6e91.py",
+          "manifest_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "snapshot_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_sources\\episode_buffer_aac1a77501897528cb4a870893a6ade2.py",
+          "manifest_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "snapshot_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/default.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_resources\\default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml",
+          "manifest_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "snapshot_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_resources\\sc2_e0db63036759e634b836cb6981c1a654.yaml",
+          "manifest_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "snapshot_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s79\\_resources\\dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml",
+          "manifest_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "snapshot_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        }
+      ]
+    },
+    {
+      "name": "audit_router_both_mix005_5m_3s5z_vs_3s6z_s81",
+      "files": [
+        {
+          "path": "main_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\main_audit_8cb21d71d974587bd4eb65696057385c.py",
+          "manifest_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "snapshot_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "main.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\main_9ffc57efd7c293db6b3dfee341b54652.py",
+          "manifest_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "snapshot_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py",
+          "manifest_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "snapshot_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\td_lambda_audit_13dc3286edca0f48316317954467e5ef.py",
+          "manifest_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "snapshot_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py",
+          "manifest_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "snapshot_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py",
+          "manifest_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "snapshot_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py",
+          "manifest_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "snapshot_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py",
+          "manifest_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "snapshot_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_credit_4e831883c144412287bdfe95a7727316.py",
+          "manifest_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "snapshot_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py",
+          "manifest_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "snapshot_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\dvd_0e0811fd363530bf352eb0a90d61a404.py",
+          "manifest_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "snapshot_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\nmix_96f80ec3d27c6f06601ef84de801146b.py",
+          "manifest_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "snapshot_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py",
+          "manifest_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "snapshot_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py",
+          "manifest_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "snapshot_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\rnd_dfcd103004b7959a64adc23872fc951f.py",
+          "manifest_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "snapshot_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "run/run.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\run_5ecffc3f8196a5196e851bb62e0a6e91.py",
+          "manifest_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "snapshot_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_sources\\episode_buffer_aac1a77501897528cb4a870893a6ade2.py",
+          "manifest_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "snapshot_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/default.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_resources\\default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml",
+          "manifest_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "snapshot_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_resources\\sc2_e0db63036759e634b836cb6981c1a654.yaml",
+          "manifest_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "snapshot_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\3s5z_vs_3s6z\\audit_router_both_mix005_5m_3s5z_vs_3s6z_s81\\_resources\\dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml",
+          "manifest_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "snapshot_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        }
+      ]
+    },
+    {
+      "name": "audit_router_both_mix005_5m_6h_vs_8z_s79",
+      "files": [
+        {
+          "path": "main_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\main_audit_8cb21d71d974587bd4eb65696057385c.py",
+          "manifest_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "snapshot_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "main.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\main_9ffc57efd7c293db6b3dfee341b54652.py",
+          "manifest_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "snapshot_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py",
+          "manifest_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "snapshot_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\td_lambda_audit_13dc3286edca0f48316317954467e5ef.py",
+          "manifest_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "snapshot_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py",
+          "manifest_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "snapshot_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py",
+          "manifest_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "snapshot_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py",
+          "manifest_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "snapshot_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py",
+          "manifest_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "snapshot_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_credit_4e831883c144412287bdfe95a7727316.py",
+          "manifest_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "snapshot_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py",
+          "manifest_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "snapshot_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\dvd_0e0811fd363530bf352eb0a90d61a404.py",
+          "manifest_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "snapshot_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\nmix_96f80ec3d27c6f06601ef84de801146b.py",
+          "manifest_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "snapshot_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py",
+          "manifest_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "snapshot_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py",
+          "manifest_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "snapshot_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\rnd_dfcd103004b7959a64adc23872fc951f.py",
+          "manifest_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "snapshot_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "run/run.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\run_5ecffc3f8196a5196e851bb62e0a6e91.py",
+          "manifest_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "snapshot_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_sources\\episode_buffer_aac1a77501897528cb4a870893a6ade2.py",
+          "manifest_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "snapshot_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/default.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_resources\\default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml",
+          "manifest_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "snapshot_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_resources\\sc2_e0db63036759e634b836cb6981c1a654.yaml",
+          "manifest_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "snapshot_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s79\\_resources\\dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml",
+          "manifest_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "snapshot_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        }
+      ]
+    },
+    {
+      "name": "audit_router_both_mix005_5m_6h_vs_8z_s80",
+      "files": [
+        {
+          "path": "main_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\main_audit_8cb21d71d974587bd4eb65696057385c.py",
+          "manifest_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "snapshot_sha256": "bd9b8f444a0add5c1295f1c817a844e0a49011004144fef051c88cf53baf022d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "main.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\main_9ffc57efd7c293db6b3dfee341b54652.py",
+          "manifest_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "snapshot_sha256": "bee5bab3442fc518a1517a4d49a4b6488e3f56b741127a164d7584494424be1a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "learners/dvd_audit_learner.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_audit_learner_2f4c92d8115c173f6203ba7ca6aeb573.py",
+          "manifest_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "snapshot_sha256": "988d1565af148ebba4702c79cdf604c170945387b758ee4337564e3f73a5ef87",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "utils/td_lambda_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\td_lambda_audit_13dc3286edca0f48316317954467e5ef.py",
+          "manifest_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "snapshot_sha256": "88752a6d7414e4c1ca129ea3c9dc34a7d813b36142de74a256718bf247319013",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_counterfactual_router_audit_df368ba0251da455de957633a231edab.py",
+          "manifest_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "snapshot_sha256": "a6891054a6b5eb1ea7b4516c9808f5863fa0cc7c7ee233744271a9d99c0a9df0",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_counterfactual_router.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_counterfactual_router_416a3f1059f42406ce3b5496c2803028.py",
+          "manifest_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "snapshot_sha256": "6cfa8ec378a1d8975e46076d6080c8d698de25d267d16f862cc722aa87828c37",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_adaptive_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_adaptive_takeover_ebcbaee76338123de27049ce2461f346.py",
+          "manifest_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "snapshot_sha256": "beb9fa1f4d36105560ae6e7b8f817e29e2fcf30c92099eaa0e4d8a213db8c0b5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_takeover.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_takeover_0b670412f7b1e1e1c4fec5053b12db59.py",
+          "manifest_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "snapshot_sha256": "ddceaaa8a73b8d7da6fe9727cc4a392c9efd33b95951ba6e4a071b51f5f3e77c",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_credit.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_credit_4e831883c144412287bdfe95a7727316.py",
+          "manifest_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "snapshot_sha256": "2569383639a22ed4a96ef5f6f490685f8b613ccadf898e3207f1c8cb9ab94a4a",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd_residual.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_residual_6744af3b61418f0fe869b8b60e601b8d.py",
+          "manifest_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "snapshot_sha256": "3e91580808c23295bf9955168de3a8ecfb4f353ddaaf7978f6de370a94e0fb92",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/dvd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\dvd_0e0811fd363530bf352eb0a90d61a404.py",
+          "manifest_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "snapshot_sha256": "545872bf11a16aac78fd8b7bd60e6cb8b0e3cd15ba4a514d08d20f9c265a8c08",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/mixers/nmix.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\nmix_96f80ec3d27c6f06601ef84de801146b.py",
+          "manifest_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "snapshot_sha256": "ac3971f63888a6dc4ce5cec3bc7d4052c540ee0d9ed0511a7d6394625801beae",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/agents/n_rnn_agent.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\n_rnn_agent_efef77dee6ba45ac30a599ec8c5f99cc.py",
+          "manifest_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "snapshot_sha256": "c153cb417c615ffc06269973246e886cca24030bdc7e28138784ba55bf4a9308",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "controllers/n_controller.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\n_controller_8fd6a5c9eaaf5a16363fd9348babf3c2.py",
+          "manifest_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "snapshot_sha256": "7340ce8811da8ed45a072d5ef36695bbe1b912afc5ebc5ed028c75fd7e4283ec",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "modules/exploration/rnd.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\rnd_dfcd103004b7959a64adc23872fc951f.py",
+          "manifest_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "snapshot_sha256": "4a3a9412c5a83258665d523440358c53e8dbad00a52266f849c000408babb05d",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "run/run.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\run_5ecffc3f8196a5196e851bb62e0a6e91.py",
+          "manifest_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "snapshot_sha256": "1cb7baad5abe7818e4037d143bc5833247cdce3773f91f519a92b0a5bd592d49",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "components/episode_buffer.py",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_sources\\episode_buffer_aac1a77501897528cb4a870893a6ade2.py",
+          "manifest_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "snapshot_sha256": "c551800218020e08b89194ce41ae702f5004264be4ab7603ba6ffcb189211557",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/default.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_resources\\default_2e51de150f7ceb3f81b9d2a8f6f0b75e.yaml",
+          "manifest_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "snapshot_sha256": "ba10d35b49bb5c8b27972e801de7b33a2565dbb5a6f6bc5b658d9894d0a224c5",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/envs/sc2.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_resources\\sc2_e0db63036759e634b836cb6981c1a654.yaml",
+          "manifest_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "snapshot_sha256": "a96a50c297f80ba3c44b01ddb93d4a2e6f2cd208215ca7b2dfdf82ce77920cbb",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        },
+        {
+          "path": "config/algs/dvd_audit_router.yaml",
+          "snapshot_path": "D:\\回放\\ablation_results\\sacred\\6h_vs_8z\\audit_router_both_mix005_5m_6h_vs_8z_s80\\_resources\\dvd_audit_router_2e8a4b020d2332e025bae9c62cfa4ccf.yaml",
+          "manifest_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "snapshot_sha256": "dc010560277e0467c6caa4d64adf19f080f900e30a19a72893c827cc6e3cae59",
+          "manifest_matches_saved_snapshot": true,
+          "local_matches_ignoring_newlines": true
+        }
+      ]
+    }
+  ]
+}
