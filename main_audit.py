@@ -58,10 +58,29 @@ def load_configuration(argv):
     config = _read_yaml(ROOT / "config" / "default.yaml")
     _merge(config, _read_yaml(env_path))
     _merge(config, _read_yaml(alg_path))
+    # Sacred rejects CLI keys absent from its base config, even if a learner
+    # reads them through args. Declare QPLEX defaults before ex.add_config.
+    # setdefault preserves every common training setting and CLI override.
+    effective_learner = config.get("learner")
+    for argument in params:
+        if "=" in argument:
+            key, value = argument.split("=", 1)
+            if key.strip() == "learner":
+                effective_learner = value.strip().strip("\"'")
+    external_sources = ()
+    if effective_learner == "dmaq_qatten_learner":
+        qplex_path = ROOT / "config" / "algs" / "qplex.yaml"
+        for key, value in _read_yaml(qplex_path).items():
+            config.setdefault(key, value)
+        external_sources = (
+            "config/algs/qplex.yaml", "learners/dmaq_qatten_learner.py",
+            "modules/mixers/dmaq_general.py", "modules/mixers/dmaq_si_weight.py",
+            "utils/rl_utils.py",
+        )
     sources = SOURCE_FILES + (
         "config/default.yaml", str(env_path.relative_to(ROOT)),
         str(alg_path.relative_to(ROOT)),
-    )
+    ) + external_sources
     config["audit_source_manifest"] = [
         {"path": name.replace("\\", "/"),
          "sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
