@@ -22,6 +22,89 @@ from modules.mixers.dvd_counterfactual_router_audit import (
 from utils.td_lambda_audit import build_td_lambda_targets_audit
 from modules.exploration.rnd import RNDModel
 
+@th.no_grad()
+def _masked_gate_diagnostics(gate, bm_error_abs, dvd_error_abs,
+                             mix_error_abs, route_target, mask):
+    """Paired pre-update replay diagnostics against one BM bootstrap target.
+
+    Select filled/non-post-terminal transitions before arithmetic, excluding
+    nonfinite observations with an explicit count. Empty groups have counts
+    only. Quintile cuts are batch-local; equal gates stay together (at a cut,
+    the lower bin wins), so constant gates occupy bin 0 with bins 1-4 empty.
+    This records fitting/selectivity, not true-return error or causal gain.
+    """
+    valid = mask.bool()
+    values = [value.detach()[valid] for value in
+              (gate, bm_error_abs, dvd_error_abs, mix_error_abs, route_target)]
+    finite = th.ones_like(values[0], dtype=th.bool)
+    for value in values:
+        finite &= th.isfinite(value)
+    stats = {
+        "masked_count": valid.sum(),
+        "nonfinite_count": (~finite).sum(),
+        "count": finite.sum(),
+    }
+    g, bm, dvd, mixed, target = [value[finite] for value in values]
+    for group in ("dvd_better", "bm_better_equal", "route_positive", "route_nonpositive"):
+        stats[group + "_count"] = finite.new_zeros((), dtype=th.long)
+    for bin_id in range(5):
+        stats["gate_bin%d_count" % bin_id] = finite.new_zeros((), dtype=th.long)
+    if not g.numel():
+        return stats
+
+    # Double precision keeps squared-error diagnostics finite for large
+    # finite float32 errors; these copies never enter the training objective.
+    bm, mixed = bm.double(), mixed.double()
+    mae_gain = bm - mixed
+    mse_gain = bm.square() - mixed.square()
+    benefit = (mae_gain > 0).to(th.float64)
+    stats.update({
+        "mix_error_mean": mixed.mean(),
+        "mae_gain_mean": mae_gain.mean(),
+        "mse_gain_mean": mse_gain.mean(),
+        "benefit_rate": benefit.mean(),
+        "harm_rate": (mae_gain < 0).double().mean(),
+        "unchanged_rate": (mae_gain == 0).double().mean(),
+    })
+
+    def record_group(name, selected, include_bounds=False):
+        count = selected.sum()
+        stats[name + "_count"] = count
+        if not count.item():
+            return
+        selected_gate = g[selected]
+        stats[name + "_gate_mean"] = selected_gate.mean()
+        stats[name + "_mae_gain_mean"] = mae_gain[selected].mean()
+        stats[name + "_mse_gain_mean"] = mse_gain[selected].mean()
+        stats[name + "_benefit_rate"] = benefit[selected].mean()
+        if include_bounds:
+            stats[name + "_gate_min"] = selected_gate.min()
+            stats[name + "_gate_max"] = selected_gate.max()
+
+    # Equality belongs to BM-better-or-equal, as specified by e_D >= e_B.
+    dvd_better = dvd.double() < bm
+    record_group("dvd_better", dvd_better)
+    record_group("bm_better_equal", ~dvd_better)
+    record_group("route_positive", target > 0)
+    record_group("route_nonpositive", target <= 0)
+    if dvd_better.any() and (~dvd_better).any():
+        stats["endpoint_gate_gap"] = (
+            stats["dvd_better_gate_mean"] - stats["bm_better_equal_gate_mean"]
+        )
+    if (target > 0).any() and (target <= 0).any():
+        stats["route_gate_gap"] = (
+            stats["route_positive_gate_mean"] - stats["route_nonpositive_gate_mean"]
+        )
+
+    cuts = th.quantile(g, g.new_tensor([0.2, 0.4, 0.6, 0.8]))
+    for cut_id, cut in enumerate(cuts, 1):
+        stats["gate_q%d" % (cut_id * 20)] = cut
+    bins = th.bucketize(g.contiguous(), cuts, right=False)
+    for bin_id in range(5):
+        record_group("gate_bin%d" % bin_id, bins == bin_id, include_bounds=True)
+    return stats
+
+
 class RunningMeanStd:
     # 不需要保存全部的数据，就可以通过一个新的数据来计算整体的均值和方差
     def __init__(self, shape=()):
@@ -401,6 +484,7 @@ class DVDNQLearner:
 
         total_loss = loss_td
         counterfactual_stats = None
+        gate_diagnostics = None
         if self.is_counterfactual_router:
             bm_q = self.mixer.last_counterfactual_bm_q
             dvd_q = self.mixer.last_counterfactual_dvd_q
@@ -507,6 +591,14 @@ class DVDNQLearner:
                     ),
                 }
 
+            # Reuse pre-update endpoint/mixed errors; no extra forward or RNG.
+            # Quantiles are computed only when this batch will be logged.
+            if t_env - self.log_stats_t >= self.args.learner_log_interval:
+                gate_diagnostics = _masked_gate_diagnostics(
+                    gate, bm_error_abs, dvd_error_abs, td_error.detach().abs(),
+                    route_target, mask,
+                )
+
         agent_gradient_stats = None
         if (self.is_counterfactual_router
                 and bool(getattr(self.args, "audit_log_agent_gradients", False))
@@ -570,6 +662,10 @@ class DVDNQLearner:
                 self.logger.log_stat("counterfactual_gate_max", counterfactual_stats["gate_max"].item(), t_env)
                 self.logger.log_stat("counterfactual_gate_target_correlation", counterfactual_stats["gate_target_correlation"].item(), t_env)
                 self.logger.log_stat("counterfactual_gate_output_weight_norm", counterfactual_stats["gate_output_weight_norm"].item(), t_env)
+
+            if gate_diagnostics is not None:
+                for name, value in gate_diagnostics.items():
+                    self.logger.log_stat("counterfactual_diag_" + name, value.item(), t_env)
 
             if self.use_rnd:
                 self.logger.log_stat("rnd_loss", rnd_loss_item, t_env)
