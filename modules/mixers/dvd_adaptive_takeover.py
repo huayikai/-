@@ -55,6 +55,12 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         self.gate_max = float(getattr(args, "adaptive_gate_max", 1.0))
         self.gate_init = float(getattr(args, "adaptive_gate_init", 0.1))
         self.norm_eps = float(getattr(args, "adaptive_norm_eps", 1e-6))
+        # Component ablations are opt-in; keep modules and RNG order intact.
+        self.graph_mode = getattr(args, "adaptive_graph_mode", "learned")
+        normalize = getattr(args, "adaptive_normalize_dvd_weights", True)
+        if not isinstance(normalize, bool):
+            raise ValueError("adaptive_normalize_dvd_weights must be a boolean")
+        self.normalize_dvd_weights = normalize
         self.current_t_env = 0  # Logged for compatibility; never used by gate.
 
         self._validate_hyperparameters()
@@ -71,6 +77,8 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         nn.init.zeros_(self.gate_net[2].weight)
 
     def _validate_hyperparameters(self):
+        if self.graph_mode not in ("learned", "identity", "uniform"):
+            raise ValueError("adaptive_graph_mode must be learned, identity or uniform")
         if not 0.0 < self.gate_max <= 1.0:
             raise ValueError("adaptive_gate_max must be in (0, 1]")
         if not 0.0 < self.gate_init < self.gate_max:
@@ -101,6 +109,7 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         self.last_attention_confidence_mean = None
         self.last_bm_w1_rms = None
         self.last_dvd_w1_rms = None
+        self.last_dvd_raw_w1_rms = None
 
     def set_t_env(self, t_env):
         # Deliberately not consumed by the gate. Keeping this method preserves
@@ -151,6 +160,28 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         confidence = (1.0 - entropy) * (1.0 - disagreement)
         return entropy, disagreement, confidence
 
+    def _graph_features(self, hidden_states):
+        """Use the same projection/ELU with optional fixed aggregation.
+
+        Identity removes inter-agent aggregation. Uniform retains aggregation
+        but removes learned attention scores. Diagnostics use the actual matrix.
+        Retaining unused att_a preserves initialization and checkpoint keys.
+        """
+        if self.graph_mode == "learned":
+            return self.gat(hidden_states, return_attention=True)
+        batch_size, n_agents, _ = hidden_states.shape
+        projected = self.gat.W(hidden_states).view(
+            batch_size, n_agents, self.n_heads, self.gat_dim
+        ).permute(0, 2, 1, 3)
+        if self.graph_mode == "identity":
+            attention = th.eye(n_agents, device=projected.device, dtype=projected.dtype)
+        else:
+            attention = projected.new_full((n_agents, n_agents), 1.0 / n_agents)
+        attention = attention.view(1, 1, n_agents, n_agents).expand(
+            batch_size, self.n_heads, -1, -1
+        )
+        return F.elu(th.matmul(attention, projected)), attention
+
     def _weights(self, flat_states, flat_hidden):
         bm_w1 = self.bm_mixer.hyper_w1(flat_states).view(
             -1, self.n_agents, self.embed_dim
@@ -158,7 +189,7 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         if self.bm_mixer.abs:
             bm_w1 = self.bm_mixer.pos_func(bm_w1)
 
-        graph_features, attention = self.gat(flat_hidden, return_attention=True)
+        graph_features, attention = self._graph_features(flat_hidden)
         dvd_hyper = self.hyper_dvd_w1(flat_states).view(
             -1, self.n_heads, self.embed_dim, self.gat_dim
         )
@@ -177,7 +208,10 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         dvd_raw_scale = th.sqrt(
             dvd_raw_mean_square.clamp_min(min_mean_square)
         )
-        dvd_scaled = dvd_raw / dvd_raw_scale * bm_scale.detach()
+        dvd_scaled = (
+            dvd_raw / dvd_raw_scale * bm_scale.detach()
+            if self.normalize_dvd_weights else dvd_raw
+        )
 
         # Exact BM fallback for all-zero recurrent representations. Besides
         # avoiding an arbitrary normalized direction, this gives alpha=0 and
@@ -243,6 +277,9 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
             self.last_attention_confidence_mean = confidence.mean()
             self.last_bm_w1_rms = bm_rms.mean()
             self.last_dvd_w1_rms = dvd_rms.mean()
+            self.last_dvd_raw_w1_rms = th.sqrt(
+                dvd_raw_mean_square.view(-1)
+            ).mean()
 
         return w1, bm_w1, dvd_w1, alpha
 

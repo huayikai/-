@@ -52,6 +52,10 @@ adaptive_gate_hidden_dim: 32
 adaptive_gate_max: 1.0
 adaptive_gate_init: 0.05
 adaptive_norm_eps: 0.000001
+# Component switches affect both mixed and isolated auxiliary expert paths.
+# identity: no cross-agent aggregation; uniform: fixed mean aggregation.
+adaptive_graph_mode: "learned"
+adaptive_normalize_dvd_weights: True
 
 # The normalized 0.25:1 mix/BM ratio gives loss coefficients 0.2 and 0.8;
 # these coefficients do not bound the relative gradient magnitudes.

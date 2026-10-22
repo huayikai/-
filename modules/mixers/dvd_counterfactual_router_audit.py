@@ -34,7 +34,7 @@ class CounterfactualRouterAuditMixer(CounterfactualRouterDVDMixer):
                 bm_w1.pow(2).mean(dim=(1, 2), keepdim=True).clamp_min(min_mean_square)
             )
 
-        graph_features = self.gat(hidden_states)
+        graph_features, _ = self._graph_features(hidden_states)
         dvd_hyper = self.hyper_dvd_w1(states).view(
             -1, self.n_heads, self.embed_dim, self.gat_dim
         )
@@ -42,7 +42,10 @@ class CounterfactualRouterAuditMixer(CounterfactualRouterDVDMixer):
         dvd_raw = dvd_heads.mean(dim=1).permute(0, 2, 1)
         dvd_mean_square = dvd_raw.pow(2).mean(dim=(1, 2), keepdim=True)
         dvd_scale = th.sqrt(dvd_mean_square.clamp_min(min_mean_square))
-        dvd_scaled = dvd_raw / dvd_scale * bm_scale
+        dvd_scaled = (
+            dvd_raw / dvd_scale * bm_scale
+            if self.normalize_dvd_weights else dvd_raw
+        )
         return th.where(dvd_mean_square > min_mean_square, dvd_scaled, bm_w1)
 
     def forward(self, agent_qs, states, hidden_states):

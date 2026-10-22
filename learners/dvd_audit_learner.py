@@ -622,6 +622,12 @@ class DVDNQLearner:
                 self.logger.log_stat("adaptive_attention_confidence", self.mixer.last_attention_confidence_mean.item(), t_env)
                 self.logger.log_stat("adaptive_bm_w1_rms", self.mixer.last_bm_w1_rms.item(), t_env)
                 self.logger.log_stat("adaptive_dvd_w1_rms", self.mixer.last_dvd_w1_rms.item(), t_env)
+                self.logger.log_stat("adaptive_dvd_raw_w1_rms", self.mixer.last_dvd_raw_w1_rms.item(), t_env)
+                self.logger.log_stat("adaptive_normalize_dvd_weights", int(self.mixer.normalize_dvd_weights), t_env)
+                # 0=learned, 1=identity, 2=uniform; names stay in saved config.
+                self.logger.log_stat("adaptive_graph_mode_id", ("learned", "identity", "uniform").index(self.mixer.graph_mode), t_env)
+                if self.is_counterfactual_router:
+                    self.logger.log_stat("counterfactual_dvd_loss_weight", self.counterfactual_dvd_loss_weight, t_env)
                 for stat_name, stat_value in self.mixer.gradient_stats().items():
                     self.logger.log_stat(stat_name, stat_value, t_env)
 
