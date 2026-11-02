@@ -10,7 +10,7 @@ from pathlib import Path
 from utils.results import prepare_results_path
 
 ROOT = Path(__file__).resolve().parent
-AUDIT_CONFIGS = ("dvd_audit_router", "dvd_audit_base", "dvd_audit_bm")
+AUDIT_CONFIGS = ("dvd_audit_router", "dvd_audit_base", "dvd_audit_bm", "dvd_audit_direct")
 SOURCE_FILES = (
     "main_audit.py", "main.py", "learners/dvd_audit_learner.py",
     "utils/td_lambda_audit.py", "utils/results.py",
@@ -19,6 +19,7 @@ SOURCE_FILES = (
     "modules/mixers/dvd_adaptive_takeover.py", "modules/mixers/dvd_takeover.py",
     "modules/mixers/dvd_credit.py", "modules/mixers/dvd_residual.py",
     "modules/mixers/dvd.py", "modules/mixers/nmix.py",
+    "modules/mixers/dvd_direct.py",
     "modules/agents/n_rnn_agent.py", "controllers/n_controller.py",
     "modules/exploration/rnd.py", "run/run.py", "components/episode_buffer.py",
 )

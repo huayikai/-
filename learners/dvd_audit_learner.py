@@ -160,6 +160,9 @@ class DVDNQLearner:
         # Mixer 初始化
         if args.mixer == "dvd":
             self.mixer = DVDMixer(args) # DVD 结构
+        elif args.mixer == "dvd_direct":
+            from modules.mixers.dvd_direct import DirectDVDMixer
+            self.mixer = DirectDVDMixer(args)
         elif args.mixer == "dvd_residual":
             self.mixer = ResidualDVDMixer(args) # BM 主干 + DVD 门控残差
         elif args.mixer == "dvd_credit":
@@ -437,7 +440,7 @@ class DVDNQLearner:
 
             # Target Mixer 前向传播
             # 如果是 DVD Mixer，需要传入 hidden states
-            if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"]:
+            if self.args.mixer in ["dvd", "dvd_direct", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"]:
                 # target hidden states 也要取 t=1 到 T
                 target_hs_next = whole_target_hidden_states[:, 1:1+target_len]
                 target_q_tot = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:1+target_len], target_hs_next)
@@ -469,7 +472,7 @@ class DVDNQLearner:
                                  self.args.n_agents, self.args.gamma, self.args.td_lambda)
 
         # 5. Online Mixer 前向传播
-        if self.args.mixer in ["dvd", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"]:
+        if self.args.mixer in ["dvd", "dvd_direct", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"]:
             # DVD: 传入 Q, State, Hidden States
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main)
         else:
@@ -611,7 +614,7 @@ class DVDNQLearner:
         grad_norm = th.nn.utils.clip_grad_norm_(
             self.params,
             self.args.grad_norm_clip,
-            error_if_nonfinite=self.args.mixer in ["dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"],
+            error_if_nonfinite=self.args.mixer in ["dvd_direct", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"],
         )
         self.optimiser.step()
 
@@ -627,6 +630,8 @@ class DVDNQLearner:
         # 8. 日志记录
         if t_env - self.log_stats_t >= self.args.learner_log_interval:
             self.logger.log_stat("audit_fix_td_lambda", int(self.audit_fix_td_lambda), t_env)
+            if self.args.mixer == "dvd_direct":
+                self.logger.log_stat("direct_detach_hidden", int(self.mixer.detach_hidden), t_env)
             self.logger.log_stat("audit_isolate_dvd_aux_hidden", int(
                 self.is_counterfactual_router and
                 self.mixer.audit_isolate_dvd_aux_hidden
