@@ -22,7 +22,7 @@ Q_direct = ELU(q W_direct + b1(s)) W2(s) + b2(s)
 
 这个比较检验融合及其损失/目标安排的整体价值，不能单独把差异归因于动态门控。RMS 现有结果保留，本轮不追加 RMS 消融。
 
-## 首批预定运行
+## 首批运行（结果已于 2026-11-03 回传）
 
 | GPU | 地图 | seed | hidden 路径 | 运行名称 |
 | --- | --- | ---: | --- | --- |
@@ -31,7 +31,22 @@ Q_direct = ELU(q W_direct + b1(s)) W2(s) + b2(s)
 | 2 | 6h_vs_8z | 80 | detached | baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s80 |
 | 3 | 6h_vs_8z | 84 | detached | baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s84 |
 
-当前代码已直接修改在 `D:/论文/代码`。本目录是后续维护和同步的主版本。使用独立名称，输出仍为 `ablation_results_dvd`。主要源码、配置及指纹由 audit 入口自动保存。实验结果仍待服务器训练后回传，本地 CPU 检查不是 SC2 学习效果验证。
+当前代码已直接修改在 `D:/论文/代码`。本目录是后续维护和同步的主版本。使用独立名称，输出仍为 `ablation_results_dvd`。主要源码、配置及指纹由 audit 入口自动保存。首批四条日志均已覆盖 5M；本地 CPU 检查与服务器学习效果分开记录，Sacred 的 RUNNING 状态不用于判断当前进程状态。
+
+最近 5M 原始胜率如下，不插值、不时间加权：
+
+| 地图/seed | 纯 BM | 直接 A+B | 完整 BACM |
+| --- | ---: | ---: | ---: |
+| 3s/80 | 59.375% | 0% | 68.75% |
+| 3s/81 | 75% | 0% | 65.625% |
+| 6h/80 | 81.25% | 75% | 62.5% |
+| 6h/84 | 65.625% | 96.875% | 90.625% |
+
+3s 两条全部已记录测试为零，6h 两条最近 5M 与末次均高于对应 BACM。这是整套结构及训练安排的对照，不支持完整融合普遍更好，也不能独立证明门控的作用。完整末段、真实步数及源码核验见 [2026-11-03 结果报告](D:/论文/代码/experiments/2026-11-03_DIRECT_COMBINATION_RESULTS/report.md)。建议保持本定义补齐 3s79、6h87/88/90；当前本地未发现这些直接对照结果，未启动新训练。6h 既定集合来自此前 BACM 表现筛选，不能当作未筛选种子的总体稳定性估计。RMS 扩展继续暂停。
+
+## 下一批补齐（2026-11-03，命令已核验，待用户执行）
+
+保持首批定义及训练参数，GPU 0 跑 3s79 attached，GPU 1/2/3 分别跑 6h87/88/90 detached，预算均为 5.05M。24 项共同训练设置已与首批同地图直接对照核对；当前本地没有这些直接对照结果，助手未启动训练。可复制命令见 [本批四条命令](D:/论文/代码/experiments/2026-11-03_DIRECT_COMBINATION_NEXT/commands.md)。沿用上一批服务器源码，本轮没有新增训练代码或参数变体。
 
 ## 本地维护与服务器同步
 
@@ -47,9 +62,9 @@ Q_direct = ELU(q W_direct + b1(s)) W2(s) + b2(s)
 
 原始训练结果仍保留在现有三个结果根目录，本目录只保存整理后的实验日志与引用。10 月 26 日以来的结果详见 [阶段实验日志](D:/论文/代码/experiments/2026-10-26_to_2026-11-02/report.md)。旧补丁包和安装器只是此前交付的可选副本，后续以本目录源码为准。
 
-## 启动命令
+## 首批启动命令存档（已有回传结果）
 
-每个服务器终端先进入环境，之后在四个独立终端分别执行对应的一条命令：
+以下为已回传首批结果对应的命令，保留以便追溯，不表示需要重复运行。每个服务器终端先进入环境，之后在四个独立终端分别执行对应的一条命令：
 
 ```bash
 cd /home/zhangbei/pymarl2
@@ -80,4 +95,4 @@ GPU 3，6h seed84：
 CUDA_VISIBLE_DEVICES=3 python3 src/main_audit.py --config=dvd_audit_direct --env-config=sc2 with env_args.map_name=6h_vs_8z seed=84 name=baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s84 audit_detach_mixed_hidden=True t_max=5050000 local_results_path=ablation_results_dvd
 ```
 
-当前已完成 31 项 CPU 检查，1 项因本地缺少 Sacred 跳过；实际 SC2 训练待用户在服务器启动。没有修改旧 mixer 的计算、原始实验日志或论文正文。完整配置可用 `--audit-print-config` 检查。
+实现阶段已通过 31 项 CPU 检查，1 项因本地缺少 Sacred 跳过。首批 SC2 训练日志已回传并单独核验；本次结果整理没有修改训练源码、原始实验日志或论文正文。完整配置可用 `--audit-print-config` 检查。
