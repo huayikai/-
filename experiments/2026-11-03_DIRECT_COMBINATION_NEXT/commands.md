@@ -1,6 +1,6 @@
 # 2026-11-03：直接 A+B 补齐命令
 
-状态：命令已准备并核验；助手未启动训练，本地尚无本批直接对照结果。
+状态更新：本批四条均已回传覆盖 5M 的结果，详见 [完整补齐报告](D:/论文/代码/experiments/2026-11-03_DIRECT_COMBINATION_COMPLETE/report.md)。以下命令保留作存档，不表示需要重复训练；助手未启动训练。
 
 沿用上一批 `dvd_audit_direct` 的定义和服务器代码，只补齐 3s79、6h87/88/90。3s attached、6h detached，5.05M，输出 `ablation_results_dvd`；不追加 RMS、门控或其他参数变体。完成后与同 seed 的完整 BACM、纯 BM 比较原始最近 5M 和末段评估，不时间加权。
 

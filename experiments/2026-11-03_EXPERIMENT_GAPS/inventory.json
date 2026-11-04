@@ -1,0 +1,1640 @@
+{
+  "as_of": "2026-11-03",
+  "source_review": {
+    "filename": "22.md",
+    "sha256": "ad7098b642b5566ae298197260bd4278c11245fc690fc24b72e3de02f23fb499",
+    "lines": 688,
+    "treated_as": "external review and suggestions; not execution instructions"
+  },
+  "config_counts": {
+    "ablation_results": 104,
+    "ablation_results_10_6": 77,
+    "ablation_results_dvd": 79
+  },
+  "existing_seeds": {
+    "3s5z_vs_3s6z": [
+      79,
+      80,
+      81,
+      82
+    ],
+    "6h_vs_8z": [
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91
+    ],
+    "MMM2": [
+      79
+    ]
+  },
+  "gradient_logging": {
+    "enabled_runs": 83,
+    "runs_with_gradient_tags_in_readable_sacred_info": 81,
+    "note": "missing info tags do not prove absence in TensorBoard; existing diagnostics are gradients of BM/mixed losses on all agent parameters, not GRU Q-path versus hidden-path decomposition or actual Adam updates"
+  },
+  "save_model_true_count": 0,
+  "observed_result_roots_only_have_sacred_and_tb_logs": true,
+  "matched_mean_gate_run_count": 0,
+  "uniform_graph_run_count": 0,
+  "direct_run_count": 8,
+  "relevant_runs": [
+    {
+      "name": "audit_router_fixedgate005_mix025_attachedhidden_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_fixedgate005_mix025_attachedhidden_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "81c93eb7b2cd1293b12eacb868f9fad0652df26caddb66663a8be3389a4256b1",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate005_mix025_attachedhidden_5m_3s5z_vs_3s6z_s80",
+      "map": "3s5z_vs_3s6z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_fixedgate005_mix025_attachedhidden_5m_3s5z_vs_3s6z_s80/1/config.json",
+      "config_sha256": "21b4f00e1bbc6de365e982c6883f03f996b46065d29fc37c0438a494f333ec55",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate005_mix025_attachedhidden_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_fixedgate005_mix025_attachedhidden_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "38b589fcfc6f6b6edaebf95416e670b84d4fcd8cb0b4851ca674f75bada4f8c6",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_attachedhidden_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_fixedgate010_mix025_attachedhidden_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "212934bcea2238ec9bf0ccfab029196d06202c42da7fb3ee467cc725d4b6f653",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_attachedhidden_5m_3s5z_vs_3s6z_s80",
+      "map": "3s5z_vs_3s6z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_fixedgate010_mix025_attachedhidden_5m_3s5z_vs_3s6z_s80/1/config.json",
+      "config_sha256": "8714b69454c1b83c25a04848cccb93a80480f4d8a81d3beaf78b79946aa73b09",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_attachedhidden_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_fixedgate010_mix025_attachedhidden_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "8c8bc6732a73180ac88ade49c91fafd602d3a51daeac437865a84e246f6144f8",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix005_attachedhidden_5m_3s5z_vs_3s6z_s80",
+      "map": "3s5z_vs_3s6z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_mix005_attachedhidden_5m_3s5z_vs_3s6z_s80/1/config.json",
+      "config_sha256": "33623a1751439371229533b584c03ba20cd2b3337aabb3ea8a772f72d13e6960",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_grad_10m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_mix025_attachedhidden_grad_10m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "7ddacf2f8ab56e19d295fb83a956d9b86a81ec41563432c69da4daa7f1a5a97b",
+      "t_max": 10050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_grad_10m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_mix025_attachedhidden_grad_10m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "405f79f83de517d96312d9c7bd767528333ea46a64428eaf32acbc99d461798c",
+      "t_max": 10050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_mix025_detachhidden_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "596f66426376a03c77396d1bb4d77a91fc267896bff390efdad1ee553a4d4c5f",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_3s5z_vs_3s6z_s80",
+      "map": "3s5z_vs_3s6z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_mix025_detachhidden_5m_3s5z_vs_3s6z_s80/1/config.json",
+      "config_sha256": "a6d440da70035e688f9018fa68f887b1008db494c5e14650be2740fe14834b95",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_10_6/sacred/3s5z_vs_3s6z/audit_router_mix025_detachhidden_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "1cdb1df7fb1e10cf4780fadc22275e07ccac5aab251dbfb9c570e2b30bbcf925",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "2f75b2b3ab6038e9dbe919f397feb0719837a493f3645e869dab3e17f31687ad",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "b7bf54787c019b7ec9e9328e96e57f869d3ade575fbf77ea0f9e4de6085e09ed",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "d174188ad56965e4026f8acd0144c4a9d79773796abd284ccf43a8a56dd21329",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "8ecb37c86edfcdd81e331f3ff0884c8998896bfbc2dfa004baa2ed72403b29e2",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate005_mix025_detachhidden_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "67e2652111441c5bf82ab1853dd780b65ff2881a5220cee38de294771bcc79ef",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "82c49a7362509c38e30b29eb07d4c9f7fa7a3e6c81b0622c0591387e7608bd2c",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "da8571c33117a4338792597f6381757fd0f6ba63807941f33e6d368a3f452d6c",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "fe52706fcb368367ef841f35a4f6bbc69545a2e59cb2192589251d249c475016",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "a7ff534d8fb67b61e5df573abf0164adfb580cf9041d4b2efa932692c727cb5a",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_fixedgate010_mix025_detachhidden_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "41f2cae7bed7bc0582f561a0bae7e0c02e88fed5a6eeed4205622343604718a0",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix005_detachhidden_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix005_detachhidden_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "092271fc7f3ceea2f0c16094cef17c5a0a93807e65137747dd5acf4dfc9447d6",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix005_detachhidden_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix005_detachhidden_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "6db1fa73ee6dfe23d6e6dc4d7219f544d87340156dd9f037fa9b931a97b53adf",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix005_detachhidden_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix005_detachhidden_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "63dbb0b40d72ae4c38f6b3547924bf968c3a48fc6005ac12f50c662a197d7966",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix005_detachhidden_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix005_detachhidden_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "adb4f26220f4da595aefd53ac77e2bc38989f9f0c7d73e11d25b92df5116e3ae",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix005_detachhidden_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix005_detachhidden_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "58421ced3a05343d2956974276b65bd41da0f2085dfac58a175019068dbb9fa6",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_attachedhidden_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "ddef35f4ff54bae2c70cbf4d04f641138eab79e3f5ba194e42ecb3d0ba46fa48",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_attachedhidden_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "686bededa25350358f5b7cf946b005aa397919a51878e2431bd4f7c5a67dbced",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_attachedhidden_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "d2a121b5dec89fa221d16e151cca290d188ec65173d1ddf6aae46316eb6248f0",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_grad_5m_6h_vs_8z_s83",
+      "map": "6h_vs_8z",
+      "seed": 83,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_attachedhidden_grad_5m_6h_vs_8z_s83/1/config.json",
+      "config_sha256": "952571545c77e3c50eebe9ba4347f608b630ffbeb06d31df3fc2c6a2e2ead665",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_grad_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_attachedhidden_grad_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "b5d30c0ffd4d9fcf33ed782aab9b52ea5ca0161694da1f97e51d9c99536bd88d",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s79",
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s79/1/config.json",
+      "config_sha256": "649695c6e59e1156c0053ed2ad81285820adecd030db0fff2c47060476bd7d2a",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "64859608e36c7e7b6409e8ab1883d51901ce32500f4105da75d1e49479177856",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s83",
+      "map": "6h_vs_8z",
+      "seed": 83,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s83/1/config.json",
+      "config_sha256": "6f86c29cef4fadfd5ac73adfc7960061a2aa3ea09b90b4c8862e501c775abcaf",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "1ce1069b9866a0027c8185dcd27fa5be64fbab436f1d2f1d490c6d1385dfc33a",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s85",
+      "map": "6h_vs_8z",
+      "seed": 85,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s85/1/config.json",
+      "config_sha256": "fa446df0f907357b700f54c814d711790c75bedbc9919a63e48c306a7dc1886a",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s86",
+      "map": "6h_vs_8z",
+      "seed": 86,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s86/1/config.json",
+      "config_sha256": "5ce36bd2d99da7a063579edf601fcccdd6ce46225e56c1d0269d6633fd2cfa23",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "8d1d2c6460314c4511483331e219e28fbb4f1ace97c473743cc21b0d2c99ab4a",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "56a63198246df5170fbb6abb663c74254ea0e99dba9540ea0e7a119297e6cae4",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s89",
+      "map": "6h_vs_8z",
+      "seed": 89,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s89/1/config.json",
+      "config_sha256": "b49a46aac5b3643e2c6afe5bc6d9a3c147e46118485a6f7519ec7c195ddc57c3",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "6f8b27efac1fd5625a6b140adf0c442f9905329277d37cacb267a6c279f1bb44",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_6h_vs_8z_s91",
+      "map": "6h_vs_8z",
+      "seed": 91,
+      "path": "D:/论文/ablation_results_10_6/sacred/6h_vs_8z/audit_router_mix025_detachhidden_5m_6h_vs_8z_s91/1/config.json",
+      "config_sha256": "fafe6a87b7b1203dca8ddeb743a35923702807282bc02b95f221a1194a7cf1db",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_attachedhidden_5m_MMM2_s79",
+      "map": "MMM2",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/MMM2/audit_router_mix025_attachedhidden_5m_MMM2_s79/1/config.json",
+      "config_sha256": "094dd543edc1504cacda0f6eb49d0e78aa32372beb04c067484121ffafa27590",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "audit_router_mix025_detachhidden_5m_MMM2_s79",
+      "map": "MMM2",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/MMM2/audit_router_mix025_detachhidden_5m_MMM2_s79/1/config.json",
+      "config_sha256": "5032c9df2dbef2f05c472621e1e11bd4c6b1cf0e58092cf106d01ad329b01521",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diagnostic_router_mix025_attachedhidden_nornd_5m_MMM2_s79",
+      "map": "MMM2",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/MMM2/diagnostic_router_mix025_attachedhidden_nornd_5m_MMM2_s79/1/config.json",
+      "config_sha256": "6cb1c6e929e4da7dfdd42fb6de50c73bc869d30d36932adfc845e3db9198ae0a",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diagnostic_router_mix025_detachhidden_nornd_5m_MMM2_s79",
+      "map": "MMM2",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_10_6/sacred/MMM2/diagnostic_router_mix025_detachhidden_nornd_5m_MMM2_s79/1/config.json",
+      "config_sha256": "13a087cf8f016f16227dbda9ff3780b6ce5688eaa09e6be0b14b0ff19ce5d303",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": null,
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_attached_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/ablation_bacm_noaggregate_attached_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "ad02551f224d15b203f9df6547d6efb48e070f97d193d9578fa3566625ea6d4d",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_attached_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/ablation_bacm_noaggregate_attached_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "4f9e56b966e38cfadbed46629138ecfc236ca30c5c79e8e56285e18b1a89c0cd",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_attached_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/ablation_bacm_noaux_attached_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "1cfedc4212295df92f44702a1975240b9108ea80f01ce6ea7c3725bd2d4e4f5f",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_attached_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/ablation_bacm_noaux_attached_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "2968018b7f0f1410a11b93be58d9e3d67e14cdd6fdfae1f3ba17f6639574baa9",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_nornorm_attached_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/ablation_bacm_nornorm_attached_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "7576bd52fe375c3f2b11a7a7d671cbf1422e0a9847da9f425ba5ebb2d57e41d3",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_nornorm_attached_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/ablation_bacm_nornorm_attached_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "26d8b0f9a86fd6582cf6002e744f49fc42721e418050510f8ac859ef06c21244",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_attached_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/baseline_bm_dvd_direct_raw_attached_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "64c7b244d7fa123a533f43cbd3de690ebaa2c047b576deed0513d36fccac4a69",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_attached_5m_3s5z_vs_3s6z_s80",
+      "map": "3s5z_vs_3s6z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/baseline_bm_dvd_direct_raw_attached_5m_3s5z_vs_3s6z_s80/1/config.json",
+      "config_sha256": "dd50fa21077662ee515b1cd2f57260fc0a9b3eba90055d5d55c524cc438172e0",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_attached_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/baseline_bm_dvd_direct_raw_attached_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "60d24cc2fdca762a2a5c4733c2e61932476b5f663ec69be8079f92744fde0872",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "diag_bacm_fixedgate010_attached_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_fixedgate010_attached_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "f00917c0b222c6171ed3259c7f9820c6b3476ec2c382f2fdaea5c597a2a829c6",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_fixedgate010_attached_5m_3s5z_vs_3s6z_s80",
+      "map": "3s5z_vs_3s6z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_fixedgate010_attached_5m_3s5z_vs_3s6z_s80/1/config.json",
+      "config_sha256": "6a1a091bb5a86191130e6488ffe2a36068ac1ecdacac72ec705576d80bdfbcb0",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_fixedgate010_attached_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_fixedgate010_attached_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "d4ee6f4d72329a4978163e247ad957ab4794c7274af1e09241dd27911124ac13",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_full_attached_5m_3s5z_vs_3s6z_s79",
+      "map": "3s5z_vs_3s6z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s79/1/config.json",
+      "config_sha256": "b44ab5419338253ed6b028195cbfa5fa68de31c2568673a7d5ce139747d34db3",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_full_attached_5m_3s5z_vs_3s6z_s81",
+      "map": "3s5z_vs_3s6z",
+      "seed": 81,
+      "path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s81/1/config.json",
+      "config_sha256": "fe0851e1ddf6420be1f044c7aa69c07e97eab5fd78ea5f5b3d6b987d5cd6b296",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s79",
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s79/1/config.json",
+      "config_sha256": "ab805500ab7612966899d8126702ea83a8db5551be9040b4367b6c6fadef02d3",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "0ae44359c6dca0c29f40e9a4ffb9f62b47032e182a8bc8543eaf73acc38681ef",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s83",
+      "map": "6h_vs_8z",
+      "seed": 83,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s83/1/config.json",
+      "config_sha256": "581b434f7696bc1f7129b89b98c06b2b93931c13388ce0792293fe1f988bb53b",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "da5e45660d3fa8aedc2e17b66e64b6d639352ffdbf41d9a74c28f6cc542238f6",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "c47e98228436676c9b884fc719eb413525722f43b75a50952594e3486fdc21b8",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "b1e76d02459c1b7ea3b92610552efcb9fdaf69bebbd82e379dd7695b41f0d912",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaggregate_detached_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "b8869148a2aa38a31b9e36a1901a361487921ed0e11f30093913d13b04cd15bd",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "identity",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_detached_5m_6h_vs_8z_s79",
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaux_detached_5m_6h_vs_8z_s79/1/config.json",
+      "config_sha256": "8775fdbd8e4301acb193c0e8052b9adaf8edf3848b871c55e6eaf95d7bce196c",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_detached_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaux_detached_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "fd4972f485b340285d6901d7b67d6449010d740b36e49ed95aa5b5da7ab52b8f",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_detached_5m_6h_vs_8z_s83",
+      "map": "6h_vs_8z",
+      "seed": 83,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaux_detached_5m_6h_vs_8z_s83/1/config.json",
+      "config_sha256": "079432dc182ebe11a95478169b549da6442255ef2fc517a727f7d461cb4c038c",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_detached_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaux_detached_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "b168a4f5276c58f20a8195c6558f26b5de5cc53683a16d208d976d017bdb55c5",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_detached_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaux_detached_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "859afc877bc158a2f5346a9ec837422596875b1bbd6e66ea2ee65c0301d39a17",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_detached_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaux_detached_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "8f73ec7a9ed1b730cf3d2503cfc5ef61c3308a035d304c720814d5cc95f880ca",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_noaux_detached_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_noaux_detached_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "5e61d783aaff2ad9aad1eba90b4538bde76d6f09f43020e8138dd6895872c416",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_nornorm_detached_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_nornorm_detached_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "d0694cf05a031db6e4aa8fad471e25c4569f55155d991eb802cec1862f84b951",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "ablation_bacm_nornorm_detached_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_nornorm_detached_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "033ffa01e16327f81d1595de304c62e8ef20e2eafbc7f78bec094a188e7fb4c3",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "78f99d3a912b17b945faa1e2d20ccfd348c41c5a59f44c556752b36fcd0b40cd",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s84",
+      "map": "6h_vs_8z",
+      "seed": 84,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s84/1/config.json",
+      "config_sha256": "52647b9c0fe4787148a0fa58aa014d08b5debfd2e803ecc17cfff8f22901c62f",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s87",
+      "map": "6h_vs_8z",
+      "seed": 87,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s87/1/config.json",
+      "config_sha256": "7fee5238127a0e85c16855a1d4ce5fece298e8dfc8612d988032520b97ebd6e7",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s88",
+      "map": "6h_vs_8z",
+      "seed": 88,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s88/1/config.json",
+      "config_sha256": "b130c358974f620d496ff4ddff6051d1e4c8b0cbf7da80483ab2bbb726ebed74",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s90",
+      "map": "6h_vs_8z",
+      "seed": 90,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/baseline_bm_dvd_direct_raw_detached_5m_6h_vs_8z_s90/1/config.json",
+      "config_sha256": "fafcc94e410b469bfa580ade4cfcef8fe7fc7b334420c01c559a6e98ba3a33aa",
+      "t_max": 5050000,
+      "gate_init": null,
+      "route_loss_weight": null,
+      "graph_mode": null,
+      "gradient_info_tags": [],
+      "is_direct": true
+    },
+    {
+      "name": "diag_bacm_dynamicinit010_detached_5m_6h_vs_8z_s79",
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_dynamicinit010_detached_5m_6h_vs_8z_s79/1/config.json",
+      "config_sha256": "2a93d113e2f8d72899a0af87145cf3d91d81670cabe44dc4b795d48f0ab99ad2",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_dynamicinit010_detached_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_dynamicinit010_detached_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "f1596450a21328028c61817755f244d2c2c4de694350b809603a9a432b8e553d",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_fixedgate005_detached_5m_6h_vs_8z_s79",
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_fixedgate005_detached_5m_6h_vs_8z_s79/1/config.json",
+      "config_sha256": "d80ef73e1cd216dd73d337f4d12e66176c7ee6ad6524fa4d4cddc7cc65693287",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_fixedgate005_detached_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_fixedgate005_detached_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "c28de34b6f1f0f15b0609cd6026047f3bb2e4e17c3decc127f5d35871f4cf1ce",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.0,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_fixedgate010_detached_5m_6h_vs_8z_s79",
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_fixedgate010_detached_5m_6h_vs_8z_s79/1/config.json",
+      "config_sha256": "7cf89554bb9d2e014b0f4e23ccbe582feecf3435e759876fb638b78589e0c1e9",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_fixedgate010_detached_5m_6h_vs_8z_s83",
+      "map": "6h_vs_8z",
+      "seed": 83,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_fixedgate010_detached_5m_6h_vs_8z_s83/1/config.json",
+      "config_sha256": "251a5e1e3a6ad84c4ef6fd06bae69cae3928a9577b1bd1d2fe7cccd8b8e4e422",
+      "t_max": 5050000,
+      "gate_init": 0.1,
+      "route_loss_weight": 0.0,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_full_detached_5m_6h_vs_8z_s79",
+      "map": "6h_vs_8z",
+      "seed": 79,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s79/1/config.json",
+      "config_sha256": "863dea06bb4d458778d73824a4064b111e84f6f2166f6cc36e9480daa94ebcd3",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_full_detached_5m_6h_vs_8z_s80",
+      "map": "6h_vs_8z",
+      "seed": 80,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s80/1/config.json",
+      "config_sha256": "1018c42f3f7b074dc01ee049de39370e8ba12cb62f4dd75eac6523f708619f8c",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    },
+    {
+      "name": "diag_bacm_full_detached_5m_6h_vs_8z_s83",
+      "map": "6h_vs_8z",
+      "seed": 83,
+      "path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s83/1/config.json",
+      "config_sha256": "eba1dc8c64d7a4639a1259cc0fd54b0f9a23ff584d9b217e198d97c0a75a0379",
+      "t_max": 5050000,
+      "gate_init": 0.05,
+      "route_loss_weight": 0.1,
+      "graph_mode": "learned",
+      "gradient_info_tags": [
+        "audit_agent_bm_grad_norm",
+        "audit_agent_bm_mix_grad_cosine",
+        "audit_agent_mix_grad_norm",
+        "audit_agent_weighted_mix_bm_grad_ratio"
+      ],
+      "is_direct": false
+    }
+  ]
+}

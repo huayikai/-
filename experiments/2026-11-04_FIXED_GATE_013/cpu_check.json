@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-04",
+  "torch_version": "2.7.1+cpu",
+  "device": "CPU",
+  "scope": "Small synthetic batch on the existing real learner; validates control behavior, not SC2 performance.",
+  "cases": [
+    {
+      "seed": 80,
+      "detach": false,
+      "gradient_logging": false,
+      "updates": 3,
+      "gate_parameters_unchanged": true,
+      "gate_gradients_zero": true,
+      "common_initialization_and_rng_match": true,
+      "agent_and_candidate_updated": true,
+      "nonzero_signal_gate": 0.13,
+      "zero_signal_gate": 0.0,
+      "finite_parameters": true
+    },
+    {
+      "seed": 81,
+      "detach": false,
+      "gradient_logging": true,
+      "updates": 3,
+      "gate_parameters_unchanged": true,
+      "gate_gradients_zero": true,
+      "common_initialization_and_rng_match": true,
+      "agent_and_candidate_updated": true,
+      "nonzero_signal_gate": 0.13,
+      "zero_signal_gate": 0.0,
+      "finite_parameters": true
+    },
+    {
+      "seed": 80,
+      "detach": true,
+      "gradient_logging": true,
+      "updates": 3,
+      "gate_parameters_unchanged": true,
+      "gate_gradients_zero": true,
+      "common_initialization_and_rng_match": true,
+      "agent_and_candidate_updated": true,
+      "nonzero_signal_gate": 0.13,
+      "zero_signal_gate": 0.0,
+      "finite_parameters": true
+    },
+    {
+      "seed": 84,
+      "detach": true,
+      "gradient_logging": true,
+      "updates": 3,
+      "gate_parameters_unchanged": true,
+      "gate_gradients_zero": true,
+      "common_initialization_and_rng_match": true,
+      "agent_and_candidate_updated": true,
+      "nonzero_signal_gate": 0.13,
+      "zero_signal_gate": 0.0,
+      "finite_parameters": true
+    }
+  ]
+}
