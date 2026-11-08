@@ -1,6 +1,10 @@
-# 训练期门控打乱的两条机制预实验
+# 训练期门控打乱的四条机制预实验
 
-本轮使用 3s5z_vs_3s6z seed85 和 6h_vs_8z seed92。这两颗依据已有动态运行能够学习的曲线选为机制案例，原动态日志作为配对参照。新增实验观察改变门控与样本对应关系后的训练表现。
+2026-11-09 兼容修复：服务器为 PyTorch 1.12.1、Sacred 0.7.5。原实现的 torch.Generator 在创建目标网络时无法 deepcopy，导致初始化失败。现在复制模型时保存私有随机状态，并在副本中创建独立生成器。种子、排列序列和训练配置保持一致。已模拟旧版不可复制的 Generator 及没有 __getstate__ 的 nn.Module 路径，CPU 检查 42 项通过、1 项跳过；本地实际 PyTorch 为 2.4.1+cpu，未在服务器版本或 SC2 上执行训练。
+
+若服务器已经部署之前的门控打乱功能，本次只需将 `modules/mixers/dvd_counterfactual_router_audit.py` 同步到 `/home/zhangbei/pymarl2/src/modules/mixers/dvd_counterfactual_router_audit.py`。本次四条命令加上 `--debug --capture=no`，让旧 Sacred 直接显示后续可能发生的原始异常。
+
+2026-11-09 按用户的四卡安排扩展本轮。GPU0/1 为原先选择的 3s5z_vs_3s6z seed85、6h_vs_8z seed92，GPU2/3 增加 3s seed84 和 6h seed94。前两颗依据已有动态运行能够学习的曲线选择，3s84 是三方法共同零胜案例，6h94 是 BM、动态、固定表现有差异的案例。四颗均按已有结果选择，用原动态日志作配对参照，观察改变门控与样本对应关系后的训练表现。
 
 ## 实现与核验口径
 
@@ -35,7 +39,7 @@ TensorBoard 新增以下记录。
 
 ## 运行
 
-两个终端分别准备环境。
+四个终端分别准备环境。
 
 ```bash
 cd /home/zhangbei/pymarl2
@@ -45,7 +49,7 @@ conda activate pymarl
 GPU 0，3s seed85，attached。
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python3 src/main_audit.py \
+CUDA_VISIBLE_DEVICES=0 python3 src/main_audit.py --debug --capture=no \
   --config=dvd_audit_router --env-config=sc2 with \
   env_args.map_name=3s5z_vs_3s6z seed=85 \
   name=ablation_bacm_shufflegate_attached_5m_3s5z_vs_3s6z_s85 \
@@ -57,7 +61,7 @@ CUDA_VISIBLE_DEVICES=0 python3 src/main_audit.py \
 GPU 1，6h seed92，detached。
 
 ```bash
-CUDA_VISIBLE_DEVICES=1 python3 src/main_audit.py \
+CUDA_VISIBLE_DEVICES=1 python3 src/main_audit.py --debug --capture=no \
   --config=dvd_audit_router --env-config=sc2 with \
   env_args.map_name=6h_vs_8z seed=92 \
   name=ablation_bacm_shufflegate_detached_5m_6h_vs_8z_s92 \
@@ -66,4 +70,28 @@ CUDA_VISIBLE_DEVICES=1 python3 src/main_audit.py \
   t_max=5050000 local_results_path=ablation_results_11_6
 ```
 
-回传以上两条的 Sacred 与 TensorBoard 日志。先核对排列分布及原始评估，再按各自真实步数比较最近 5M、末段和完整学习曲线。
+GPU 2，3s seed84，attached。
+
+```bash
+CUDA_VISIBLE_DEVICES=2 python3 src/main_audit.py --debug --capture=no \
+  --config=dvd_audit_router --env-config=sc2 with \
+  env_args.map_name=3s5z_vs_3s6z seed=84 \
+  name=ablation_bacm_shufflegate_attached_5m_3s5z_vs_3s6z_s84 \
+  audit_shuffle_gate=True audit_detach_mixed_hidden=False \
+  audit_log_agent_gradients=True use_tensorboard=True \
+  t_max=5050000 local_results_path=ablation_results_11_6
+```
+
+GPU 3，6h seed94，detached。
+
+```bash
+CUDA_VISIBLE_DEVICES=3 python3 src/main_audit.py --debug --capture=no \
+  --config=dvd_audit_router --env-config=sc2 with \
+  env_args.map_name=6h_vs_8z seed=94 \
+  name=ablation_bacm_shufflegate_detached_5m_6h_vs_8z_s94 \
+  audit_shuffle_gate=True audit_detach_mixed_hidden=True \
+  audit_log_agent_gradients=True use_tensorboard=True \
+  t_max=5050000 local_results_path=ablation_results_11_6
+```
+
+回传以上四条的 Sacred 与 TensorBoard 日志。先核对排列分布及原始评估，再按各自真实步数比较最近 5M、末段和完整学习曲线。

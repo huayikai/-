@@ -1,8 +1,8 @@
 {
-  "date": "2026-11-08",
+  "date": "2026-11-09",
   "torch_version": "2.4.1+cpu",
-  "tests_run": 41,
-  "passed": 40,
+  "tests_run": 43,
+  "passed": 42,
   "skipped": [
     {
       "test": "test_real_sacred_records_python_sources_and_yaml_resources (_test_dvd_audit.EntryPointTests)",
@@ -12,6 +12,7 @@
   "failures": 0,
   "errors": 0,
   "historical_default_parity": {
+    "validated_date": "2026-11-08",
     "reference": "pre-change training code from repository HEAD",
     "steps_per_case": 3,
     "hidden_modes": [
@@ -28,5 +29,17 @@
   "cpu_only": true,
   "gpu_tested": false,
   "sc2_training_started": false,
-  "shuffle_training_with_rnd_checked_for_both_hidden_modes": true
+  "shuffle_training_with_rnd_checked_for_both_hidden_modes": true,
+  "generator_copy_compatibility": {
+    "reported_server_torch": "1.12.1",
+    "reported_server_sacred": "0.7.5",
+    "original_failure_reproduced_by_simulation": true,
+    "unpicklable_generator_deepcopy_simulated": true,
+    "nn_module_without_getstate_simulated": true,
+    "advanced_private_rng_state_preserved": true,
+    "source_and_copy_generators_independent": true,
+    "global_torch_rng_unchanged_by_copy": true,
+    "learner_steps_per_hidden_mode": 3,
+    "server_versions_executed_locally": false
+  }
 }

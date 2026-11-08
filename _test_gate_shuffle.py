@@ -1,4 +1,5 @@
 """CPU regressions for the opt-in, training-only gate permutation."""
+import copy
 import tempfile
 import unittest
 from pathlib import Path
@@ -20,6 +21,11 @@ def arguments(enabled=True, detach=False, seed=85):
 
 
 class GateShuffleTests(unittest.TestCase):
+    @staticmethod
+    def reject_generator_copy(generator, memo):
+        # PyTorch 1.12.1 raises this error when a Generator is deep-copied.
+        raise TypeError("cannot pickle 'torch._C.Generator' object")
+
     def inputs(self):
         th.manual_seed(901)
         q = th.randn(3, 5, 3, requires_grad=True)
@@ -86,6 +92,57 @@ class GateShuffleTests(unittest.TestCase):
         same = self.mixer()
         same(q, states, hidden, valid_mask=mask)
         self.assertTrue(th.equal(mixer.last_audit_routing_gate, same.last_audit_routing_gate))
+
+    def test_deepcopy_preserves_advanced_private_stream_without_pickling_generator(self):
+        disabled = self.mixer(False)
+        mixer = self.mixer()
+        th.randperm(17, generator=mixer.gate_shuffle_generator)
+        before = mixer.gate_shuffle_generator.get_state().clone()
+        global_before = th.get_rng_state().clone()
+        generator_type = type(mixer.gate_shuffle_generator)
+        # nn.Module has no __getstate__ in PyTorch 1.12.1 / Python 3.8.
+        parent_getstate = th.nn.Module.__dict__.get('__getstate__')
+        with mock.patch.dict(copy._deepcopy_dispatch,
+                             {generator_type: self.reject_generator_copy}):
+            if parent_getstate is not None:
+                del th.nn.Module.__getstate__
+            try:
+                with self.assertRaisesRegex(TypeError, 'cannot pickle'):
+                    copy.deepcopy(mixer.gate_shuffle_generator)
+                target = copy.deepcopy(mixer)
+                disabled = copy.deepcopy(disabled)
+            finally:
+                if parent_getstate is not None:
+                    th.nn.Module.__getstate__ = parent_getstate
+        self.assertIsNone(disabled.gate_shuffle_generator)
+        self.assertIsNot(mixer.gate_shuffle_generator, target.gate_shuffle_generator)
+        self.assertTrue(th.equal(before, target.gate_shuffle_generator.get_state()))
+        self.assertTrue(th.equal(global_before, th.get_rng_state()))
+        for source_param, target_param in zip(mixer.parameters(), target.parameters()):
+            self.assertTrue(th.equal(source_param, target_param))
+            self.assertNotEqual(source_param.data_ptr(), target_param.data_ptr())
+        expected = th.randperm(31, generator=mixer.gate_shuffle_generator)
+        self.assertTrue(th.equal(before, target.gate_shuffle_generator.get_state()))
+        actual = th.randperm(31, generator=target.gate_shuffle_generator)
+        self.assertTrue(th.equal(expected, actual))
+
+    def test_learner_trains_when_generators_cannot_be_pickled(self):
+        generator_type = type(th.Generator(device='cpu'))
+        with mock.patch.dict(copy._deepcopy_dispatch,
+                             {generator_type: self.reject_generator_copy}):
+            for detach in (False, True):
+                args = arguments(detach=detach)
+                args.use_rnd = True
+                mac = fixture.FakeMAC(args)
+                batch, logger = fixture.FakeBatch(), fixture.FakeLogger()
+                learner = fixture.audit.DVDNQLearner(mac, {}, logger, args)
+                target_before = learner.target_mixer.gate_shuffle_generator.get_state().clone()
+                for step in range(3):
+                    learner.train(batch, step, step)
+                self.assertTrue(th.equal(target_before,
+                    learner.target_mixer.gate_shuffle_generator.get_state()))
+                self.assertTrue(all(th.isfinite(p).all() for p in learner.params))
+                self.assertEqual(logger.stats['audit_gate_shuffle_distribution_error'], 0)
 
     def test_eval_and_target_forwards_do_not_permute_or_advance_rng(self):
         q, states, hidden, mask = self.inputs()

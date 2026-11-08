@@ -34,6 +34,28 @@ class CounterfactualRouterAuditMixer(CounterfactualRouterDVDMixer):
                 int(getattr(args, "seed", 0)) ^ 0x5A17
             )
 
+    def __getstate__(self):
+        # Older PyTorch versions cannot pickle/deepcopy a Generator. Copy its
+        # CPU RNG state instead, including when the learner builds its target.
+        parent_getstate = getattr(
+            super(CounterfactualRouterAuditMixer, self), "__getstate__", None
+        )
+        state = (parent_getstate() if parent_getstate is not None
+                 else self.__dict__).copy()
+        generator = state.get("gate_shuffle_generator")
+        if generator is not None:
+            state["_gate_shuffle_rng_state"] = generator.get_state()
+            state["gate_shuffle_generator"] = None
+        return state
+
+    def __setstate__(self, state):
+        state = state.copy()
+        rng_state = state.pop("_gate_shuffle_rng_state", None)
+        super(CounterfactualRouterAuditMixer, self).__setstate__(state)
+        if rng_state is not None:
+            self.gate_shuffle_generator = th.Generator(device="cpu")
+            self.gate_shuffle_generator.set_state(rng_state)
+
     def _routing_gate(self, gate, valid_mask):
         routing_gate = gate.detach()
         self.last_audit_shuffle_stats = None
@@ -46,7 +68,9 @@ class CounterfactualRouterAuditMixer(CounterfactualRouterDVDMixer):
             count = indices.numel()
             routing_gate = routing_gate.clone()
             if count > 1:
-                order = th.randperm(count, generator=self.gate_shuffle_generator)
+                order = th.randperm(
+                    count, generator=self.gate_shuffle_generator, device="cpu"
+                )
                 order = order.to(indices.device)
                 routing_gate[indices] = gate.detach()[indices[order]]
 
