@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-08",
+  "torch_version": "2.4.1+cpu",
+  "tests_run": 41,
+  "passed": 40,
+  "skipped": [
+    {
+      "test": "test_real_sacred_records_python_sources_and_yaml_resources (_test_dvd_audit.EntryPointTests)",
+      "reason": "Sacred is optional for the CPU checks"
+    }
+  ],
+  "failures": 0,
+  "errors": 0,
+  "historical_default_parity": {
+    "reference": "pre-change training code from repository HEAD",
+    "steps_per_case": 3,
+    "hidden_modes": [
+      "attached",
+      "detached"
+    ],
+    "rnd_modes": [
+      false,
+      true
+    ],
+    "parameters_gradients_optimizer_rnd_and_torch_rng_bitwise_equal": true,
+    "reference_commit": "06a7dcd76943e55bb70c44aee9c6b54a33397aa2"
+  },
+  "cpu_only": true,
+  "gpu_tested": false,
+  "sc2_training_started": false,
+  "shuffle_training_with_rnd_checked_for_both_hidden_modes": true
+}

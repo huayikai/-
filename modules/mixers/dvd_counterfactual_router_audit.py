@@ -20,6 +20,60 @@ class CounterfactualRouterAuditMixer(CounterfactualRouterDVDMixer):
         self.audit_detach_mixed_hidden = bool(
             getattr(args, "audit_detach_mixed_hidden", False)
         )
+        self.audit_shuffle_gate = getattr(args, "audit_shuffle_gate", False)
+        if not isinstance(self.audit_shuffle_gate, bool):
+            raise ValueError("audit_shuffle_gate must be a boolean")
+        self.last_audit_routing_gate = None
+        self.last_audit_shuffle_stats = None
+        self.gate_shuffle_generator = None
+        if self.audit_shuffle_gate:
+            # A CPU generator also works for CUDA tensors and leaves the
+            # sampling, exploration, and RND random streams alone.
+            self.gate_shuffle_generator = th.Generator(device="cpu")
+            self.gate_shuffle_generator.manual_seed(
+                int(getattr(args, "seed", 0)) ^ 0x5A17
+            )
+
+    def _routing_gate(self, gate, valid_mask):
+        routing_gate = gate.detach()
+        self.last_audit_shuffle_stats = None
+        if self.audit_shuffle_gate and self.training and th.is_grad_enabled():
+            if valid_mask is None or valid_mask.numel() != gate.numel():
+                raise ValueError("gate shuffling requires the aligned training mask")
+            valid = valid_mask.detach().reshape(-1).bool()
+            eligible = valid & self.last_adaptive_signal_mask.reshape(-1)
+            indices = eligible.nonzero(as_tuple=False).flatten()
+            count = indices.numel()
+            routing_gate = routing_gate.clone()
+            if count > 1:
+                order = th.randperm(count, generator=self.gate_shuffle_generator)
+                order = order.to(indices.device)
+                routing_gate[indices] = gate.detach()[indices[order]]
+
+            # Measure the actual assignment without changing the original
+            # differentiable gate used by routing supervision in the learner.
+            zero = routing_gate.new_zeros(())
+            stats = {
+                "valid_count": valid.sum(),
+                "eligible_count": zero.new_tensor(count),
+                "fallback_count": (valid & ~eligible).sum(),
+                "changed_fraction": zero,
+                "mean_abs_change": zero,
+                "mean_delta": zero,
+                "std_delta": zero,
+            }
+            if count:
+                before = gate.detach()[indices].flatten()
+                after = routing_gate[indices].flatten()
+                stats.update({
+                    "changed_fraction": (before != after).float().mean(),
+                    "mean_abs_change": (after - before).abs().mean(),
+                    "mean_delta": after.mean() - before.mean(),
+                    "std_delta": after.std(unbiased=False) - before.std(unbiased=False),
+                })
+            self.last_audit_shuffle_stats = stats
+        self.last_audit_routing_gate = routing_gate
+        return routing_gate
 
     def _auxiliary_dvd_weights(self, states, hidden_states):
         # Caller controls hidden isolation; auxiliary BM/Q inputs stay detached.
@@ -48,12 +102,12 @@ class CounterfactualRouterAuditMixer(CounterfactualRouterDVDMixer):
         )
         return th.where(dvd_mean_square > min_mean_square, dvd_scaled, bm_w1)
 
-    def forward(self, agent_qs, states, hidden_states):
+    def forward(self, agent_qs, states, hidden_states, valid_mask=None):
         mixed_hidden = (
             hidden_states.detach() if self.audit_detach_mixed_hidden else hidden_states
         )
         mixed_q = super(CounterfactualRouterAuditMixer, self).forward(
-            agent_qs, states, mixed_hidden
+            agent_qs, states, mixed_hidden, valid_mask=valid_mask
         )
         if not th.is_grad_enabled():
             return mixed_q

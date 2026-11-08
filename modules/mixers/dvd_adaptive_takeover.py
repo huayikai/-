@@ -96,6 +96,7 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         nn.init.constant_(self.gate_net[2].bias, initial_logit)
 
     def _clear_stats(self):
+        self.last_adaptive_signal_mask = None
         self.last_adaptive_gate_mean = None
         self.last_adaptive_gate_std = None
         self.last_adaptive_gate_min = None
@@ -217,6 +218,7 @@ class AdaptiveTakeoverDVDMixer(nn.Module):
         # avoiding an arbitrary normalized direction, this gives alpha=0 and
         # preserves the full BM gradient on those rows.
         has_dvd_signal = (dvd_raw_mean_square > min_mean_square).detach()
+        self.last_adaptive_signal_mask = has_dvd_signal.view(-1, 1)
         dvd_w1 = th.where(has_dvd_signal, dvd_scaled, bm_w1.detach())
 
         entropy, disagreement, confidence = self._attention_statistics(attention)

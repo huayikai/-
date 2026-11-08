@@ -76,5 +76,8 @@ audit_isolate_dvd_aux_hidden: True
 audit_detach_mixed_hidden: False
 # Same-batch agent gradients before clipping, sampled at learner log steps.
 audit_log_agent_gradients: False
+# Permute gates only among filled, non-post-terminal transitions with a
+# valid DVD signal. Routing supervision retains the original sample labels.
+audit_shuffle_gate: False
 audit_fix_td_lambda: True
 name: "dvd_audit_router"

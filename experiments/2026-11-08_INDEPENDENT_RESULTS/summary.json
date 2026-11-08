@@ -1,0 +1,1292 @@
+{
+  "review_date": "2026-11-08",
+  "horizon": 5000000,
+  "metric": "nearest raw evaluation to 5M; equal weight per map/seed pair",
+  "source_path_base": "parent of this repository",
+  "training_conditions": 24,
+  "rows": [
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 84,
+      "bm": {
+        "name": "audit_bm_td_5m_3s5z_vs_3s6z_s84",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/audit_bm_td_5m_3s5z_vs_3s6z_s84/1/config.json",
+            "config_sha256": "5923368dd1f3b915d2ef782293d8faad89c7ebff0d496863d4e4294bd9c5aef4",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T23:21:24.441983+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 495,
+            "positive_test_points": 0,
+            "near_5m_step": 4997197,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5007397,
+                0.0
+              ],
+              [
+                5017597,
+                0.0
+              ],
+              [
+                5027797,
+                0.0
+              ],
+              [
+                5037901,
+                0.0
+              ],
+              [
+                5048101,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 495,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_attached_5m_3s5z_vs_3s6z_s84",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s84/1/config.json",
+            "config_sha256": "7ee1a78fd636e332e2cda2512d6a880747801fe1b525711141bac82ae44daee7",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-05T11:17:22.961864+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 492,
+            "positive_test_points": 0,
+            "near_5m_step": 5001442,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5001442,
+                0.0
+              ],
+              [
+                5011856,
+                0.0
+              ],
+              [
+                5021914,
+                0.0
+              ],
+              [
+                5032450,
+                0.0
+              ],
+              [
+                5042752,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 492,
+            "tb_only_wins": 0
+          },
+          {
+            "config_path": "ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s84/2/config.json",
+            "config_sha256": "7ee1a78fd636e332e2cda2512d6a880747801fe1b525711141bac82ae44daee7",
+            "sacred_id": "2",
+            "start_beijing": "2026-11-05T23:18:16.600730+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 492,
+            "positive_test_points": 0,
+            "near_5m_step": 5001442,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5001442,
+                0.0
+              ],
+              [
+                5011856,
+                0.0
+              ],
+              [
+                5021914,
+                0.0
+              ],
+              [
+                5032450,
+                0.0
+              ],
+              [
+                5042752,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 492,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s84",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_dvd/sacred/3s5z_vs_3s6z/ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s84/1/config.json",
+            "config_sha256": "60e02e362379d0f6cddba275854a1a921134ee6186a1b8967102c95b6c1e5c89",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-05T23:18:38.282471+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 495,
+            "positive_test_points": 0,
+            "near_5m_step": 5000201,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5000201,
+                0.0
+              ],
+              [
+                5010367,
+                0.0
+              ],
+              [
+                5020498,
+                0.0
+              ],
+              [
+                5030698,
+                0.0
+              ],
+              [
+                5040898,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 495,
+            "tb_only_wins": 0
+          }
+        ]
+      }
+    },
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 85,
+      "bm": {
+        "name": "audit_bm_td_5m_3s5z_vs_3s6z_s85",
+        "near_5m_pct": 3.125,
+        "last5_mean_pct": 7.5,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/audit_bm_td_5m_3s5z_vs_3s6z_s85/1/config.json",
+            "config_sha256": "d2b0863d06a5a84702578d580a38f5476056b16d707b90a525e176e0eba06f9b",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T23:21:35.503849+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 496,
+            "positive_test_points": 204,
+            "near_5m_step": 5001165,
+            "near_5m_pct": 3.125,
+            "last5_within_budget": [
+              [
+                5001165,
+                3.125
+              ],
+              [
+                5011529,
+                6.25
+              ],
+              [
+                5021644,
+                18.75
+              ],
+              [
+                5031998,
+                6.25
+              ],
+              [
+                5042291,
+                3.125
+              ]
+            ],
+            "last5_mean_pct": 7.5,
+            "info_error": null,
+            "shared_sacred_tb_wins": 496,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_attached_5m_3s5z_vs_3s6z_s85",
+        "near_5m_pct": 56.25,
+        "last5_mean_pct": 50.625,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s85/1/config.json",
+            "config_sha256": "500572d084193a33673b3f6118d1894f8d7e2d25a2d70065ff7c7e3ba7cfba50",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T10:00:37.799293+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 500,
+            "positive_test_points": 394,
+            "near_5m_step": 4995041,
+            "near_5m_pct": 56.25,
+            "last5_within_budget": [
+              [
+                5005099,
+                50.0
+              ],
+              [
+                5015284,
+                56.25
+              ],
+              [
+                5025306,
+                56.25
+              ],
+              [
+                5035396,
+                40.625
+              ],
+              [
+                5045613,
+                50.0
+              ]
+            ],
+            "last5_mean_pct": 50.625,
+            "info_error": null,
+            "shared_sacred_tb_wins": 500,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s85",
+        "near_5m_pct": 68.75,
+        "last5_mean_pct": 78.125,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s85/1/config.json",
+            "config_sha256": "652e19cea8dac09ea63de48d43d9938537d6e9047e5aa2e3c99360fa2c3abea7",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T10:01:41.984800+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 499,
+            "positive_test_points": 289,
+            "near_5m_step": 4997488,
+            "near_5m_pct": 68.75,
+            "last5_within_budget": [
+              [
+                5007718,
+                84.375
+              ],
+              [
+                5017865,
+                78.125
+              ],
+              [
+                5028162,
+                75.0
+              ],
+              [
+                5038463,
+                71.875
+              ],
+              [
+                5048876,
+                81.25
+              ]
+            ],
+            "last5_mean_pct": 78.125,
+            "info_error": null,
+            "shared_sacred_tb_wins": 499,
+            "tb_only_wins": 0
+          }
+        ]
+      }
+    },
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 86,
+      "bm": {
+        "name": "audit_bm_td_5m_3s5z_vs_3s6z_s86",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/audit_bm_td_5m_3s5z_vs_3s6z_s86/1/config.json",
+            "config_sha256": "7b2242d6495056273ab45ee6a712a3889fd73b5798d5438b7952b4c67eefaf44",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T11:55:04.997055+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 495,
+            "positive_test_points": 0,
+            "near_5m_step": 5003709,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5003709,
+                0.0
+              ],
+              [
+                5013909,
+                0.0
+              ],
+              [
+                5024109,
+                0.0
+              ],
+              [
+                5034309,
+                0.0
+              ],
+              [
+                5044509,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 495,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_attached_5m_3s5z_vs_3s6z_s86",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s86/2/config.json",
+            "config_sha256": "beb98e9220c7681e8d531ddaca6ef1a88ff410fd17752f1654c5c859afc4b4c0",
+            "sacred_id": "2",
+            "start_beijing": "2026-11-07T13:43:02.696573+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 495,
+            "positive_test_points": 0,
+            "near_5m_step": 4996006,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5006206,
+                0.0
+              ],
+              [
+                5016406,
+                0.0
+              ],
+              [
+                5026606,
+                0.0
+              ],
+              [
+                5036806,
+                0.0
+              ],
+              [
+                5047006,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 495,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s86",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s86/1/config.json",
+            "config_sha256": "1efe0f735b3fdce308a145499ad06200c8e6af1f3fe95c7288a04c7164a3c1b9",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-07T13:43:11.738642+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 495,
+            "positive_test_points": 0,
+            "near_5m_step": 5000407,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5000407,
+                0.0
+              ],
+              [
+                5010607,
+                0.0
+              ],
+              [
+                5020807,
+                0.0
+              ],
+              [
+                5031007,
+                0.0
+              ],
+              [
+                5041207,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 495,
+            "tb_only_wins": 0
+          }
+        ]
+      }
+    },
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 87,
+      "bm": {
+        "name": "audit_bm_td_5m_3s5z_vs_3s6z_s87",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/audit_bm_td_5m_3s5z_vs_3s6z_s87/1/config.json",
+            "config_sha256": "a612e5c8a40a2306eda02bf4a6eb7d1bc4461740c7d7014013e4989152f32588",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T11:56:12.335476+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 495,
+            "positive_test_points": 0,
+            "near_5m_step": 4999767,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                4999767,
+                0.0
+              ],
+              [
+                5009967,
+                0.0
+              ],
+              [
+                5020167,
+                0.0
+              ],
+              [
+                5030367,
+                0.0
+              ],
+              [
+                5040567,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 495,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_attached_5m_3s5z_vs_3s6z_s87",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s87/1/config.json",
+            "config_sha256": "28bb7f539988081fd7802e20d678febb76570bab9282e1eb04b2dbd79d6011da",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T00:40:34.252941+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 496,
+            "positive_test_points": 0,
+            "near_5m_step": 5005057,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5005057,
+                0.0
+              ],
+              [
+                5015257,
+                0.0
+              ],
+              [
+                5025457,
+                0.0
+              ],
+              [
+                5035657,
+                0.0
+              ],
+              [
+                5045857,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 496,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s87",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/3s5z_vs_3s6z/ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s87/1/config.json",
+            "config_sha256": "a3f3263936855939838bbcbe9ec56317ca55be4550af1bd066d2d8e2dbde8499",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T00:40:51.215892+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 496,
+            "positive_test_points": 0,
+            "near_5m_step": 5001096,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5001096,
+                0.0
+              ],
+              [
+                5011296,
+                0.0
+              ],
+              [
+                5021470,
+                0.0
+              ],
+              [
+                5031670,
+                0.0
+              ],
+              [
+                5041870,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 496,
+            "tb_only_wins": 0
+          }
+        ]
+      }
+    },
+    {
+      "map": "6h_vs_8z",
+      "seed": 92,
+      "bm": {
+        "name": "audit_bm_td_5m_6h_vs_8z_s92",
+        "near_5m_pct": 25.0,
+        "last5_mean_pct": 21.25,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/audit_bm_td_5m_6h_vs_8z_s92/1/config.json",
+            "config_sha256": "2fc5ade0665eeb4c16f3851b4091756d41218b68fdd27373b58bd0867ca068ad",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T23:21:47.859668+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 502,
+            "positive_test_points": 287,
+            "near_5m_step": 5002457,
+            "near_5m_pct": 25.0,
+            "last5_within_budget": [
+              [
+                5002457,
+                25.0
+              ],
+              [
+                5012564,
+                15.625
+              ],
+              [
+                5022583,
+                31.25
+              ],
+              [
+                5032721,
+                18.75
+              ],
+              [
+                5042777,
+                15.625
+              ]
+            ],
+            "last5_mean_pct": 21.25,
+            "info_error": null,
+            "shared_sacred_tb_wins": 502,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_detached_5m_6h_vs_8z_s92",
+        "near_5m_pct": 78.125,
+        "last5_mean_pct": 72.5,
+        "attempts": [
+          {
+            "config_path": "ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s92/1/config.json",
+            "config_sha256": "0505b80016f74d25a7cf4edbdd23de2d2466b0e4aff92863ea5cbcf90feab858",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-05T11:18:26.874843+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 501,
+            "positive_test_points": 413,
+            "near_5m_step": 5000140,
+            "near_5m_pct": 78.125,
+            "last5_within_budget": [
+              [
+                5000140,
+                78.125
+              ],
+              [
+                5010198,
+                78.125
+              ],
+              [
+                5020248,
+                87.5
+              ],
+              [
+                5030347,
+                65.625
+              ],
+              [
+                5040348,
+                53.125
+              ]
+            ],
+            "last5_mean_pct": 72.5,
+            "info_error": null,
+            "shared_sacred_tb_wins": 501,
+            "tb_only_wins": 0
+          },
+          {
+            "config_path": "ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s92/2/config.json",
+            "config_sha256": "0505b80016f74d25a7cf4edbdd23de2d2466b0e4aff92863ea5cbcf90feab858",
+            "sacred_id": "2",
+            "start_beijing": "2026-11-05T11:19:18.660145+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 501,
+            "positive_test_points": 413,
+            "near_5m_step": 5000140,
+            "near_5m_pct": 78.125,
+            "last5_within_budget": [
+              [
+                5000140,
+                78.125
+              ],
+              [
+                5010198,
+                78.125
+              ],
+              [
+                5020248,
+                87.5
+              ],
+              [
+                5030347,
+                65.625
+              ],
+              [
+                5040348,
+                53.125
+              ]
+            ],
+            "last5_mean_pct": 72.5,
+            "info_error": null,
+            "shared_sacred_tb_wins": 501,
+            "tb_only_wins": 0
+          },
+          {
+            "config_path": "ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s92/3/config.json",
+            "config_sha256": "0505b80016f74d25a7cf4edbdd23de2d2466b0e4aff92863ea5cbcf90feab858",
+            "sacred_id": "3",
+            "start_beijing": "2026-11-05T23:19:26.676066+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 501,
+            "positive_test_points": 413,
+            "near_5m_step": 5000140,
+            "near_5m_pct": 78.125,
+            "last5_within_budget": [
+              [
+                5000140,
+                78.125
+              ],
+              [
+                5010198,
+                78.125
+              ],
+              [
+                5020248,
+                87.5
+              ],
+              [
+                5030347,
+                65.625
+              ],
+              [
+                5040348,
+                53.125
+              ]
+            ],
+            "last5_mean_pct": 72.5,
+            "info_error": null,
+            "shared_sacred_tb_wins": 501,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s92",
+        "near_5m_pct": 81.25,
+        "last5_mean_pct": 76.25,
+        "attempts": [
+          {
+            "config_path": "ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s92/1/config.json",
+            "config_sha256": "61fa1c78c6a35d96947bd48f7ecde6703fb6a0cf88eaaefdf945f735c76971c9",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-05T11:19:54.322892+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 501,
+            "positive_test_points": 413,
+            "near_5m_step": 5000782,
+            "near_5m_pct": 81.25,
+            "last5_within_budget": [
+              [
+                5000782,
+                81.25
+              ],
+              [
+                5010914,
+                84.375
+              ],
+              [
+                5020987,
+                65.625
+              ],
+              [
+                5031031,
+                71.875
+              ],
+              [
+                5041106,
+                78.125
+              ]
+            ],
+            "last5_mean_pct": 76.25,
+            "info_error": null,
+            "shared_sacred_tb_wins": 501,
+            "tb_only_wins": 0
+          },
+          {
+            "config_path": "ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s92/2/config.json",
+            "config_sha256": "61fa1c78c6a35d96947bd48f7ecde6703fb6a0cf88eaaefdf945f735c76971c9",
+            "sacred_id": "2",
+            "start_beijing": "2026-11-05T23:19:44.744818+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 501,
+            "positive_test_points": 413,
+            "near_5m_step": 5000782,
+            "near_5m_pct": 81.25,
+            "last5_within_budget": [
+              [
+                5000782,
+                81.25
+              ],
+              [
+                5010914,
+                84.375
+              ],
+              [
+                5020987,
+                65.625
+              ],
+              [
+                5031031,
+                71.875
+              ],
+              [
+                5041106,
+                78.125
+              ]
+            ],
+            "last5_mean_pct": 76.25,
+            "info_error": null,
+            "shared_sacred_tb_wins": 501,
+            "tb_only_wins": 0
+          }
+        ]
+      }
+    },
+    {
+      "map": "6h_vs_8z",
+      "seed": 93,
+      "bm": {
+        "name": "audit_bm_td_5m_6h_vs_8z_s93",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/audit_bm_td_5m_6h_vs_8z_s93/1/config.json",
+            "config_sha256": "3ea3793c3d044460314f48860bbaaa36760e67aa85d23769b43851d54ac7a249",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T23:21:57.964351+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 503,
+            "positive_test_points": 0,
+            "near_5m_step": 4995279,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5005324,
+                0.0
+              ],
+              [
+                5015378,
+                0.0
+              ],
+              [
+                5025453,
+                0.0
+              ],
+              [
+                5035494,
+                0.0
+              ],
+              [
+                5045551,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 503,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_detached_5m_6h_vs_8z_s93",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s93/1/config.json",
+            "config_sha256": "caad3f43703e141983289a740c941258b0d41e79ffbf64d0798761b96abd8476",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T10:02:02.811932+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 503,
+            "positive_test_points": 0,
+            "near_5m_step": 4996075,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5006102,
+                0.0
+              ],
+              [
+                5016133,
+                0.0
+              ],
+              [
+                5026194,
+                0.0
+              ],
+              [
+                5036210,
+                0.0
+              ],
+              [
+                5046288,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 503,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s93",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s93/1/config.json",
+            "config_sha256": "68a4214f178e81d5dc54df765acf8861f513ee7e4a2c5e43bdb8fef4b3e4bf80",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-06T10:02:23.779685+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 503,
+            "positive_test_points": 0,
+            "near_5m_step": 5004732,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5004732,
+                0.0
+              ],
+              [
+                5014758,
+                0.0
+              ],
+              [
+                5024780,
+                0.0
+              ],
+              [
+                5034819,
+                0.0
+              ],
+              [
+                5044899,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": "JSONDecodeError",
+            "shared_sacred_tb_wins": 0,
+            "tb_only_wins": 503
+          }
+        ]
+      }
+    },
+    {
+      "map": "6h_vs_8z",
+      "seed": 94,
+      "bm": {
+        "name": "audit_bm_td_5m_6h_vs_8z_s94",
+        "near_5m_pct": 75.0,
+        "last5_mean_pct": 74.375,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/audit_bm_td_5m_6h_vs_8z_s94/1/config.json",
+            "config_sha256": "4cb3eed0c94c1eda56acdd5b7c7bf7d0022f6a1da23ee01b55cab36332f11973",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T11:57:07.679721+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 502,
+            "positive_test_points": 419,
+            "near_5m_step": 4998602,
+            "near_5m_pct": 75.0,
+            "last5_within_budget": [
+              [
+                5008660,
+                71.875
+              ],
+              [
+                5018734,
+                87.5
+              ],
+              [
+                5028741,
+                68.75
+              ],
+              [
+                5038883,
+                78.125
+              ],
+              [
+                5048899,
+                65.625
+              ]
+            ],
+            "last5_mean_pct": 74.375,
+            "info_error": null,
+            "shared_sacred_tb_wins": 502,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_detached_5m_6h_vs_8z_s94",
+        "near_5m_pct": 56.25,
+        "last5_mean_pct": 46.875,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s94/2/config.json",
+            "config_sha256": "7dc19a97394fb659571969e82a980376105dac3da7e419f8acdb9e0e86cee612",
+            "sacred_id": "2",
+            "start_beijing": "2026-11-07T13:43:17.113458+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 502,
+            "positive_test_points": 418,
+            "near_5m_step": 4997708,
+            "near_5m_pct": 56.25,
+            "last5_within_budget": [
+              [
+                5007799,
+                31.25
+              ],
+              [
+                5017824,
+                46.875
+              ],
+              [
+                5027894,
+                37.5
+              ],
+              [
+                5038004,
+                59.375
+              ],
+              [
+                5048052,
+                59.375
+              ]
+            ],
+            "last5_mean_pct": 46.875,
+            "info_error": null,
+            "shared_sacred_tb_wins": 502,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s94",
+        "near_5m_pct": 71.875,
+        "last5_mean_pct": 76.875,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s94/3/config.json",
+            "config_sha256": "1e40a4f38dbc5208581a85e426ab6edca2117cc9eae5fdd82eeec5931c104c1f",
+            "sacred_id": "3",
+            "start_beijing": "2026-11-07T13:43:26.364345+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 502,
+            "positive_test_points": 381,
+            "near_5m_step": 4998636,
+            "near_5m_pct": 71.875,
+            "last5_within_budget": [
+              [
+                5008650,
+                81.25
+              ],
+              [
+                5018758,
+                59.375
+              ],
+              [
+                5028867,
+                75.0
+              ],
+              [
+                5038947,
+                84.375
+              ],
+              [
+                5049062,
+                84.375
+              ]
+            ],
+            "last5_mean_pct": 76.875,
+            "info_error": null,
+            "shared_sacred_tb_wins": 501,
+            "tb_only_wins": 1
+          }
+        ]
+      }
+    },
+    {
+      "map": "6h_vs_8z",
+      "seed": 95,
+      "bm": {
+        "name": "audit_bm_td_5m_6h_vs_8z_s95",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/audit_bm_td_5m_6h_vs_8z_s95/1/config.json",
+            "config_sha256": "236b67a9e8477df3fbebc6049c1cf16c5e2bbf966d551a0b1bf5e7bd3a2c0a89",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T11:58:02.729682+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 503,
+            "positive_test_points": 0,
+            "near_5m_step": 5003256,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5003256,
+                0.0
+              ],
+              [
+                5013355,
+                0.0
+              ],
+              [
+                5023451,
+                0.0
+              ],
+              [
+                5033520,
+                0.0
+              ],
+              [
+                5043561,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 503,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "dynamic": {
+        "name": "diag_bacm_full_detached_5m_6h_vs_8z_s95",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s95/1/config.json",
+            "config_sha256": "287887272af3cfcc9b78392e37fb718e2bc30e7024854eb07525aadf41e13a43",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T00:41:07.505623+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 503,
+            "positive_test_points": 0,
+            "near_5m_step": 4995121,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5005195,
+                0.0
+              ],
+              [
+                5015212,
+                0.0
+              ],
+              [
+                5025242,
+                0.0
+              ],
+              [
+                5035314,
+                0.0
+              ],
+              [
+                5045371,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 503,
+            "tb_only_wins": 0
+          }
+        ]
+      },
+      "fixed013": {
+        "name": "ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s95",
+        "near_5m_pct": 0.0,
+        "last5_mean_pct": 0.0,
+        "attempts": [
+          {
+            "config_path": "ablation_results_11_6/sacred/6h_vs_8z/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s95/1/config.json",
+            "config_sha256": "d6650419e36959ab4e95107f364c55da7c1cef783bbc689fc2424dbcdb188b1d",
+            "sacred_id": "1",
+            "start_beijing": "2026-11-08T00:41:24.933616+08:00",
+            "status_metadata": "RUNNING",
+            "test_point_count": 503,
+            "positive_test_points": 0,
+            "near_5m_step": 5002602,
+            "near_5m_pct": 0.0,
+            "last5_within_budget": [
+              [
+                5002602,
+                0.0
+              ],
+              [
+                5012644,
+                0.0
+              ],
+              [
+                5022715,
+                0.0
+              ],
+              [
+                5032805,
+                0.0
+              ],
+              [
+                5042827,
+                0.0
+              ]
+            ],
+            "last5_mean_pct": 0.0,
+            "info_error": null,
+            "shared_sacred_tb_wins": 503,
+            "tb_only_wins": 0
+          }
+        ]
+      }
+    }
+  ],
+  "means_pct": {
+    "bm": 12.890625,
+    "dynamic": 23.828125,
+    "fixed013": 27.734375
+  },
+  "paired_comparisons": {
+    "dynamic_minus_bm": {
+      "mean_pp": 10.9375,
+      "positive": 2,
+      "negative": 1,
+      "equal": 5
+    },
+    "fixed013_minus_bm": {
+      "mean_pp": 14.84375,
+      "positive": 2,
+      "negative": 1,
+      "equal": 5
+    },
+    "dynamic_minus_fixed013": {
+      "mean_pp": -3.90625,
+      "positive": 0,
+      "negative": 3,
+      "equal": 5
+    }
+  },
+  "early_interrupted_records": [
+    {
+      "config_path": "ablation_results_11_6\\sacred\\3s5z_vs_3s6z\\diag_bacm_full_attached_5m_3s5z_vs_3s6z_s86\\1\\config.json",
+      "status": "INTERRUPTED",
+      "last_step": 40729
+    },
+    {
+      "config_path": "ablation_results_11_6\\sacred\\6h_vs_8z\\diag_bacm_full_detached_5m_6h_vs_8z_s94\\1\\config.json",
+      "status": "INTERRUPTED",
+      "last_step": 50293
+    },
+    {
+      "config_path": "ablation_results_11_6\\sacred\\6h_vs_8z\\ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s94\\1\\config.json",
+      "status": "INTERRUPTED",
+      "last_step": 40339
+    },
+    {
+      "config_path": "ablation_results_11_6\\sacred\\6h_vs_8z\\ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s94\\2\\config.json",
+      "status": "INTERRUPTED",
+      "last_step": 20230
+    }
+  ]
+}

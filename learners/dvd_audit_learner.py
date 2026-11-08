@@ -5,6 +5,7 @@ contained here. Disabled mixed controls preserve the previous audit behavior.
 The original TD(lambda) helper below is deliberately retained for parity.
 """
 import copy
+from pathlib import Path
 import torch as th
 import numpy as np
 from torch.optim import Adam, RMSprop
@@ -181,6 +182,8 @@ class DVDNQLearner:
         self.is_counterfactual_router = (
             args.mixer == "dvd_counterfactual_router"
         )
+        if getattr(args, "audit_shuffle_gate", False) and not self.is_counterfactual_router:
+            raise ValueError("audit_shuffle_gate requires dvd_counterfactual_router")
         if self.is_counterfactual_router:
             self.counterfactual_mix_loss_weight = float(
                 getattr(args, "counterfactual_mix_loss_weight", 0.25)
@@ -472,7 +475,12 @@ class DVDNQLearner:
                                  self.args.n_agents, self.args.gamma, self.args.td_lambda)
 
         # 5. Online Mixer 前向传播
-        if self.args.mixer in ["dvd", "dvd_direct", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover", "dvd_counterfactual_router"]:
+        if self.is_counterfactual_router:
+            online_q_tot = self.mixer(
+                chosen_action_qvals, batch["state"][:, :T_min],
+                hidden_states_main, valid_mask=mask,
+            )
+        elif self.args.mixer in ["dvd", "dvd_direct", "dvd_residual", "dvd_credit", "dvd_takeover", "dvd_adaptive_takeover"]:
             # DVD: 传入 Q, State, Hidden States
             online_q_tot = self.mixer(chosen_action_qvals, batch["state"][:, :T_min], hidden_states_main)
         else:
@@ -598,7 +606,8 @@ class DVDNQLearner:
             # Quantiles are computed only when this batch will be logged.
             if t_env - self.log_stats_t >= self.args.learner_log_interval:
                 gate_diagnostics = _masked_gate_diagnostics(
-                    gate, bm_error_abs, dvd_error_abs, td_error.detach().abs(),
+                    self.mixer.last_audit_routing_gate.view_as(gate),
+                    bm_error_abs, dvd_error_abs, td_error.detach().abs(),
                     route_target, mask,
                 )
 
@@ -643,6 +652,20 @@ class DVDNQLearner:
             self.logger.log_stat("target_mean", (targets * mask).sum().item()/(mask.sum().item()), t_env)
 
             if counterfactual_stats is not None:
+                self.logger.log_stat("audit_shuffle_gate", int(
+                    self.mixer.audit_shuffle_gate), t_env)
+                if self.mixer.last_audit_shuffle_stats is not None:
+                    for name, value in self.mixer.last_audit_shuffle_stats.items():
+                        self.logger.log_stat("audit_gate_shuffle_" + name, value.item(), t_env)
+                    eligible = mask.bool() & self.mixer.last_adaptive_signal_mask.view_as(mask)
+                    before = gate.detach()[eligible]
+                    after = self.mixer.last_audit_routing_gate.view_as(gate)[eligible]
+                    distribution_error = 0.0
+                    if before.numel():
+                        distribution_error = (
+                            before.sort().values - after.sort().values
+                        ).abs().max().item()
+                    self.logger.log_stat("audit_gate_shuffle_distribution_error", distribution_error, t_env)
                 self.logger.log_stat("audit_detach_mixed_hidden", int(
                     self.mixer.audit_detach_mixed_hidden), t_env)
                 if agent_gradient_stats is not None:
@@ -804,6 +827,9 @@ class DVDNQLearner:
         if self.mixer is not None:
             th.save(self.mixer.state_dict(), "{}/mixer.th".format(path))
         th.save(self.optimiser.state_dict(), "{}/opt.th".format(path))
+        if self.is_counterfactual_router and self.mixer.audit_shuffle_gate:
+            th.save(self.mixer.gate_shuffle_generator.get_state(),
+                    Path(path) / "gate_shuffle_rng.th")
 
     def load_models(self, path):
         self.mac.load_models(path)
@@ -811,5 +837,11 @@ class DVDNQLearner:
         if self.mixer is not None:
             self.mixer.load_state_dict(th.load("{}/mixer.th".format(path), map_location=lambda storage, loc: storage))
         self.optimiser.load_state_dict(th.load("{}/opt.th".format(path), map_location=lambda storage, loc: storage))
+        shuffle_state_path = Path(path) / "gate_shuffle_rng.th"
+        if (self.is_counterfactual_router and self.mixer.audit_shuffle_gate
+                and shuffle_state_path.is_file()):
+            self.mixer.gate_shuffle_generator.set_state(
+                th.load(shuffle_state_path, map_location="cpu")
+            )
 
 AUDIT_REFERENCE_SHA256 = '759e77244e30d9522ac08b0736d39823e1706f0b2cad3fca82ee98b29a995045'

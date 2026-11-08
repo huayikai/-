@@ -1,0 +1,515 @@
+{
+  "review_date": "2026-11-05",
+  "run_config_counts": {
+    "ablation_results": 104,
+    "ablation_results_10_6": 77,
+    "ablation_results_dvd": 95
+  },
+  "rows": [
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 84,
+      "method": "dynamic",
+      "name": "diag_bacm_full_attached_5m_3s5z_vs_3s6z_s84",
+      "attempts": [
+        {
+          "sacred_id": "1",
+          "config_path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s84/1/config.json",
+          "config_sha256": "7ee1a78fd636e332e2cda2512d6a880747801fe1b525711141bac82ae44daee7",
+          "event_files": [
+            {
+              "path": "D:/论文/ablation_results_dvd/tb_logs/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s84__2026-11-05_11-17-22/events.out.tfevents.1793848643.XieLab3090",
+              "sha256": "36c87d7a330e43a23b2887d9fcf661755e2e7b70b61e359f2d54f8b479fe82f8",
+              "bytes": 4724754
+            }
+          ],
+          "start_beijing": "2026-11-05T11:17:22.961864+08:00",
+          "snapshot_sacred_status": "RUNNING",
+          "finished_training_in_console": false,
+          "traceback_in_console": false,
+          "covers_5m": true,
+          "point_count": 492,
+          "positive_evaluations": 0,
+          "maximum_win_rate": 0.0,
+          "first_positive": null,
+          "near_5m": [
+            5001442,
+            0.0
+          ],
+          "last_five": [
+            [
+              5001442,
+              0.0
+            ],
+            [
+              5011856,
+              0.0
+            ],
+            [
+              5021914,
+              0.0
+            ],
+            [
+              5032450,
+              0.0
+            ],
+            [
+              5042752,
+              0.0
+            ]
+          ],
+          "last_five_within_budget": [
+            [
+              5001442,
+              0.0
+            ],
+            [
+              5011856,
+              0.0
+            ],
+            [
+              5021914,
+              0.0
+            ],
+            [
+              5032450,
+              0.0
+            ],
+            [
+              5042752,
+              0.0
+            ]
+          ],
+          "last_diagnostics": {
+            "adaptive_gate_grad_norm": [
+              5042752,
+              3.7304635043255985e-05
+            ],
+            "audit_detach_mixed_hidden": [
+              5042752,
+              0.0
+            ],
+            "audit_fix_td_lambda": [
+              5042752,
+              1.0
+            ],
+            "counterfactual_gate_mean": [
+              5042752,
+              0.004023345187306404
+            ],
+            "counterfactual_gate_output_weight_norm": [
+              5042752,
+              0.8886944651603699
+            ],
+            "counterfactual_gate_std": [
+              5042752,
+              0.008846720680594444
+            ],
+            "test_ep_length_mean": [
+              5042752,
+              144.8125
+            ],
+            "test_return_mean": [
+              5042752,
+              0.0
+            ]
+          },
+          "checks": {
+            "config_differences": {},
+            "source_manifest_matches_lf": 22,
+            "scalar_tags_checked": 134,
+            "nonfinite_scalars": 0,
+            "shared_sacred_tb_wins": 492,
+            "sacred_only_wins": 0,
+            "tb_only_wins": 0
+          }
+        }
+      ],
+      "all_attempts_have_equal_scalar_series": false,
+      "representative_config_path": "D:/论文/ablation_results_dvd/sacred/3s5z_vs_3s6z/diag_bacm_full_attached_5m_3s5z_vs_3s6z_s84/1/config.json"
+    },
+    {
+      "map": "3s5z_vs_3s6z",
+      "seed": 84,
+      "method": "fixed013",
+      "name": "ablation_bacm_fixedgate013_attached_5m_3s5z_vs_3s6z_s84",
+      "attempts": [],
+      "all_attempts_have_equal_scalar_series": false,
+      "representative_config_path": null
+    },
+    {
+      "map": "6h_vs_8z",
+      "seed": 92,
+      "method": "dynamic",
+      "name": "diag_bacm_full_detached_5m_6h_vs_8z_s92",
+      "attempts": [
+        {
+          "sacred_id": "1",
+          "config_path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s92/1/config.json",
+          "config_sha256": "0505b80016f74d25a7cf4edbdd23de2d2466b0e4aff92863ea5cbcf90feab858",
+          "event_files": [
+            {
+              "path": "D:/论文/ablation_results_dvd/tb_logs/diag_bacm_full_detached_5m_6h_vs_8z_s92__2026-11-05_11-18-26/events.out.tfevents.1793848706.XieLab3090",
+              "sha256": "7221f8e2e6d9c4b22e76ddf4d00576f5b29bced3b1db4816110cfb3af02c9a99",
+              "bytes": 4820485
+            }
+          ],
+          "start_beijing": "2026-11-05T11:18:26.874843+08:00",
+          "snapshot_sacred_status": "RUNNING",
+          "finished_training_in_console": false,
+          "traceback_in_console": false,
+          "covers_5m": true,
+          "point_count": 501,
+          "positive_evaluations": 413,
+          "maximum_win_rate": 0.875,
+          "first_positive": [
+            794125,
+            0.03125
+          ],
+          "near_5m": [
+            5000140,
+            0.78125
+          ],
+          "last_five": [
+            [
+              5000140,
+              0.78125
+            ],
+            [
+              5010198,
+              0.78125
+            ],
+            [
+              5020248,
+              0.875
+            ],
+            [
+              5030347,
+              0.65625
+            ],
+            [
+              5040348,
+              0.53125
+            ]
+          ],
+          "last_five_within_budget": [
+            [
+              5000140,
+              0.78125
+            ],
+            [
+              5010198,
+              0.78125
+            ],
+            [
+              5020248,
+              0.875
+            ],
+            [
+              5030347,
+              0.65625
+            ],
+            [
+              5040348,
+              0.53125
+            ]
+          ],
+          "last_diagnostics": {
+            "adaptive_gate_grad_norm": [
+              5041984,
+              0.0004691964713856578
+            ],
+            "audit_detach_mixed_hidden": [
+              5041984,
+              1.0
+            ],
+            "audit_fix_td_lambda": [
+              5041984,
+              1.0
+            ],
+            "counterfactual_gate_mean": [
+              5041984,
+              0.1307619959115982
+            ],
+            "counterfactual_gate_output_weight_norm": [
+              5041984,
+              1.4973772764205933
+            ],
+            "counterfactual_gate_std": [
+              5041984,
+              0.025710396468639374
+            ],
+            "test_ep_length_mean": [
+              5040348,
+              56.0625
+            ],
+            "test_return_mean": [
+              5040348,
+              18.008869171142578
+            ]
+          },
+          "checks": {
+            "config_differences": {},
+            "source_manifest_matches_lf": 22,
+            "scalar_tags_checked": 134,
+            "nonfinite_scalars": 0,
+            "shared_sacred_tb_wins": 501,
+            "sacred_only_wins": 0,
+            "tb_only_wins": 0
+          }
+        },
+        {
+          "sacred_id": "2",
+          "config_path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s92/2/config.json",
+          "config_sha256": "0505b80016f74d25a7cf4edbdd23de2d2466b0e4aff92863ea5cbcf90feab858",
+          "event_files": [
+            {
+              "path": "D:/论文/ablation_results_dvd/tb_logs/diag_bacm_full_detached_5m_6h_vs_8z_s92__2026-11-05_11-19-18/events.out.tfevents.1793848758.XieLab3090",
+              "sha256": "ac99937f653a59b1a452e9ddb2e055b0fa790e675bac78e3c2f9eeb10f28d1a0",
+              "bytes": 4820485
+            }
+          ],
+          "start_beijing": "2026-11-05T11:19:18.660145+08:00",
+          "snapshot_sacred_status": "RUNNING",
+          "finished_training_in_console": false,
+          "traceback_in_console": false,
+          "covers_5m": true,
+          "point_count": 501,
+          "positive_evaluations": 413,
+          "maximum_win_rate": 0.875,
+          "first_positive": [
+            794125,
+            0.03125
+          ],
+          "near_5m": [
+            5000140,
+            0.78125
+          ],
+          "last_five": [
+            [
+              5000140,
+              0.78125
+            ],
+            [
+              5010198,
+              0.78125
+            ],
+            [
+              5020248,
+              0.875
+            ],
+            [
+              5030347,
+              0.65625
+            ],
+            [
+              5040348,
+              0.53125
+            ]
+          ],
+          "last_five_within_budget": [
+            [
+              5000140,
+              0.78125
+            ],
+            [
+              5010198,
+              0.78125
+            ],
+            [
+              5020248,
+              0.875
+            ],
+            [
+              5030347,
+              0.65625
+            ],
+            [
+              5040348,
+              0.53125
+            ]
+          ],
+          "last_diagnostics": {
+            "adaptive_gate_grad_norm": [
+              5041984,
+              0.0004691964713856578
+            ],
+            "audit_detach_mixed_hidden": [
+              5041984,
+              1.0
+            ],
+            "audit_fix_td_lambda": [
+              5041984,
+              1.0
+            ],
+            "counterfactual_gate_mean": [
+              5041984,
+              0.1307619959115982
+            ],
+            "counterfactual_gate_output_weight_norm": [
+              5041984,
+              1.4973772764205933
+            ],
+            "counterfactual_gate_std": [
+              5041984,
+              0.025710396468639374
+            ],
+            "test_ep_length_mean": [
+              5040348,
+              56.0625
+            ],
+            "test_return_mean": [
+              5040348,
+              18.008869171142578
+            ]
+          },
+          "checks": {
+            "config_differences": {},
+            "source_manifest_matches_lf": 22,
+            "scalar_tags_checked": 134,
+            "nonfinite_scalars": 0,
+            "shared_sacred_tb_wins": 501,
+            "sacred_only_wins": 0,
+            "tb_only_wins": 0
+          }
+        }
+      ],
+      "all_attempts_have_equal_scalar_series": true,
+      "representative_config_path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/diag_bacm_full_detached_5m_6h_vs_8z_s92/1/config.json"
+    },
+    {
+      "map": "6h_vs_8z",
+      "seed": 92,
+      "method": "fixed013",
+      "name": "ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s92",
+      "attempts": [
+        {
+          "sacred_id": "1",
+          "config_path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s92/1/config.json",
+          "config_sha256": "61fa1c78c6a35d96947bd48f7ecde6703fb6a0cf88eaaefdf945f735c76971c9",
+          "event_files": [
+            {
+              "path": "D:/论文/ablation_results_dvd/tb_logs/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s92__2026-11-05_11-19-54/events.out.tfevents.1793848794.XieLab3090",
+              "sha256": "71f02e5c4ea893695b194d71c9f05bb9e26a3354dcda9630fe117657d2418e2a",
+              "bytes": 3847501
+            }
+          ],
+          "start_beijing": "2026-11-05T11:19:54.322892+08:00",
+          "snapshot_sacred_status": "RUNNING",
+          "finished_training_in_console": false,
+          "traceback_in_console": false,
+          "covers_5m": true,
+          "point_count": 501,
+          "positive_evaluations": 413,
+          "maximum_win_rate": 0.96875,
+          "first_positive": [
+            834460,
+            0.0625
+          ],
+          "near_5m": [
+            5000782,
+            0.8125
+          ],
+          "last_five": [
+            [
+              5000782,
+              0.8125
+            ],
+            [
+              5010914,
+              0.84375
+            ],
+            [
+              5020987,
+              0.65625
+            ],
+            [
+              5031031,
+              0.71875
+            ],
+            [
+              5041106,
+              0.78125
+            ]
+          ],
+          "last_five_within_budget": [
+            [
+              5000782,
+              0.8125
+            ],
+            [
+              5010914,
+              0.84375
+            ],
+            [
+              5020987,
+              0.65625
+            ],
+            [
+              5031031,
+              0.71875
+            ],
+            [
+              5041106,
+              0.78125
+            ]
+          ],
+          "last_diagnostics": {
+            "adaptive_gate_grad_norm": [
+              5042182,
+              0.0
+            ],
+            "audit_detach_mixed_hidden": [
+              5042182,
+              1.0
+            ],
+            "audit_fix_td_lambda": [
+              5042182,
+              1.0
+            ],
+            "counterfactual_gate_mean": [
+              5042182,
+              0.12999999523162842
+            ],
+            "counterfactual_gate_output_weight_norm": [
+              5042182,
+              0.0
+            ],
+            "counterfactual_gate_std": [
+              5042182,
+              0.0
+            ],
+            "test_ep_length_mean": [
+              5041106,
+              50.75
+            ],
+            "test_return_mean": [
+              5041106,
+              19.051097869873047
+            ]
+          },
+          "checks": {
+            "config_differences": {},
+            "source_manifest_matches_lf": 22,
+            "scalar_tags_checked": 110,
+            "nonfinite_scalars": 0,
+            "shared_sacred_tb_wins": 501,
+            "sacred_only_wins": 0,
+            "tb_only_wins": 0,
+            "fixed_gate": {
+              "logged_gate_mean_range": [
+                0.12999998033046722,
+                0.1300000101327896
+              ],
+              "maximum_logged_gate_std": 1.4901161193847656e-08,
+              "maximum_logged_output_weight_norm": 0.0,
+              "maximum_logged_gate_grad_norm": 0.0
+            }
+          }
+        }
+      ],
+      "all_attempts_have_equal_scalar_series": false,
+      "representative_config_path": "D:/论文/ablation_results_dvd/sacred/6h_vs_8z/ablation_bacm_fixedgate013_detached_5m_6h_vs_8z_s92/1/config.json"
+    }
+  ]
+}

@@ -63,7 +63,10 @@ class CounterfactualRouterDVDMixer(AdaptiveTakeoverDVDMixer):
         hidden = F.elu(flat_qs.bmm(w1) + b1)
         return hidden.bmm(w2) + b2
 
-    def forward(self, agent_qs, states, hidden_states):
+    def _routing_gate(self, gate, valid_mask):
+        return gate.detach()
+
+    def forward(self, agent_qs, states, hidden_states, valid_mask=None):
         batch_size, sequence_length, _ = agent_qs.size()
         flat_states = states.reshape(-1, self.state_dim)
         flat_qs = agent_qs.reshape(-1, 1, self.n_agents)
@@ -78,7 +81,7 @@ class CounterfactualRouterDVDMixer(AdaptiveTakeoverDVDMixer):
         # in the learner. Detaching the gate here prevents the ordinary mixed
         # TD objective from recreating Adaptive Takeover's easy-to-fit routing
         # collapse, while both experts still receive mixed-value gradients.
-        routing_gate = gate.detach().unsqueeze(-1)
+        routing_gate = self._routing_gate(gate, valid_mask).unsqueeze(-1)
         mixed_w1 = (
             (1.0 - routing_gate) * bm_w1 + routing_gate * dvd_w1
         )
