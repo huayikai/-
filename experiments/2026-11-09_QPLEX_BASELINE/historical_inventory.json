@@ -1,0 +1,192 @@
+[
+  {
+    "config_path": "ablation_results_10_6\\sacred\\3s5z_vs_3s6z\\baseline_qplex_matched_5m_3s5z_vs_3s6z_s79\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_3s5z_vs_3s6z_s79",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 4999423,
+    "near_5m_pct": 50.0,
+    "peak_pct": 78.125,
+    "last_loss": 0.01568599045276642
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\3s5z_vs_3s6z\\baseline_qplex_matched_5m_3s5z_vs_3s6z_s80\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_3s5z_vs_3s6z_s80",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 5004500,
+    "near_5m_pct": 62.5,
+    "peak_pct": 75.0,
+    "last_loss": 0.024720419198274612
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\3s5z_vs_3s6z\\baseline_qplex_matched_5m_3s5z_vs_3s6z_s81\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_3s5z_vs_3s6z_s81",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 4997769,
+    "near_5m_pct": 75.0,
+    "peak_pct": 93.75,
+    "last_loss": 0.03473372757434845
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\6h_vs_8z\\baseline_qplex_matched_5m_6h_vs_8z_s80\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_6h_vs_8z_s80",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 5002914,
+    "near_5m_pct": 0.0,
+    "peak_pct": 43.75,
+    "last_loss": 5136.86181640625
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\6h_vs_8z\\baseline_qplex_matched_5m_6h_vs_8z_s84\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_6h_vs_8z_s84",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 4999023,
+    "near_5m_pct": 0.0,
+    "peak_pct": 68.75,
+    "last_loss": 15857.81640625
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\6h_vs_8z\\baseline_qplex_matched_5m_6h_vs_8z_s87\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_6h_vs_8z_s87",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 5003156,
+    "near_5m_pct": 0.0,
+    "peak_pct": 84.375,
+    "last_loss": 29.838232040405273
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\6h_vs_8z\\baseline_qplex_matched_5m_6h_vs_8z_s88\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_6h_vs_8z_s88",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 4997693,
+    "near_5m_pct": 0.0,
+    "peak_pct": 40.625,
+    "last_loss": 128.45028686523438
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\6h_vs_8z\\baseline_qplex_matched_5m_6h_vs_8z_s90\\1\\config.json",
+    "name": "baseline_qplex_matched_5m_6h_vs_8z_s90",
+    "recipe": {
+      "lr": 0.001,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 4997370,
+    "near_5m_pct": 37.5,
+    "peak_pct": 50.0,
+    "last_loss": 0.04603607580065727
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\6h_vs_8z\\diagnostic_qplex_common_lr0005_5m_6h_vs_8z_s84\\1\\config.json",
+    "name": "diagnostic_qplex_common_lr0005_5m_6h_vs_8z_s84",
+    "recipe": {
+      "lr": 0.0005,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 4997711,
+    "near_5m_pct": 15.625,
+    "peak_pct": 25.0,
+    "last_loss": 0.05510159209370613
+  },
+  {
+    "config_path": "ablation_results_10_6\\sacred\\6h_vs_8z\\diagnostic_qplex_common_lr0005_5m_6h_vs_8z_s87\\1\\config.json",
+    "name": "diagnostic_qplex_common_lr0005_5m_6h_vs_8z_s87",
+    "recipe": {
+      "lr": 0.0005,
+      "batch_size_run": 4,
+      "batch_size": 64,
+      "buffer_size": 2500,
+      "td_lambda": 0.3,
+      "epsilon_start": 0.75,
+      "epsilon_anneal_time": 500000,
+      "mac": "n_mac",
+      "agent": "n_rnn"
+    },
+    "near_5m_step": 4995094,
+    "near_5m_pct": 0.0,
+    "peak_pct": 3.125,
+    "last_loss": 0.028300493955612183
+  }
+]

@@ -97,7 +97,9 @@ class DMAQ_qattenLearner:
             target_chosen_qvals = th.gather(target_mac_out, 3, cur_max_actions).squeeze(3)
             target_max_qvals = target_mac_out.max(dim=3)[0]
 
-            cur_max_actions_onehot = th.zeros(cur_max_actions.squeeze(3).shape + (self.n_actions,)).cuda()
+            cur_max_actions_onehot = target_mac_out.new_zeros(
+                cur_max_actions.squeeze(3).shape + (self.n_actions,)
+            )
             cur_max_actions_onehot = cur_max_actions_onehot.scatter_(3, cur_max_actions, 1)
         else:
             raise "Use Double Q"
@@ -154,7 +156,7 @@ class DMAQ_qattenLearner:
         if t_env - self.log_stats_t >= self.args.learner_log_interval:
             self.logger.log_stat("loss", loss.item(), t_env)
             self.logger.log_stat("hit_prob", hit_prob.item(), t_env)
-            self.logger.log_stat("grad_norm", grad_norm, t_env)
+            self.logger.log_stat("grad_norm", float(grad_norm), t_env)
             mask_elems = mask.sum().item()
             self.logger.log_stat("td_error_abs", (masked_td_error.abs().sum().item() / mask_elems), t_env)
             self.logger.log_stat("q_taken_mean",
