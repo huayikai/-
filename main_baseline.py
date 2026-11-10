@@ -23,20 +23,23 @@ def load_configuration(argv):
         matches=[p for p in params if p.startswith(flag+'=')]
         if len(matches)!=1:raise ValueError('supply exactly one '+flag)
         selected[flag]=matches[0].split('=',1)[1];params.remove(matches[0])
-    if selected != {'--config':'qplex','--env-config':'sc2'}:
-        raise ValueError('this verified baseline entry currently supports qplex/sc2')
+    if selected['--config'] not in ('qplex','qtran') or selected['--env-config']!='sc2':
+        raise ValueError('this verified baseline entry supports qplex/qtran with sc2')
+    algorithm=selected['--config']
     config={}
-    for name in ('config/default.yaml','config/envs/sc2.yaml','config/algs/qplex.yaml'):
+    for name in ('config/default.yaml','config/envs/sc2.yaml','config/algs/'+algorithm+'.yaml'):
         merge(config,yaml.safe_load((ROOT/name).read_text(encoding='utf-8')))
     sources=(
         'main_baseline.py','main.py','utils/results.py','utils/logging.py',
         'run/run.py','runners/parallel_runner.py','components/episode_buffer.py',
         'components/action_selectors.py','components/epsilon_schedules.py',
         'controllers/basic_controller.py','modules/agents/rnn_agent.py',
-        'learners/dmaq_qatten_learner.py','modules/mixers/dmaq_general.py',
-        'modules/mixers/dmaq_si_weight.py','utils/rl_utils.py','utils/th_utils.py',
-        'config/default.yaml','config/envs/sc2.yaml','config/algs/qplex.yaml',
+        'utils/rl_utils.py','utils/th_utils.py',
+        'config/default.yaml','config/envs/sc2.yaml','config/algs/'+algorithm+'.yaml',
     )
+    sources += (('learners/dmaq_qatten_learner.py','modules/mixers/dmaq_general.py',
+                 'modules/mixers/dmaq_si_weight.py') if algorithm=='qplex' else
+                ('learners/qtran_learner.py','modules/mixers/qtran.py'))
     config['baseline_source_manifest']=[{'path':p,'sha256':hashlib.sha256((ROOT/p).read_bytes()).hexdigest()} for p in sources]
     return config,params,sources
 

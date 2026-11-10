@@ -1,0 +1,1464 @@
+{
+  "date": "2026-11-10",
+  "variant": "QTRAN-base, qtran_paper, small",
+  "scope": "Eight existing independent validation seeds, no outcome-based replacement. Original QPLEX cohort reused for comparison.",
+  "existing_local_qtran": [],
+  "runs": [
+    {
+      "batch": 1,
+      "gpu": 0,
+      "map": "3s5z_vs_3s6z",
+      "seed": 84,
+      "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s84",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=3s5z_vs_3s6z",
+        "seed=84",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s84"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=0 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z seed=84 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s84",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "3s5z_vs_3s6z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s84",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 84
+      }
+    },
+    {
+      "batch": 1,
+      "gpu": 1,
+      "map": "3s5z_vs_3s6z",
+      "seed": 85,
+      "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s85",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=3s5z_vs_3s6z",
+        "seed=85",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s85"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=1 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z seed=85 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s85",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "3s5z_vs_3s6z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s85",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 85
+      }
+    },
+    {
+      "batch": 1,
+      "gpu": 2,
+      "map": "6h_vs_8z",
+      "seed": 92,
+      "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s92",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=6h_vs_8z",
+        "seed=92",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s92"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=2 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=6h_vs_8z seed=92 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s92",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "6h_vs_8z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s92",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 92
+      }
+    },
+    {
+      "batch": 1,
+      "gpu": 3,
+      "map": "6h_vs_8z",
+      "seed": 93,
+      "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s93",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=6h_vs_8z",
+        "seed=93",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s93"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=3 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=6h_vs_8z seed=93 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s93",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "6h_vs_8z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s93",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 93
+      }
+    },
+    {
+      "batch": 2,
+      "gpu": 0,
+      "map": "3s5z_vs_3s6z",
+      "seed": 86,
+      "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s86",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=3s5z_vs_3s6z",
+        "seed=86",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s86"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=0 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z seed=86 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s86",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "3s5z_vs_3s6z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s86",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 86
+      }
+    },
+    {
+      "batch": 2,
+      "gpu": 1,
+      "map": "3s5z_vs_3s6z",
+      "seed": 87,
+      "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s87",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=3s5z_vs_3s6z",
+        "seed=87",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s87"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=1 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=3s5z_vs_3s6z seed=87 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s87",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "3s5z_vs_3s6z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_3s5z_vs_3s6z_s87",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 87
+      }
+    },
+    {
+      "batch": 2,
+      "gpu": 2,
+      "map": "6h_vs_8z",
+      "seed": 94,
+      "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s94",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=6h_vs_8z",
+        "seed=94",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s94"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=2 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=6h_vs_8z seed=94 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s94",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "6h_vs_8z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s94",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 94
+      }
+    },
+    {
+      "batch": 2,
+      "gpu": 3,
+      "map": "6h_vs_8z",
+      "seed": 95,
+      "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s95",
+      "argv": [
+        "--debug",
+        "--capture=no",
+        "--config=qtran",
+        "--env-config=sc2",
+        "with",
+        "env_args.map_name=6h_vs_8z",
+        "seed=95",
+        "t_max=5050000",
+        "use_tensorboard=True",
+        "local_results_path=ablation_results_11_6",
+        "name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s95"
+      ],
+      "command": "CUDA_VISIBLE_DEVICES=3 python3 src/main_baseline.py --debug --capture=no --config=qtran --env-config=sc2 with env_args.map_name=6h_vs_8z seed=95 t_max=5050000 use_tensorboard=True local_results_path=ablation_results_11_6 name=baseline_qtran_base_pymarl2_5m_6h_vs_8z_s95",
+      "effective_config": {
+        "runner": "parallel",
+        "mac": "basic_mac",
+        "env": "sc2",
+        "env_args": {
+          "continuing_episode": false,
+          "difficulty": "7",
+          "game_version": null,
+          "map_name": "6h_vs_8z",
+          "move_amount": 2,
+          "obs_all_health": true,
+          "obs_instead_of_state": false,
+          "obs_last_action": false,
+          "obs_own_health": true,
+          "obs_pathing_grid": false,
+          "obs_terrain_height": false,
+          "obs_timestep_number": false,
+          "reward_death_value": 10,
+          "reward_defeat": 0,
+          "reward_negative_scale": 0.5,
+          "reward_only_positive": true,
+          "reward_scale": true,
+          "reward_scale_rate": 20,
+          "reward_sparse": false,
+          "reward_win": 200,
+          "replay_dir": "",
+          "replay_prefix": "",
+          "state_last_action": true,
+          "state_timestep_number": false,
+          "step_mul": 8,
+          "seed": null,
+          "heuristic_ai": false,
+          "heuristic_rest": false,
+          "debug": false
+        },
+        "batch_size_run": 8,
+        "test_nepisode": 32,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 5050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": false,
+        "save_model_interval": 2000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "D:\\论文\\ablation_results_11_6",
+        "gamma": 0.99,
+        "batch_size": 128,
+        "buffer_size": 5000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 100000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "qtran_learner",
+        "double_q": true,
+        "mixer": "qtran_base",
+        "mixing_embed_dim": 64,
+        "qtran_arch": "qtran_paper",
+        "opt_loss": 1,
+        "nopt_min_loss": 0.1,
+        "network_size": "small",
+        "name": "baseline_qtran_base_pymarl2_5m_6h_vs_8z_s95",
+        "baseline_source_manifest": [
+          {
+            "path": "main_baseline.py",
+            "sha256": "01efe8580b43c9d35ea87db10f6fd5572f796cdecace7caf00085e6d93790d67"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "343c40f8c76d1668298903792a987c22a02a33823b0b44ce8b2a38502934e9c1"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "controllers/basic_controller.py",
+            "sha256": "f9ad1814ad8eb339f2c78ccda7034e0de4b6d2f935bf1d0ba1c8cc0834387609"
+          },
+          {
+            "path": "modules/agents/rnn_agent.py",
+            "sha256": "28caebf7cb6ada13a557cab62066d5d1d78203dc7568c0704f069483ff238363"
+          },
+          {
+            "path": "utils/rl_utils.py",
+            "sha256": "6e6752c544c510c85c411b0ab438407f24b11b362328aeba5922502a3d3f1316"
+          },
+          {
+            "path": "utils/th_utils.py",
+            "sha256": "9f08b6fdc714b9c24fcf65638415327f5396a485bbafecd2beaa5fa8215d03ca"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/sc2.yaml",
+            "sha256": "a94adaea751988a93ead265ce1e2cf383ad16b519c967c92247f003c20a9e639"
+          },
+          {
+            "path": "config/algs/qtran.yaml",
+            "sha256": "d14f0ef560ec218aba969047c1b662f7b6228d9c29c39bc0e715fdb913cfcc7a"
+          },
+          {
+            "path": "learners/qtran_learner.py",
+            "sha256": "4d19886420d402e817533b6c5a56ef58f0c6954c49cb6fe0b5d4dc72d9c3b688"
+          },
+          {
+            "path": "modules/mixers/qtran.py",
+            "sha256": "36b6ba6c9db5510870286c36268c8f680eb189ccdb9dd9992ef4b1b0f10a27a8"
+          }
+        ],
+        "seed": 95
+      }
+    }
+  ]
+}

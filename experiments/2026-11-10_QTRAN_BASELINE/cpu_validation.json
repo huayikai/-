@@ -1,0 +1,10 @@
+{
+  "date": "2026-11-10",
+  "environment": {"python": "3.8", "torch": "2.4.1+cpu"},
+  "command": "python _test_qtran_baseline.py",
+  "tests_run": 6,
+  "passed": 6,
+  "skipped": 0,
+  "checks": ["three prior QPLEX regressions", "flat and explicit agent-axis hidden states preserve coordinates", "real online/target mixer hidden inputs match independently collected GRU outputs", "three real QTRAN learner updates", "finite parameters and loss logs", "weighted objective components sum to logged loss", "agent and mixer target synchronization", "QTRAN-base recipe and source selection"],
+  "limits": ["CPU synthetic batches only", "Server PyTorch1.12.1 not executed locally", "No SC2 or CUDA training run"]
+}

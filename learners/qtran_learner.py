@@ -5,6 +5,11 @@ import torch as th
 from torch.optim import RMSprop, Adam
 
 
+def stack_agent_hidden_states(states, batch_size, n_agents):
+    """Normalize each time slice before stacking, supporting flat or B,A,H MACs."""
+    return th.stack([h.reshape(batch_size, n_agents, -1) for h in states], dim=1)
+
+
 class QLearner:
     def __init__(self, mac, scheme, logger, args):
         self.args = args
@@ -49,8 +54,8 @@ class QLearner:
             mac_out.append(agent_outs)
             mac_hidden_states.append(self.mac.hidden_states)
         mac_out = th.stack(mac_out, dim=1)  # Concat over time
-        mac_hidden_states = th.stack(mac_hidden_states, dim=1)
-        mac_hidden_states = mac_hidden_states.reshape(batch.batch_size, self.args.n_agents, batch.max_seq_length, -1).transpose(1,2) #btav
+        mac_hidden_states = stack_agent_hidden_states(
+            mac_hidden_states, batch.batch_size, self.args.n_agents)
 
         # Pick the Q-Values for the actions taken by each agent
         chosen_action_qvals = th.gather(mac_out[:, :-1], dim=3, index=actions).squeeze(3)  # Remove the last dim
@@ -66,8 +71,8 @@ class QLearner:
 
         # We don't need the first timesteps Q-Value estimate for calculating targets
         target_mac_out = th.stack(target_mac_out[:], dim=1)  # Concat across time
-        target_mac_hidden_states = th.stack(target_mac_hidden_states, dim=1)
-        target_mac_hidden_states = target_mac_hidden_states.reshape(batch.batch_size, self.args.n_agents, batch.max_seq_length, -1).transpose(1,2) #btav
+        target_mac_hidden_states = stack_agent_hidden_states(
+            target_mac_hidden_states, batch.batch_size, self.args.n_agents)
 
         # Mask out unavailable actions
         target_mac_out[avail_actions[:, :] == 0] = -9999999  # From OG deepmarl
@@ -142,13 +147,14 @@ class QLearner:
             self.logger.log_stat("td_loss", td_loss.item(), t_env)
             self.logger.log_stat("opt_loss", opt_loss.item(), t_env)
             self.logger.log_stat("nopt_loss", nopt_loss.item(), t_env)
-            self.logger.log_stat("grad_norm", grad_norm, t_env)
+            self.logger.log_stat("grad_norm", float(grad_norm), t_env)
             if self.args.mixer == "qtran_base":
                 mask_elems = mask.sum().item()
                 self.logger.log_stat("td_error_abs", (masked_td_error.abs().sum().item()/mask_elems), t_env)
-                self.logger.log_stat("td_targets", ((masked_td_error).sum().item()/mask_elems), t_env)
-                self.logger.log_stat("td_chosen_qs", (joint_qs.sum().item()/mask_elems), t_env)
-                self.logger.log_stat("v_mean", (vs.sum().item()/mask_elems), t_env)
+                flat_mask = mask.reshape(-1, 1)
+                self.logger.log_stat("td_targets", ((td_targets.detach()*flat_mask).sum().item()/mask_elems), t_env)
+                self.logger.log_stat("td_chosen_qs", ((joint_qs.detach()*flat_mask).sum().item()/mask_elems), t_env)
+                self.logger.log_stat("v_mean", ((vs.detach()*flat_mask).sum().item()/mask_elems), t_env)
                 self.logger.log_stat("agent_indiv_qs", ((chosen_action_qvals * mask).sum().item()/(mask_elems * self.args.n_agents)), t_env)
             self.log_stats_t = t_env
 
