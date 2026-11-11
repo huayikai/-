@@ -3,7 +3,6 @@ from components.episode_buffer import EpisodeBatch
 from modules.mixers.nmix import Mixer       # 这就是 qmix.yaml 里的 "nmix"
 from modules.mixers.vdn import VDNMixer     # VDN 混合器
 from modules.mixers.qatten import QattenMixer # Qatten 混合器
-from envs.matrix_game import print_matrix_status # (一个用于调试的辅助函数)
 # [核心] 导入 TD(λ) 和 Q(λ) 目标计算函数
 from utils.rl_utils import build_td_lambda_targets, build_q_lambda_targets
 import torch as th
@@ -193,7 +192,7 @@ class NQLearner: # "NQ"Learner 指的是 n-step Q-Learning (或 TD(Lambda))
         if t_env - self.log_stats_t >= self.args.learner_log_interval:
             # (这就是你之前问的 "负数初始化" 技巧生效的地方)
             self.logger.log_stat("loss_td", L_td.item(), t_env)
-            self.logger.log_stat("grad_norm", grad_norm, t_env)
+            self.logger.log_stat("grad_norm", float(grad_norm), t_env)
             mask_elems = mask.sum().item()
             self.logger.log_stat("td_error_abs", (masked_td_error.abs().sum().item()/mask_elems), t_env)
             # Q_taken_mean: 实际采取动作的 Q_tot 均值
@@ -204,6 +203,7 @@ class NQLearner: # "NQ"Learner 指的是 n-step Q-Learning (或 TD(Lambda))
             
             # (用于调试矩阵游戏的打印)
             if self.args.env == "one_step_matrix_game":
+                from envs.matrix_game import print_matrix_status
                 print_matrix_status(batch, self.mixer, mac_out)
 
         # --- [第 8 步: 返回 PER 的优先级 (如果使用)] ---
