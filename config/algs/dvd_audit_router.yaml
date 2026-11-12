@@ -79,5 +79,9 @@ audit_log_agent_gradients: False
 # Permute gates only among filled, non-post-terminal transitions with a
 # valid DVD signal. Routing supervision retains the original sample labels.
 audit_shuffle_gate: False
+# Read-only pre-update sufficient statistics for offline gate comparisons.
+audit_save_gate_probe: False
+audit_gate_probe_steps: [1000000, 2000000, 3000000, 4000000, 5000000]
+audit_gate_probe_batches: 3
 audit_fix_td_lambda: True
 name: "dvd_audit_router"

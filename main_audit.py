@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parent
 AUDIT_CONFIGS = ("dvd_audit_router", "dvd_audit_base", "dvd_audit_bm", "dvd_audit_direct")
 SOURCE_FILES = (
     "main_audit.py", "main.py", "learners/dvd_audit_learner.py",
-    "utils/td_lambda_audit.py", "utils/results.py",
+    "utils/td_lambda_audit.py", "utils/results.py", "utils/gate_probe.py",
     "modules/mixers/dvd_counterfactual_router_audit.py",
     "modules/mixers/dvd_counterfactual_router.py",
     "modules/mixers/dvd_adaptive_takeover.py", "modules/mixers/dvd_takeover.py",

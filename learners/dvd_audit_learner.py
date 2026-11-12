@@ -21,6 +21,7 @@ from modules.mixers.dvd_counterfactual_router_audit import (
     CounterfactualRouterAuditMixer as CounterfactualRouterDVDMixer,
 )
 from utils.td_lambda_audit import build_td_lambda_targets_audit
+from utils.gate_probe import GateProbeRecorder
 from modules.exploration.rnd import RNDModel
 
 @th.no_grad()
@@ -240,6 +241,9 @@ class DVDNQLearner:
                 )
 
         self.target_mixer = copy.deepcopy(self.mixer)
+        self.gate_probe = GateProbeRecorder(args)
+        if self.gate_probe.enabled and not self.is_counterfactual_router:
+            raise ValueError('gate probes require dvd_counterfactual_router')
         self.params += list(self.mixer.parameters())
 
         # 优化器
@@ -610,6 +614,13 @@ class DVDNQLearner:
                     bm_error_abs, dvd_error_abs, td_error.detach().abs(),
                     route_target, mask,
                 )
+
+        if self.gate_probe.due(t_env):
+            self.gate_probe.save(
+                t_env, self.mixer, chosen_action_qvals,
+                batch["state"][:, :T_min], hidden_states_main, mask,
+                detached_targets, route_target, online_q_tot,
+            )
 
         agent_gradient_stats = None
         if (self.is_counterfactual_router
