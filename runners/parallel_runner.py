@@ -36,10 +36,15 @@ class ParallelRunner:
         
         # [关键] 为每个并行环境创建一个 *独立的* 子进程 (Process)
         for i, worker_conn in enumerate(self.worker_conns):
+            # Football workers otherwise replay identical simulator RNG streams.
+            # Preserve the existing SC2 protocol and only offset GRF seeds.
+            worker_env_args = dict(self.args.env_args)
+            if self.args.env == 'gfootball':
+                worker_env_args['seed'] = int(worker_env_args.get('seed', 0)) + i
             # target=env_worker: 告诉子进程去运行 `env_worker` 函数
             # args=(...): 传递子进程的连接端和环境构造函数
             ps = Process(target=env_worker, 
-                         args=(worker_conn, CloudpickleWrapper(partial(env_fn, **self.args.env_args))))
+                         args=(worker_conn, CloudpickleWrapper(partial(env_fn, **worker_env_args))))
             self.ps.append(ps)
 
         # 启动所有子进程

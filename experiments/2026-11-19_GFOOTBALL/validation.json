@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-19",
+  "scope": "local CPU contract and learner tests; native GRF engine not installed locally",
+  "command": "python -B -X utf8 -m unittest _test_football _test_dvd_audit _test_results_path",
+  "tests_run": 29,
+  "passed": 28,
+  "skipped": 1,
+  "failures": 0,
+  "errors": 0,
+  "skip_reason": "optional Sacred file-recording integration check: dependency unavailable",
+  "football_checks": [
+    "all four scenario presets across BACM/BM/QMIX/VDN",
+    "map-agent coupling and CLI overrides",
+    "checkpoint reward does not count as a goal",
+    "mean team reward independent of controlled-player count",
+    "legacy sum reward preserved",
+    "goal success, reset and truncation semantics",
+    "engine seed forwarding and callable rendering",
+    "football worker seed offsets; SC2 seed behavior unchanged",
+    "real BACM three optimizer updates with 3 agents, 115 observations, 345 state features, 19 actions and RND enabled"
+  ],
+  "server_pending": [
+    "native GRF environment smoke checks",
+    "short end-to-end training check with Sacred, parallel workers and model saving",
+    "formal training and success-rate evaluation"
+  ]
+}
