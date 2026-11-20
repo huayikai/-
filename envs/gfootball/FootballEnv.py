@@ -28,6 +28,7 @@ class GoogleFootballEnv(MultiAgentEnv):
         number_of_right_players_agent_controls=0,
         seed=0,
         team_reward='sum',
+        engine_seed_mode='mappo',
     ):
         self.dense_reward = dense_reward
         self.write_full_episode_dumps = write_full_episode_dumps
@@ -45,6 +46,9 @@ class GoogleFootballEnv(MultiAgentEnv):
         self.write_video = write_video
         self.number_of_right_players_agent_controls = number_of_right_players_agent_controls
         self._seed = int(seed)
+        if engine_seed_mode not in ('fixed', 'mappo'):
+            raise ValueError('engine_seed_mode must be fixed or mappo')
+        self.engine_seed_mode = engine_seed_mode
         # GRF's engine seed is a configuration option; Gym's inherited seed()
         # alone does not seed the football simulator. Scenario Python code also
         # uses process-local random generators (each runner owns a process).
@@ -75,7 +79,11 @@ class GoogleFootballEnv(MultiAgentEnv):
             number_of_left_players_agent_controls=self.n_agents,
             number_of_right_players_agent_controls=self.number_of_right_players_agent_controls,
             channel_dimensions=(observation_preprocessing.SMM_WIDTH, observation_preprocessing.SMM_HEIGHT),
-            other_config_options={'game_engine_random_seed': self._seed})
+            other_config_options=({'game_engine_random_seed': self._seed}
+                                  if engine_seed_mode == 'fixed' else {}))
+        # Match MAPPO: seed the process RNG once, then let GRF draw a new
+        # scenario seed on every reset. Do not pin game_engine_random_seed.
+        self.seed(self._seed)
 
         obs_space_low = self.env.observation_space.low.reshape(self.n_agents, -1)[0]
         obs_space_high = self.env.observation_space.high.reshape(self.n_agents, -1)[0]
@@ -182,7 +190,8 @@ class GoogleFootballEnv(MultiAgentEnv):
             self._seed = int(seed)
         random.seed(self._seed)
         np.random.seed(self._seed)
-        self.env.unwrapped._config['game_engine_random_seed'] = self._seed
+        if self.engine_seed_mode == 'fixed':
+            self.env.unwrapped._config['game_engine_random_seed'] = self._seed
         return [self._seed]
 
     def save_replay(self):

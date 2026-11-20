@@ -25,9 +25,14 @@ def main():
     config, _, _ = main_football.load_configuration(['--scenario=' + args.scenario])
     env = GoogleFootballEnv(seed=args.seed, **config['env_args'])
     rng = np.random.RandomState(args.seed)
+    engine_seeds = set()
     try:
         for episode in range(args.episodes):
             obs, state = env.reset()
+            engine_seed = int(env.env.unwrapped._config['game_engine_random_seed'])
+            if env.engine_seed_mode == 'mappo':
+                assert engine_seed not in engine_seeds, 'repeated engine seed across episodes'
+            engine_seeds.add(engine_seed)
             assert obs.shape == (env.n_agents, 115)
             assert state.shape == (env.n_agents * 115,)
             total = 0.
@@ -37,7 +42,7 @@ def main():
                 assert np.asarray(env.get_avail_actions()).shape == (env.n_agents, env.n_actions)
                 total += reward
                 if done:
-                    print(json.dumps({'episode': episode, 'steps': step+1,
+                    print(json.dumps({'episode': episode, 'engine_seed': engine_seed, 'steps': step+1,
                         'return': total, 'success': info['battle_won'],
                         'truncated': info['episode_limit']}, sort_keys=True))
                     break

@@ -14,7 +14,9 @@ common:
   epsilon_finish: 0.05
   epsilon_anneal_time: 500000
   rnn_hidden_dim: 64
-  test_nepisode: 32
+  test_nepisode: 100
+  # Independent simulator processes and RNG streams for evaluation.
+  football_eval_separate_envs: True
   test_interval: 10000
   log_interval: 10000
   runner_log_interval: 10000
@@ -24,6 +26,8 @@ common:
   save_model_interval: 1000000
   local_results_path: ablation_results_football
 env_args:
+  # Reproducible episode stream, rather than replaying one match per worker.
+  engine_seed_mode: mappo
   representation: simple115v2
   rewards: scoring,checkpoints
   team_reward: mean

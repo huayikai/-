@@ -23,5 +23,45 @@
     "native GRF environment smoke checks",
     "short end-to-end training check with Sacred, parallel workers and model saving",
     "formal training and success-rate evaluation"
-  ]
+  ],
+  "episode_seed_fix_2026_11_20": {
+    "tests_run": 32,
+    "passed": 31,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "checks": [
+      "different engine seeds for successive episodes",
+      "same worker seed reproduces episode seed sequence",
+      "different worker seeds produce different sequences",
+      "private episode RNG does not consume global NumPy RNG",
+      "legacy fixed-engine mode retained"
+    ],
+    "native_engine_check": "pending on server",
+    "observed_old_evaluation_points": 1732,
+    "observed_old_points_not_multiple_of_quarter": 0,
+    "test_nepisode_before_and_after": 32
+  },
+  "mappo_evaluation_2026_11_20": {
+    "tests_run": 34,
+    "passed": 33,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "test_nepisode": 100,
+    "training_worker_seed": "seed + rank * 1000",
+    "evaluation_worker_seed": "seed * 50000 + rank * 10000",
+    "separate_process_pools": true,
+    "checks": [
+      "no explicit fixed engine seed in mappo mode",
+      "reproducible advancing Python random stream",
+      "isolated training and evaluation worker pools with mode switching",
+      "100 completed episodes aggregate once: 50 wins = 0.5",
+      "evaluation does not increment training environment steps",
+      "legacy SC2 behavior retained",
+      "real BACM optimizer updates"
+    ],
+    "native_engine_check": "pending on server",
+    "supersedes": "episode_seed_fix_2026_11_20; discarded private episode RNG proposal"
+  }
 }

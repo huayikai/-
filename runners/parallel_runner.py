@@ -33,6 +33,8 @@ class ParallelRunner:
         # 获取环境的构造函数 (例如 StarCraft2Env)
         env_fn = env_REGISTRY[self.args.env]
         self.ps = [] # 存储所有子进程的列表
+        separate_eval = (self.args.env == 'gfootball' and
+                         getattr(self.args, 'football_eval_separate_envs', False))
         
         # [关键] 为每个并行环境创建一个 *独立的* 子进程 (Process)
         for i, worker_conn in enumerate(self.worker_conns):
@@ -40,12 +42,24 @@ class ParallelRunner:
             # Preserve the existing SC2 protocol and only offset GRF seeds.
             worker_env_args = dict(self.args.env_args)
             if self.args.env == 'gfootball':
-                worker_env_args['seed'] = int(worker_env_args.get('seed', 0)) + i
+                base_seed = int(worker_env_args.get('seed', 0))
+                worker_env_args['seed'] = base_seed + i * (1000 if separate_eval else 1)
             # target=env_worker: 告诉子进程去运行 `env_worker` 函数
             # args=(...): 传递子进程的连接端和环境构造函数
             ps = Process(target=env_worker, 
                          args=(worker_conn, CloudpickleWrapper(partial(env_fn, **worker_env_args))))
             self.ps.append(ps)
+
+        self.train_parent_conns = self.parent_conns
+        self.eval_parent_conns = None
+        if separate_eval:
+            eval_pipes = [Pipe() for _ in range(self.batch_size)]
+            self.eval_parent_conns = tuple(pair[0] for pair in eval_pipes)
+            for i, (_, worker_conn) in enumerate(eval_pipes):
+                eval_args = dict(self.args.env_args)
+                eval_args['seed'] = int(eval_args.get('seed', 0)) * 50000 + i * 10000
+                self.ps.append(Process(target=env_worker, args=(worker_conn,
+                    CloudpickleWrapper(partial(env_fn, **eval_args)))))
 
         # 启动所有子进程
         for p in self.ps:
@@ -92,7 +106,8 @@ class ParallelRunner:
 
     def close_env(self):
         # [通信] 向所有子进程发送 "close" 命令
-        for parent_conn in self.parent_conns:
+        connections = self.train_parent_conns + (self.eval_parent_conns or ())
+        for parent_conn in connections:
             parent_conn.send(("close", None))
 
     def reset(self):
@@ -129,6 +144,9 @@ class ParallelRunner:
         """
         [核心函数] 并行地运行 `batch_size` 个回合。
         """
+        self.parent_conns = (self.eval_parent_conns if test_mode and
+                             self.eval_parent_conns is not None
+                             else self.train_parent_conns)
         # 1. 重置所有环境和“采集车”
         self.reset()
 
@@ -269,6 +287,10 @@ class ParallelRunner:
         self.logger.log_stat(prefix + "return_mean", np.mean(returns), self.t_env)
         self.logger.log_stat(prefix + "return_std", np.std(returns), self.t_env)
         returns.clear()
+
+        if self.args.env == 'gfootball' and prefix == 'test_':
+            self.logger.log_stat('test_n_episodes', stats['n_episodes'], self.t_env)
+            self.logger.log_stat('test_won_count', stats.get('battle_won', 0), self.t_env)
 
         for k, v in stats.items():
             if k != "n_episodes":
