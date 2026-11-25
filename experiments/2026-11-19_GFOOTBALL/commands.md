@@ -1,5 +1,44 @@
 # Google Research Football：BACM 首批实验
 
+## 2026-11-25：用 Run, Pass and Shoot 替换 Corner
+
+Corner运行出现GPU显存不足后，本批用2个受控球员的
+`academy_run_pass_and_shoot_with_keeper` 替换10人Corner。
+入口新增 `--scenario=run_pass_and_shoot`。另两张图的训练指令继续沿用。
+仅换场景，固定seed80、batch64、lambda1、lr0.0005、epsilon退火500k、RNN64、
+8M统计预算及6M RND衰减周期。显存开销预计低于Corner，具体以实际运行为准。
+
+研究参考（地图选择依据，不代表复现其奖励、观测或训练设置）：
+- PTDE (IJCAI 2024), Section 4.2:
+  https://ijcai.org/proceedings/2024/0004.pdf
+- Boosting Studies of Multi-Agent Reinforcement Learning on Google Research Football
+  Environment: the Past, Present, and Future (AAMAS 2024), Figure 2:
+  https://aamas.csc.liv.ac.uk/Proceedings/aamas2024/pdfs/p1772.pdf
+- 原生地图定义：
+  https://github.com/google-research/football/blob/master/gfootball/scenarios/academy_run_pass_and_shoot_with_keeper.py
+
+同步最新 `src/config/football.yaml` 后，先检查原生引擎：
+
+```bash
+cd ~/pymarl2
+conda activate pymarl
+python3 src/experiments/2026-11-19_GFOOTBALL/smoke_env.py --scenario=run_pass_and_shoot
+```
+
+预期n_agents=2、obs_shape=115、state_shape=230、n_actions=19。
+检查通过后，用原Corner空出的GPU启动；下面假定GPU2：
+
+```bash
+CUDA_VISIBLE_DEVICES=2 python3 src/main_football.py --debug --capture=no \
+  --config=bacm --scenario=run_pass_and_shoot with seed=80 \
+  name=bacm_grf_runpassshoot_s80_mappo100_8m_eps500k \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 rnn_hidden_dim=64 \
+  t_max=8050000 batch_size=64 batch_size_run=4 test_nepisode=100 test_interval=10000 \
+  use_rnd=True local_results_path=ablation_results_football
+```
+
+主看不超过8M的学习曲线及7–8M平均测试胜率。保留失败的Corner记录。
+
 ## 2026-11-23：第四张卡扩展 counterattack_easy
 
 BM、QMIX、VDN三条3vs1对照继续，GPU3用于新增地图的完整BACM性能实验。

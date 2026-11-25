@@ -77,7 +77,7 @@ class FootballTests(unittest.TestCase):
     def test_all_presets_and_baselines(self):
         for scenario, n in [('3_vs_1', 3), ('counterattack_easy', 4),
                             ('counterattack_hard', 4), ('pass_and_shoot', 2),
-                            ('corner', 10)]:
+                            ('run_pass_and_shoot', 2), ('corner', 10)]:
             for algorithm in ('bacm', 'bm', 'qmix', 'vdn'):
                 c, _, sources = main_football.load_configuration(
                     ['--config=' + algorithm, '--scenario=' + scenario, 'with', 'seed=80'])
@@ -261,7 +261,8 @@ class FootballTests(unittest.TestCase):
         self.assertEqual(runner.test_returns,[])
 
     def test_real_bacm_football_shape_update(self):
-        for scenario in ('3_vs_1', 'pass_and_shoot', 'counterattack_hard', 'corner'):
+        for scenario in ('3_vs_1', 'pass_and_shoot', 'run_pass_and_shoot',
+                         'counterattack_hard', 'corner'):
             with self.subTest(scenario=scenario):
                 self.check_bacm_shape_update(scenario)
 

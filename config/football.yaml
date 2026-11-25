@@ -51,6 +51,9 @@ scenarios:
   pass_and_shoot:
     map_name: academy_pass_and_shoot_with_keeper
     num_agents: 2
+  run_pass_and_shoot:
+    map_name: academy_run_pass_and_shoot_with_keeper
+    num_agents: 2
   corner:
     map_name: academy_corner
     num_agents: 10
