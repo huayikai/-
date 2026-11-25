@@ -76,7 +76,8 @@ class FootballTests(unittest.TestCase):
 
     def test_all_presets_and_baselines(self):
         for scenario, n in [('3_vs_1', 3), ('counterattack_easy', 4),
-                            ('counterattack_hard', 4), ('pass_and_shoot', 2)]:
+                            ('counterattack_hard', 4), ('pass_and_shoot', 2),
+                            ('corner', 10)]:
             for algorithm in ('bacm', 'bm', 'qmix', 'vdn'):
                 c, _, sources = main_football.load_configuration(
                     ['--config=' + algorithm, '--scenario=' + scenario, 'with', 'seed=80'])
@@ -260,23 +261,31 @@ class FootballTests(unittest.TestCase):
         self.assertEqual(runner.test_returns,[])
 
     def test_real_bacm_football_shape_update(self):
+        for scenario in ('3_vs_1', 'pass_and_shoot', 'counterattack_hard', 'corner'):
+            with self.subTest(scenario=scenario):
+                self.check_bacm_shape_update(scenario)
+
+    def check_bacm_shape_update(self, scenario):
         from _test_dvd_audit import audit
         th.set_num_threads(1)
         th.manual_seed(79)
-        c, _, _ = main_football.load_configuration([])
-        c.update(n_agents=3, n_actions=19, state_shape=345,
+        c, _, _ = main_football.load_configuration(['--scenario=' + scenario,
+            'with', 'seed=80', 'td_lambda=1.0', 'lr=0.0005'])
+        n = c['env_args']['num_agents']
+        state_size = n * 115
+        c.update(n_agents=n, n_actions=19, state_shape=state_size,
                  device='cpu', use_cuda=False, learner_log_interval=1)
         args = SimpleNamespace(**c)
-        scheme = {'state': {'vshape':345}, 'obs': {'vshape':115, 'group':'agents'},
+        scheme = {'state': {'vshape':state_size}, 'obs': {'vshape':115, 'group':'agents'},
                   'actions': {'vshape':(1,), 'group':'agents', 'dtype':th.long},
                   'avail_actions': {'vshape':(19,), 'group':'agents', 'dtype':th.int},
                   'reward': {'vshape':(1,)}, 'terminated': {'vshape':(1,), 'dtype':th.uint8}}
-        batch = EpisodeBatch(scheme, {'agents':3}, 2, 5,
+        batch = EpisodeBatch(scheme, {'agents':n}, 2, 5,
             preprocess={'actions':('actions_onehot',[OneHot(out_dim=19)])}, device='cpu')
         for t in range(5):
-            batch.update({'state':th.randn(2,345), 'obs':th.randn(2,3,115),
-                          'actions':th.randint(19,(2,3,1)),
-                          'avail_actions':th.ones(2,3,19,dtype=th.int)}, ts=t)
+            batch.update({'state':th.randn(2,state_size), 'obs':th.randn(2,n,115),
+                          'actions':th.randint(19,(2,n,1)),
+                          'avail_actions':th.ones(2,n,19,dtype=th.int)}, ts=t)
             if t < 4:
                 batch.update({'reward':th.ones(2,1)*0.1,
                               'terminated':th.tensor([[t == 3], [False]])}, ts=t)
@@ -284,7 +293,7 @@ class FootballTests(unittest.TestCase):
             console_logger = SimpleNamespace(info=lambda *a: None)
             def log_stat(self, key, value, t):
                 if not np.isfinite(float(value)): raise AssertionError(key)
-        mac = NMAC(batch.scheme, {'agents':3}, args)
+        mac = NMAC(batch.scheme, {'agents':n}, args)
         learner = audit.DVDNQLearner(mac, batch.scheme, Logger(), args)
         before = [p.detach().clone() for p in learner.params]
         for t in range(3): learner.train(batch, 10000*t, t)

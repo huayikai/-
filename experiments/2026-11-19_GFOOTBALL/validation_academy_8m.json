@@ -1,0 +1,823 @@
+{
+  "configuration_checks": "passed",
+  "football_tests": {
+    "run": 14,
+    "passed": 14,
+    "real_bacm_updates_agent_counts": [
+      2,
+      3,
+      4,
+      10
+    ]
+  },
+  "native_grf_validation": "not run locally; run smoke_env.py on server",
+  "scenarios": [
+    {
+      "scenario": "pass_and_shoot",
+      "map": "academy_pass_and_shoot_with_keeper",
+      "n_agents": 2,
+      "state_shape": 230,
+      "args": [
+        "--config=bacm",
+        "--scenario=pass_and_shoot",
+        "with",
+        "seed=80",
+        "td_lambda=1.0",
+        "lr=0.0005",
+        "epsilon_anneal_time=500000",
+        "rnn_hidden_dim=64",
+        "t_max=8050000",
+        "batch_size_run=4",
+        "test_nepisode=100",
+        "test_interval=10000",
+        "use_rnd=True",
+        "local_results_path=ablation_results_football"
+      ],
+      "config": {
+        "runner": "parallel",
+        "mac": "n_mac",
+        "env": "gfootball",
+        "env_args": {
+          "engine_seed_mode": "mappo",
+          "representation": "simple115v2",
+          "rewards": "scoring,checkpoints",
+          "team_reward": "mean",
+          "time_limit": 400,
+          "stacked": false,
+          "render": false,
+          "write_video": false,
+          "write_full_episode_dumps": false,
+          "write_goal_dumps": false,
+          "number_of_right_players_agent_controls": 0,
+          "map_name": "academy_pass_and_shoot_with_keeper",
+          "num_agents": 2
+        },
+        "batch_size_run": 4,
+        "test_nepisode": 100,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 8050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": true,
+        "save_model_interval": 1000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "ablation_results_football",
+        "gamma": 0.99,
+        "batch_size": 64,
+        "buffer_size": 2000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "n_rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 500000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "dvd_audit_learner",
+        "mixer": "dvd_counterfactual_router",
+        "abs": false,
+        "mixing_embed_dim": 32,
+        "hypernet_embed": 64,
+        "td_lambda": 1.0,
+        "q_lambda": false,
+        "use_layer_norm": false,
+        "use_orthogonal": false,
+        "gain": 0.01,
+        "use_per": false,
+        "per_alpha": 0.6,
+        "per_beta": 0.4,
+        "return_priority": false,
+        "use_rnd": true,
+        "rnd_beta": 0.01,
+        "rnd_lr": 0.0005,
+        "state_shape": 0,
+        "dvd_heads": 8,
+        "gat_embed_dim": 32,
+        "adaptive_bm_abs": false,
+        "adaptive_gate_hidden_dim": 32,
+        "adaptive_gate_max": 1.0,
+        "adaptive_gate_init": 0.05,
+        "adaptive_norm_eps": 1e-06,
+        "adaptive_graph_mode": "learned",
+        "adaptive_normalize_dvd_weights": true,
+        "counterfactual_mix_loss_weight": 0.25,
+        "counterfactual_bm_loss_weight": 1.0,
+        "counterfactual_dvd_loss_weight": 0.1,
+        "counterfactual_route_loss_weight": 0.1,
+        "counterfactual_sparse_weight": 0.0,
+        "counterfactual_route_margin": 0.05,
+        "counterfactual_route_min_abs_advantage": 0.01,
+        "counterfactual_route_eps": 1e-06,
+        "audit_isolate_dvd_aux_hidden": true,
+        "audit_detach_mixed_hidden": true,
+        "audit_log_agent_gradients": false,
+        "audit_shuffle_gate": false,
+        "audit_save_gate_probe": false,
+        "audit_gate_probe_steps": [
+          1000000,
+          2000000,
+          3000000,
+          4000000,
+          5000000
+        ],
+        "audit_gate_probe_batches": 3,
+        "audit_fix_td_lambda": true,
+        "name": "football_bacm_pass_and_shoot",
+        "audit_source_manifest": [
+          {
+            "path": "main_audit.py",
+            "sha256": "c3a3606418ea7282d1d215b5de6b3bcd1bc2d7b8b54666460961ac837fbdec63"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "learners/dvd_audit_learner.py",
+            "sha256": "d235ad37c1a0d23f0ba7cbd300afc4dfda579bee0f0140ff0d812c5b5ff18a5a"
+          },
+          {
+            "path": "utils/td_lambda_audit.py",
+            "sha256": "dcf00786422c21ac3646761257c8b86c82586dbef407ecbba0bf49c032c7e242"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/gate_probe.py",
+            "sha256": "88da21d94a3e340fe9dd094c55f886d27116c7e17203be00412d57dc5199ba48"
+          },
+          {
+            "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+            "sha256": "80827c99fd1bcc5020bae44eb54ed8029de49ac40f80f2b9634fe6284b1c04f1"
+          },
+          {
+            "path": "modules/mixers/dvd_counterfactual_router.py",
+            "sha256": "5d8fc51d60e353eacea0f59e080e938d5698af1457590d0c18ec2952a1a91995"
+          },
+          {
+            "path": "modules/mixers/dvd_adaptive_takeover.py",
+            "sha256": "5410d78fb4580496ef6a05cf9dd244be982e8e74e4e4e17c26845e66f6e50114"
+          },
+          {
+            "path": "modules/mixers/dvd_takeover.py",
+            "sha256": "19c104d0c0399b9ce9f7677725f96dae31df1ed5767932f775bcb9161ce1576a"
+          },
+          {
+            "path": "modules/mixers/dvd_credit.py",
+            "sha256": "832a9bc2f705a36dc3927aba34668822f40fc77feb7b9be76fae9570dc97005b"
+          },
+          {
+            "path": "modules/mixers/dvd_residual.py",
+            "sha256": "793df4a9a73fe0154ea360e8f0a24dc9c876bc420e0c904c1b0a6a98dd7f14ca"
+          },
+          {
+            "path": "modules/mixers/dvd.py",
+            "sha256": "76301f053383f6d2bd40c5649f830291c4c2bd4f1984feca0afea04e36e68ac7"
+          },
+          {
+            "path": "modules/mixers/nmix.py",
+            "sha256": "46ec7585df0d972869c7adfd9a4df4e88a07c208313c8662e65f20a91df55b5d"
+          },
+          {
+            "path": "modules/mixers/dvd_direct.py",
+            "sha256": "261ff7a221211f2d9e81c141678051e2e6dc45a354ac826dcdaa8e436510369d"
+          },
+          {
+            "path": "modules/agents/n_rnn_agent.py",
+            "sha256": "39635b39c883801aded7c31372a70b0878875e8fb986c04b886e524103d7a466"
+          },
+          {
+            "path": "controllers/n_controller.py",
+            "sha256": "cd465066a34d94540ffce8bf9b4ae538da76ec6dd5ede4f5d776395b669b8974"
+          },
+          {
+            "path": "modules/exploration/rnd.py",
+            "sha256": "386e232e94bf968814bf92ac08b9fe843110f3ea8dc9675c07d30902e1f4eabf"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/gfootball.yaml",
+            "sha256": "e11464f6940dd06620d5524b4626cf69a1e1a42a98112a41ea7b0be99d96c074"
+          },
+          {
+            "path": "config/algs/dvd_audit_router.yaml",
+            "sha256": "56aa4c4f6ea0184d045307e8e2982e8ea7e30e98d86e8f69f336f06dcab1de64"
+          },
+          {
+            "path": "main_football.py",
+            "sha256": "a7425786cf1950cf46794367bf9e31e0a5aff43036bd6a7cbd084cf43fb53c34"
+          },
+          {
+            "path": "config/football.yaml",
+            "sha256": "b186cfe17c093b43bf1d0693f99583be0e7c03d8dd64fb23dcd20ce56d269f7f"
+          },
+          {
+            "path": "envs/gfootball/FootballEnv.py",
+            "sha256": "704271064a36a4c2baddc328c21545442834aff0e4671fd253cbfc43f6acf933"
+          },
+          {
+            "path": "envs/gfootball/__init__.py",
+            "sha256": "35d05d6643e678df3ba3bcf700f29dd206a70c41689d476f5ad2bdac66503a6e"
+          },
+          {
+            "path": "envs/multiagentenv.py",
+            "sha256": "0a2606001eb0e7436d69d65a558950e9bec1086c1df0f1ef32a1f9832ec7ca97"
+          },
+          {
+            "path": "envs/__init__.py",
+            "sha256": "bd3b6a211679fd2f66188b2350c2d2ae83e9cd95dccd3a8309783d1b7c961a78"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "3c0d5085fea71fa12e63791987d44ff44584ef16811b1f9ed3eb7d3895ac1a5c"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          }
+        ],
+        "seed": 80,
+        "football_eval_separate_envs": true
+      }
+    },
+    {
+      "scenario": "counterattack_hard",
+      "map": "academy_counterattack_hard",
+      "n_agents": 4,
+      "state_shape": 460,
+      "args": [
+        "--config=bacm",
+        "--scenario=counterattack_hard",
+        "with",
+        "seed=80",
+        "td_lambda=1.0",
+        "lr=0.0005",
+        "epsilon_anneal_time=500000",
+        "rnn_hidden_dim=64",
+        "t_max=8050000",
+        "batch_size_run=4",
+        "test_nepisode=100",
+        "test_interval=10000",
+        "use_rnd=True",
+        "local_results_path=ablation_results_football"
+      ],
+      "config": {
+        "runner": "parallel",
+        "mac": "n_mac",
+        "env": "gfootball",
+        "env_args": {
+          "engine_seed_mode": "mappo",
+          "representation": "simple115v2",
+          "rewards": "scoring,checkpoints",
+          "team_reward": "mean",
+          "time_limit": 400,
+          "stacked": false,
+          "render": false,
+          "write_video": false,
+          "write_full_episode_dumps": false,
+          "write_goal_dumps": false,
+          "number_of_right_players_agent_controls": 0,
+          "map_name": "academy_counterattack_hard",
+          "num_agents": 4
+        },
+        "batch_size_run": 4,
+        "test_nepisode": 100,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 8050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": true,
+        "save_model_interval": 1000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "ablation_results_football",
+        "gamma": 0.99,
+        "batch_size": 64,
+        "buffer_size": 2000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "n_rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 500000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "dvd_audit_learner",
+        "mixer": "dvd_counterfactual_router",
+        "abs": false,
+        "mixing_embed_dim": 32,
+        "hypernet_embed": 64,
+        "td_lambda": 1.0,
+        "q_lambda": false,
+        "use_layer_norm": false,
+        "use_orthogonal": false,
+        "gain": 0.01,
+        "use_per": false,
+        "per_alpha": 0.6,
+        "per_beta": 0.4,
+        "return_priority": false,
+        "use_rnd": true,
+        "rnd_beta": 0.01,
+        "rnd_lr": 0.0005,
+        "state_shape": 0,
+        "dvd_heads": 8,
+        "gat_embed_dim": 32,
+        "adaptive_bm_abs": false,
+        "adaptive_gate_hidden_dim": 32,
+        "adaptive_gate_max": 1.0,
+        "adaptive_gate_init": 0.05,
+        "adaptive_norm_eps": 1e-06,
+        "adaptive_graph_mode": "learned",
+        "adaptive_normalize_dvd_weights": true,
+        "counterfactual_mix_loss_weight": 0.25,
+        "counterfactual_bm_loss_weight": 1.0,
+        "counterfactual_dvd_loss_weight": 0.1,
+        "counterfactual_route_loss_weight": 0.1,
+        "counterfactual_sparse_weight": 0.0,
+        "counterfactual_route_margin": 0.05,
+        "counterfactual_route_min_abs_advantage": 0.01,
+        "counterfactual_route_eps": 1e-06,
+        "audit_isolate_dvd_aux_hidden": true,
+        "audit_detach_mixed_hidden": true,
+        "audit_log_agent_gradients": false,
+        "audit_shuffle_gate": false,
+        "audit_save_gate_probe": false,
+        "audit_gate_probe_steps": [
+          1000000,
+          2000000,
+          3000000,
+          4000000,
+          5000000
+        ],
+        "audit_gate_probe_batches": 3,
+        "audit_fix_td_lambda": true,
+        "name": "football_bacm_counterattack_hard",
+        "audit_source_manifest": [
+          {
+            "path": "main_audit.py",
+            "sha256": "c3a3606418ea7282d1d215b5de6b3bcd1bc2d7b8b54666460961ac837fbdec63"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "learners/dvd_audit_learner.py",
+            "sha256": "d235ad37c1a0d23f0ba7cbd300afc4dfda579bee0f0140ff0d812c5b5ff18a5a"
+          },
+          {
+            "path": "utils/td_lambda_audit.py",
+            "sha256": "dcf00786422c21ac3646761257c8b86c82586dbef407ecbba0bf49c032c7e242"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/gate_probe.py",
+            "sha256": "88da21d94a3e340fe9dd094c55f886d27116c7e17203be00412d57dc5199ba48"
+          },
+          {
+            "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+            "sha256": "80827c99fd1bcc5020bae44eb54ed8029de49ac40f80f2b9634fe6284b1c04f1"
+          },
+          {
+            "path": "modules/mixers/dvd_counterfactual_router.py",
+            "sha256": "5d8fc51d60e353eacea0f59e080e938d5698af1457590d0c18ec2952a1a91995"
+          },
+          {
+            "path": "modules/mixers/dvd_adaptive_takeover.py",
+            "sha256": "5410d78fb4580496ef6a05cf9dd244be982e8e74e4e4e17c26845e66f6e50114"
+          },
+          {
+            "path": "modules/mixers/dvd_takeover.py",
+            "sha256": "19c104d0c0399b9ce9f7677725f96dae31df1ed5767932f775bcb9161ce1576a"
+          },
+          {
+            "path": "modules/mixers/dvd_credit.py",
+            "sha256": "832a9bc2f705a36dc3927aba34668822f40fc77feb7b9be76fae9570dc97005b"
+          },
+          {
+            "path": "modules/mixers/dvd_residual.py",
+            "sha256": "793df4a9a73fe0154ea360e8f0a24dc9c876bc420e0c904c1b0a6a98dd7f14ca"
+          },
+          {
+            "path": "modules/mixers/dvd.py",
+            "sha256": "76301f053383f6d2bd40c5649f830291c4c2bd4f1984feca0afea04e36e68ac7"
+          },
+          {
+            "path": "modules/mixers/nmix.py",
+            "sha256": "46ec7585df0d972869c7adfd9a4df4e88a07c208313c8662e65f20a91df55b5d"
+          },
+          {
+            "path": "modules/mixers/dvd_direct.py",
+            "sha256": "261ff7a221211f2d9e81c141678051e2e6dc45a354ac826dcdaa8e436510369d"
+          },
+          {
+            "path": "modules/agents/n_rnn_agent.py",
+            "sha256": "39635b39c883801aded7c31372a70b0878875e8fb986c04b886e524103d7a466"
+          },
+          {
+            "path": "controllers/n_controller.py",
+            "sha256": "cd465066a34d94540ffce8bf9b4ae538da76ec6dd5ede4f5d776395b669b8974"
+          },
+          {
+            "path": "modules/exploration/rnd.py",
+            "sha256": "386e232e94bf968814bf92ac08b9fe843110f3ea8dc9675c07d30902e1f4eabf"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/gfootball.yaml",
+            "sha256": "e11464f6940dd06620d5524b4626cf69a1e1a42a98112a41ea7b0be99d96c074"
+          },
+          {
+            "path": "config/algs/dvd_audit_router.yaml",
+            "sha256": "56aa4c4f6ea0184d045307e8e2982e8ea7e30e98d86e8f69f336f06dcab1de64"
+          },
+          {
+            "path": "main_football.py",
+            "sha256": "a7425786cf1950cf46794367bf9e31e0a5aff43036bd6a7cbd084cf43fb53c34"
+          },
+          {
+            "path": "config/football.yaml",
+            "sha256": "b186cfe17c093b43bf1d0693f99583be0e7c03d8dd64fb23dcd20ce56d269f7f"
+          },
+          {
+            "path": "envs/gfootball/FootballEnv.py",
+            "sha256": "704271064a36a4c2baddc328c21545442834aff0e4671fd253cbfc43f6acf933"
+          },
+          {
+            "path": "envs/gfootball/__init__.py",
+            "sha256": "35d05d6643e678df3ba3bcf700f29dd206a70c41689d476f5ad2bdac66503a6e"
+          },
+          {
+            "path": "envs/multiagentenv.py",
+            "sha256": "0a2606001eb0e7436d69d65a558950e9bec1086c1df0f1ef32a1f9832ec7ca97"
+          },
+          {
+            "path": "envs/__init__.py",
+            "sha256": "bd3b6a211679fd2f66188b2350c2d2ae83e9cd95dccd3a8309783d1b7c961a78"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "3c0d5085fea71fa12e63791987d44ff44584ef16811b1f9ed3eb7d3895ac1a5c"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          }
+        ],
+        "seed": 80,
+        "football_eval_separate_envs": true
+      }
+    },
+    {
+      "scenario": "corner",
+      "map": "academy_corner",
+      "n_agents": 10,
+      "state_shape": 1150,
+      "args": [
+        "--config=bacm",
+        "--scenario=corner",
+        "with",
+        "seed=80",
+        "td_lambda=1.0",
+        "lr=0.0005",
+        "epsilon_anneal_time=500000",
+        "rnn_hidden_dim=64",
+        "t_max=8050000",
+        "batch_size_run=4",
+        "test_nepisode=100",
+        "test_interval=10000",
+        "use_rnd=True",
+        "local_results_path=ablation_results_football"
+      ],
+      "config": {
+        "runner": "parallel",
+        "mac": "n_mac",
+        "env": "gfootball",
+        "env_args": {
+          "engine_seed_mode": "mappo",
+          "representation": "simple115v2",
+          "rewards": "scoring,checkpoints",
+          "team_reward": "mean",
+          "time_limit": 400,
+          "stacked": false,
+          "render": false,
+          "write_video": false,
+          "write_full_episode_dumps": false,
+          "write_goal_dumps": false,
+          "number_of_right_players_agent_controls": 0,
+          "map_name": "academy_corner",
+          "num_agents": 10
+        },
+        "batch_size_run": 4,
+        "test_nepisode": 100,
+        "test_interval": 10000,
+        "test_greedy": true,
+        "log_interval": 10000,
+        "runner_log_interval": 10000,
+        "learner_log_interval": 10000,
+        "t_max": 8050000,
+        "use_cuda": true,
+        "buffer_cpu_only": true,
+        "use_tensorboard": true,
+        "save_model": true,
+        "save_model_interval": 1000000,
+        "checkpoint_path": "",
+        "evaluate": false,
+        "load_step": 0,
+        "save_replay": false,
+        "local_results_path": "ablation_results_football",
+        "gamma": 0.99,
+        "batch_size": 64,
+        "buffer_size": 2000,
+        "lr": 0.0005,
+        "critic_lr": 0.0005,
+        "optim_alpha": 0.99,
+        "optim_eps": 1e-05,
+        "grad_norm_clip": 10,
+        "agent": "n_rnn",
+        "rnn_hidden_dim": 64,
+        "obs_agent_id": true,
+        "obs_last_action": true,
+        "repeat_id": 1,
+        "label": "default_label",
+        "run": "default",
+        "remark": "",
+        "action_selector": "epsilon_greedy",
+        "epsilon_start": 1.0,
+        "epsilon_finish": 0.05,
+        "epsilon_anneal_time": 500000,
+        "optimizer": "adam",
+        "target_update_interval": 200,
+        "agent_output_type": "q",
+        "learner": "dvd_audit_learner",
+        "mixer": "dvd_counterfactual_router",
+        "abs": false,
+        "mixing_embed_dim": 32,
+        "hypernet_embed": 64,
+        "td_lambda": 1.0,
+        "q_lambda": false,
+        "use_layer_norm": false,
+        "use_orthogonal": false,
+        "gain": 0.01,
+        "use_per": false,
+        "per_alpha": 0.6,
+        "per_beta": 0.4,
+        "return_priority": false,
+        "use_rnd": true,
+        "rnd_beta": 0.01,
+        "rnd_lr": 0.0005,
+        "state_shape": 0,
+        "dvd_heads": 8,
+        "gat_embed_dim": 32,
+        "adaptive_bm_abs": false,
+        "adaptive_gate_hidden_dim": 32,
+        "adaptive_gate_max": 1.0,
+        "adaptive_gate_init": 0.05,
+        "adaptive_norm_eps": 1e-06,
+        "adaptive_graph_mode": "learned",
+        "adaptive_normalize_dvd_weights": true,
+        "counterfactual_mix_loss_weight": 0.25,
+        "counterfactual_bm_loss_weight": 1.0,
+        "counterfactual_dvd_loss_weight": 0.1,
+        "counterfactual_route_loss_weight": 0.1,
+        "counterfactual_sparse_weight": 0.0,
+        "counterfactual_route_margin": 0.05,
+        "counterfactual_route_min_abs_advantage": 0.01,
+        "counterfactual_route_eps": 1e-06,
+        "audit_isolate_dvd_aux_hidden": true,
+        "audit_detach_mixed_hidden": true,
+        "audit_log_agent_gradients": false,
+        "audit_shuffle_gate": false,
+        "audit_save_gate_probe": false,
+        "audit_gate_probe_steps": [
+          1000000,
+          2000000,
+          3000000,
+          4000000,
+          5000000
+        ],
+        "audit_gate_probe_batches": 3,
+        "audit_fix_td_lambda": true,
+        "name": "football_bacm_corner",
+        "audit_source_manifest": [
+          {
+            "path": "main_audit.py",
+            "sha256": "c3a3606418ea7282d1d215b5de6b3bcd1bc2d7b8b54666460961ac837fbdec63"
+          },
+          {
+            "path": "main.py",
+            "sha256": "800a0926fb9b875605c4ec7f4ff80cdd021d1dfe77c8d152f462bb82233c1e99"
+          },
+          {
+            "path": "learners/dvd_audit_learner.py",
+            "sha256": "d235ad37c1a0d23f0ba7cbd300afc4dfda579bee0f0140ff0d812c5b5ff18a5a"
+          },
+          {
+            "path": "utils/td_lambda_audit.py",
+            "sha256": "dcf00786422c21ac3646761257c8b86c82586dbef407ecbba0bf49c032c7e242"
+          },
+          {
+            "path": "utils/results.py",
+            "sha256": "ad04e1aeb675a0b5069499538bba99d42f5e1e8d5578cfb2158869e4f1e3d55a"
+          },
+          {
+            "path": "utils/gate_probe.py",
+            "sha256": "88da21d94a3e340fe9dd094c55f886d27116c7e17203be00412d57dc5199ba48"
+          },
+          {
+            "path": "modules/mixers/dvd_counterfactual_router_audit.py",
+            "sha256": "80827c99fd1bcc5020bae44eb54ed8029de49ac40f80f2b9634fe6284b1c04f1"
+          },
+          {
+            "path": "modules/mixers/dvd_counterfactual_router.py",
+            "sha256": "5d8fc51d60e353eacea0f59e080e938d5698af1457590d0c18ec2952a1a91995"
+          },
+          {
+            "path": "modules/mixers/dvd_adaptive_takeover.py",
+            "sha256": "5410d78fb4580496ef6a05cf9dd244be982e8e74e4e4e17c26845e66f6e50114"
+          },
+          {
+            "path": "modules/mixers/dvd_takeover.py",
+            "sha256": "19c104d0c0399b9ce9f7677725f96dae31df1ed5767932f775bcb9161ce1576a"
+          },
+          {
+            "path": "modules/mixers/dvd_credit.py",
+            "sha256": "832a9bc2f705a36dc3927aba34668822f40fc77feb7b9be76fae9570dc97005b"
+          },
+          {
+            "path": "modules/mixers/dvd_residual.py",
+            "sha256": "793df4a9a73fe0154ea360e8f0a24dc9c876bc420e0c904c1b0a6a98dd7f14ca"
+          },
+          {
+            "path": "modules/mixers/dvd.py",
+            "sha256": "76301f053383f6d2bd40c5649f830291c4c2bd4f1984feca0afea04e36e68ac7"
+          },
+          {
+            "path": "modules/mixers/nmix.py",
+            "sha256": "46ec7585df0d972869c7adfd9a4df4e88a07c208313c8662e65f20a91df55b5d"
+          },
+          {
+            "path": "modules/mixers/dvd_direct.py",
+            "sha256": "261ff7a221211f2d9e81c141678051e2e6dc45a354ac826dcdaa8e436510369d"
+          },
+          {
+            "path": "modules/agents/n_rnn_agent.py",
+            "sha256": "39635b39c883801aded7c31372a70b0878875e8fb986c04b886e524103d7a466"
+          },
+          {
+            "path": "controllers/n_controller.py",
+            "sha256": "cd465066a34d94540ffce8bf9b4ae538da76ec6dd5ede4f5d776395b669b8974"
+          },
+          {
+            "path": "modules/exploration/rnd.py",
+            "sha256": "386e232e94bf968814bf92ac08b9fe843110f3ea8dc9675c07d30902e1f4eabf"
+          },
+          {
+            "path": "run/run.py",
+            "sha256": "aba828deff86321540c7d38e28f0da19aae2a72a6a8a190a43e5934b45a0e163"
+          },
+          {
+            "path": "components/episode_buffer.py",
+            "sha256": "3828189c644c6e24edb65ba198184b76803d1d380321ca71bc0ebfdc3813420a"
+          },
+          {
+            "path": "config/default.yaml",
+            "sha256": "fe5fb275d3ff2499afd40a13ca5c79df9d962e88309797e71f7bd33805ff0bbd"
+          },
+          {
+            "path": "config/envs/gfootball.yaml",
+            "sha256": "e11464f6940dd06620d5524b4626cf69a1e1a42a98112a41ea7b0be99d96c074"
+          },
+          {
+            "path": "config/algs/dvd_audit_router.yaml",
+            "sha256": "56aa4c4f6ea0184d045307e8e2982e8ea7e30e98d86e8f69f336f06dcab1de64"
+          },
+          {
+            "path": "main_football.py",
+            "sha256": "a7425786cf1950cf46794367bf9e31e0a5aff43036bd6a7cbd084cf43fb53c34"
+          },
+          {
+            "path": "config/football.yaml",
+            "sha256": "b186cfe17c093b43bf1d0693f99583be0e7c03d8dd64fb23dcd20ce56d269f7f"
+          },
+          {
+            "path": "envs/gfootball/FootballEnv.py",
+            "sha256": "704271064a36a4c2baddc328c21545442834aff0e4671fd253cbfc43f6acf933"
+          },
+          {
+            "path": "envs/gfootball/__init__.py",
+            "sha256": "35d05d6643e678df3ba3bcf700f29dd206a70c41689d476f5ad2bdac66503a6e"
+          },
+          {
+            "path": "envs/multiagentenv.py",
+            "sha256": "0a2606001eb0e7436d69d65a558950e9bec1086c1df0f1ef32a1f9832ec7ca97"
+          },
+          {
+            "path": "envs/__init__.py",
+            "sha256": "bd3b6a211679fd2f66188b2350c2d2ae83e9cd95dccd3a8309783d1b7c961a78"
+          },
+          {
+            "path": "runners/parallel_runner.py",
+            "sha256": "3c0d5085fea71fa12e63791987d44ff44584ef16811b1f9ed3eb7d3895ac1a5c"
+          },
+          {
+            "path": "components/action_selectors.py",
+            "sha256": "4da5f362501631e3116c66c502f1de1346833bb7b01dce23c24270125efe9c63"
+          },
+          {
+            "path": "components/epsilon_schedules.py",
+            "sha256": "1b349738c4143fac0ec5464489ca216ed0cbf91ee7f6002c5eb343af72a4d94e"
+          },
+          {
+            "path": "utils/logging.py",
+            "sha256": "0c9462971cbf7861e85834509bf32837e2b94eb866e10d54be90e72ca05076a4"
+          }
+        ],
+        "seed": 80,
+        "football_eval_separate_envs": true
+      }
+    }
+  ]
+}

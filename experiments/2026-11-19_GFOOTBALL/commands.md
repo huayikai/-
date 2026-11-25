@@ -1,5 +1,67 @@
 # Google Research Football：BACM 首批实验
 
+## 2026-11-23：第四张卡扩展 counterattack_easy
+
+BM、QMIX、VDN三条3vs1对照继续，GPU3用于新增地图的完整BACM性能实验。
+采用3vs1当前选定的λ=1.0、lr=0.0005、50万步探索退火，固定seed80，
+从头训练10.05M、100局独立贪心评估。此配方尚未在counterattack_easy调优。
+预设自动选择academy_counterattack_easy与4个受控球员。
+
+```bash
+CUDA_VISIBLE_DEVICES=3 python3 src/main_football.py --debug --capture=no \
+  --config=bacm --scenario=counterattack_easy with seed=80 \
+  name=bacm_grf_countereasy_s80_mappo100_10m_lam10_lr0005 \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 \
+  t_max=10050000 test_nepisode=100 use_rnd=True
+```
+
+输出仍为ablation_results_football。保留RND原有约6M衰减关闭日程，
+其他共同训练参数保持当前足球配置。旧反击实验为旧种子/评估协议及不同超参数，
+不与本条作为同协议配对比较。先看完整方法能否学会，再补本地图相同seed的基线。
+
+## 2026-11-23：首批足球基线（BM、QMIX、VDN）
+
+本批先用三张卡跑已接入足球入口的纯BM、QMIX、VDN。固定3vs1、seed80、
+TD(λ)=1.0、lr=0.0005、50万步ε退火和10.05M预算，每次100局贪心评估，
+训练与测试环境独立。原服务器代码即可执行，不使用检查点，从头训练。
+
+BACM配对参照为 `bacm_grf_3v1_s80_mappo100_10m_eps500k`，
+4–5M平均测试成功率67.56%，9–10M为51.08%。比较双方同一训练窗口。
+BM共用BACM的learner与RND日程（约6M关闭），20M接管预热使本预算内保持纯BM。
+QMIX/VDN使用原nq_learner与Q-learning目标、关闭RND。外部比较按完整配方解释。
+该批采用共同训练参数，并非分别调优后的原论文结果。
+
+在PyMARL2根目录激活pymarl后，三个终端各执行一条。
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python3 src/main_football.py --debug --capture=no \
+  --config=bm --scenario=3_vs_1 with seed=80 \
+  name=baseline_bm_grf_3v1_s80_mappo100_10m \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 \
+  t_max=10050000 test_nepisode=100 use_rnd=True
+```
+
+```bash
+CUDA_VISIBLE_DEVICES=1 python3 src/main_football.py --debug --capture=no \
+  --config=qmix --scenario=3_vs_1 with seed=80 \
+  name=baseline_qmix_grf_3v1_s80_mappo100_10m \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 \
+  t_max=10050000 test_nepisode=100 use_rnd=False
+```
+
+```bash
+CUDA_VISIBLE_DEVICES=2 python3 src/main_football.py --debug --capture=no \
+  --config=vdn --scenario=3_vs_1 with seed=80 \
+  name=baseline_vdn_grf_3v1_s80_mappo100_10m \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 \
+  t_max=10050000 test_nepisode=100 use_rnd=False
+```
+
+三条仍输出至 `ablation_results_football`，每条4个训练环境与4个测试环境，
+batch64、buffer2000、RNN64、gamma0.99。日志关注训练成功率、测试成功率、
+test_n_episodes与test_won_count。本批未启动服务器训练。
+DVD尚未接入本入口，明确版本及验证后再给指令。
+
 ## 2026-11-20：MAPPO 风格评估协议
 
 当前协议为 `env_args.engine_seed_mode=mappo`、`football_eval_separate_envs=True`。
@@ -149,3 +211,64 @@ python3 src/main_football.py --football-print-config --config=bacm --scenario=3_
 最新本地运行 34 项检查，33 项通过、1 项缺少 Sacred 跳过，零失败；详见 `validation.json`。
 本机无 GRF 引擎，未验证服务器原生引擎及真实进球表现；上述 smoke 命令用于补齐这一步。
 未启动服务器训练，未自动提交或推送。
+
+## 2026-11-25：三个 Academy 场景，固定 seed=80，8M 摸底
+
+沿用 `bacm_grf_3v1_s80_mappo100_10m_eps500k__2026-11-22_12-28-21`
+的训练参数：TD(lambda)=1.0、lr=0.0005、探索退火500k、RNN=64。
+先分别从头训练一个种子；主看7–8M的平均测试成功率和完整曲线。
+`t_max=8050000` 留少量余量确保8M附近有评估记录，汇总只取不超过8M的点。
+RND仍按原6M周期衰减，不随训练预算改变。
+
+新增 `corner` 预设：`academy_corner`，10个受控智能体。
+现有环境封装和BACM按智能体数自动构建观测、状态、网络，无需改变算法。
+MAPPO对应脚本也使用10个受控智能体；GRF场景定义原生时长为400。
+参考：
+- https://github.com/marlbenchmark/on-policy/blob/main/onpolicy/scripts/train_football_scripts/train_football_corner.sh
+- https://github.com/google-research/football/blob/master/gfootball/scenarios/academy_corner.py
+
+先同步本地 `config/football.yaml` 到服务器 `src/config/football.yaml`。
+也可将 `server_patch_corner.zip` 放到服务器PyMARL2根目录后解压：
+
+```bash
+cd ~/pymarl2
+conda activate pymarl
+unzip -o server_patch_corner.zip
+for scenario in pass_and_shoot counterattack_hard corner; do
+  python3 src/experiments/2026-11-19_GFOOTBALL/smoke_env.py --scenario="$scenario" || break
+done
+```
+
+三个场景都通过原生环境检查后，分别在三个终端运行：
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python3 src/main_football.py --debug --capture=no \
+  --config=bacm --scenario=pass_and_shoot with seed=80 \
+  name=bacm_grf_passshoot_s80_mappo100_8m_eps500k \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 rnn_hidden_dim=64 \
+  t_max=8050000 batch_size_run=4 test_nepisode=100 test_interval=10000 \
+  use_rnd=True local_results_path=ablation_results_football
+```
+
+```bash
+CUDA_VISIBLE_DEVICES=1 python3 src/main_football.py --debug --capture=no \
+  --config=bacm --scenario=counterattack_hard with seed=80 \
+  name=bacm_grf_counterhard_s80_mappo100_8m_eps500k \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 rnn_hidden_dim=64 \
+  t_max=8050000 batch_size_run=4 test_nepisode=100 test_interval=10000 \
+  use_rnd=True local_results_path=ablation_results_football
+```
+
+```bash
+CUDA_VISIBLE_DEVICES=2 python3 src/main_football.py --debug --capture=no \
+  --config=bacm --scenario=corner with seed=80 \
+  name=bacm_grf_corner_s80_mappo100_8m_eps500k \
+  td_lambda=1.0 lr=0.0005 epsilon_anneal_time=500000 rnn_hidden_dim=64 \
+  t_max=8050000 batch_size_run=4 test_nepisode=100 test_interval=10000 \
+  use_rnd=True local_results_path=ablation_results_football
+```
+
+每条命令占用4个训练环境进程和4个独立评估环境进程。
+检查预期为：pass_and_shoot的n_agents=2/state_shape=230，
+counterattack_hard的4/460，corner的10/1150；均为obs_shape=115、n_actions=19。
+本地合成数据训练检查不替代服务器GRF原生引擎检查。
